@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 #include <cstring>
 
-namespace NotEngine {
+namespace ShiEngine {
 
     // A convenience class to read keyboard input
     class Keyboard {

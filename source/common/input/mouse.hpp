@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <cstring>
 
-namespace NotEngine {
+namespace ShiEngine {
 
     // A convenience class to read mouse input
     class Mouse {

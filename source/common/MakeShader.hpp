@@ -4,9 +4,9 @@
 #include <fstream>
 #include <cassert>
 
-namespace NotEngine
+namespace ShiEngine
 {
-	class MakeShader: public NotEngine::
+	class MakeShader: public ShiEngine::
 	{
 
 		// These unsigned integers represent the way we communicate with the GPU.

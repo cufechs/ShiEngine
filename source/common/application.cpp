@@ -82,7 +82,7 @@ void GLAPIENTRY opengl_callback(GLenum source, GLenum type, GLuint id, GLenum se
     << " raised from " << _source << ": " << message << std::endl;
 }
 
-void NotEngine::Application::configureOpenGL() {
+void ShiEngine::Application::configureOpenGL() {
     // Request that OpenGL is 3.3
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -117,12 +117,12 @@ void NotEngine::Application::configureOpenGL() {
     glfwWindowHint(GLFW_REFRESH_RATE, GLFW_DONT_CARE);
 }
 
-NotEngine::WindowConfiguration NotEngine::Application::getWindowConfiguration() {
+ShiEngine::WindowConfiguration ShiEngine::Application::getWindowConfiguration() {
     return {"OpenGL Application", {1280, 720}, false };
 }
 
 // This is the main class function that run the whole application (Initialize, Game loop, House cleaning).
-int NotEngine::Application::run() {
+int ShiEngine::Application::run() {
 
     // Set the function to call when an error occurs.
     glfwSetErrorCallback(glfw_error_callback);
@@ -265,7 +265,7 @@ int NotEngine::Application::run() {
 }
 
 // Sets-up the window callback functions from GLFW to our (Mouse/Keyboard) classes.
-void NotEngine::Application::setupCallbacks() {
+void ShiEngine::Application::setupCallbacks() {
 
     // We use GLFW to store a pointer to "this" window instance.
     glfwSetWindowUserPointer(window, this);

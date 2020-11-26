@@ -2,13 +2,13 @@
 #include <Shader.hpp>
 
 // This exercise Window Application that derives from "Application" parent
-class Main : public NotEngine::Application {
+class Main : public ShiEngine::Application {
 
-    NotEngine::ShaderProgram program;
+    ShiEngine::ShaderProgram program;
     GLuint vertex_array = 0;
 
     // This overriden function sets the window configuration params struct (title, size, isFullscreen).
-    NotEngine::WindowConfiguration getWindowConfiguration() override {
+    ShiEngine::WindowConfiguration getWindowConfiguration() override {
         return { "Engine", {1280, 720}, false };
     }
 

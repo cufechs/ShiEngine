@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace NotEngine {
+namespace ShiEngine {
 
 	class ShaderProgram {
 
