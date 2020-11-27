@@ -16,8 +16,8 @@ namespace ShiEngine {
 
     void GameState::Exit() {
         // Deleting all game objects
-        int vecSize = (int) GameObj_vector.size();
-        for (int i = 0; i < vecSize; i++)
+        int vecSize = (int)GameObj_vector.size();
+        for (int i=0; i<vecSize; i++)
             if (GameObj_vector[i])
                 delete (GameObj_vector[i]);
 
@@ -46,12 +46,12 @@ namespace ShiEngine {
 
     void GameState::ScaleGameTime(double userTimeScale) {
         // TimeScale Constraints: (0) <= timeScale <= (10)
-        timeScale = userTimeScale > 0 ? (userTimeScale < 10 ? userTimeScale : 10) : 0;
+        timeScale = userTimeScale>0? (userTimeScale<10? userTimeScale : 10) : 0;
     }
 
     void GameState::Update(double deltaTime) {
         int vecSize = (int) GameObj_vector.size();
-        for (int i = 0; i < vecSize; i++)
+        for (int i=0; i<vecSize; i++)
             GameObj_vector[i]->Update(deltaTime * timeScale);
     }
 

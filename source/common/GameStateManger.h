@@ -10,7 +10,7 @@
 #include <unordered_map>
 
 namespace ShiEngine {
-    typedef GameState *(*function_pointer)(); // pointer to function type
+    typedef GameState* (*function_pointer)(); // pointer to function type
 
     class GameStateManger {
     private:
@@ -18,18 +18,16 @@ namespace ShiEngine {
         std::unordered_map<int, function_pointer> gameStates_UMap;
         static int GSM_Controller;
     public:
+        GameStateManger();
         explicit GameStateManger(function_pointer);
 
         void Init();
-
         void Cleanup();
 
         void AttachGameState(int gameStateKey, function_pointer fucPtr);
-
         void ChangeGameState(int gameStateKey);
 
         void Update(double deltaTime);
-
         void Draw();
     };
 }
