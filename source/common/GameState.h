@@ -8,28 +8,35 @@
 #include <vector>
 #include <GameObject.h>
 
+namespace ShiEngine {
+    class GameState {
+    private:
+        double timeScale;
+        std::vector<GameObject *> GameObj_vector;
+    public:
+        GameState();
 
-class GameState {
-private:
-    double timeScale;
-    std::vector<GameObject*> GameObj_vector;
-public:
-    GameState();
+        void Enter();
 
-    void Enter();
-    void Exit();
+        void Exit();
 
-    void addGameObject(GameObject* gameObject);
-    static void enableGameObject(GameObject* gameObject);
-    static void disableGameObject(GameObject* gameObject);
+        void addGameObject(GameObject *gameObject);
 
-    void Pause();
-    void Resume();
-    void ScaleGameTime(double timeScale);
+        static void enableGameObject(GameObject *gameObject);
 
-    void Update(double deltaTime);
-    void Draw();
-};
+        static void disableGameObject(GameObject *gameObject);
+
+        void Pause();
+
+        void Resume();
+
+        void ScaleGameTime(double timeScale);
+
+        void Update(double deltaTime);
+
+        void Draw();
+    };
+}
 
 
 #endif //GAMESTATE_H

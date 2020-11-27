@@ -1,22 +1,36 @@
-
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
-
+#pragma once
+#include <vector>
+#include "GameObjectComponent.h"
 #include <string>
-#include <list>
+#include <typeinfo>
+using namespace std;
 
-class GameObject
-{
-private:
-    bool isEnabled;
-public:
-    GameObject();
+namespace ShiEngine {
 
-    void Enable();
-    void Disable();
+    enum Tags {Default};
 
-    void Update(double deltaTime);
-    void Draw();
-};
+    class GameObject
+    {
+    public:
+        int ComponentsCount;
+        vector<GameObjectComponent*> Components;
+        Tags Tag;
+        string Name;
+        bool Active;
+        GameObject* Parent;
 
-#endif //GAMEOBJECT_H
+        GameObject();
+        ~GameObject();
+
+        void AddComponent(GameObjectComponent& component); //Should be Implemented as Template
+        void RemoveComponent(GameObjectComponent& component); //Should be Implemented as Template
+        template <class T>
+        T& GetComponent();
+
+        void Start();
+        void Update(double deltatime);
+        void Draw();
+    private:
+
+    };
+}

@@ -4,46 +4,49 @@
 
 #include "GameStateManger.h"
 
-int GameStateManger::GSM_Controller = 0;
-GameStateManger::GameStateManger(function_pointer fucPtr) {
-    GSM_Controller++;
-    if(GSM_Controller != 1){
-        std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
-        std::exit(-1);
+namespace ShiEngine {
+    int GameStateManger::GSM_Controller = 0;
+
+    GameStateManger::GameStateManger(function_pointer fucPtr) {
+        GSM_Controller++;
+        if (GSM_Controller != 1) {
+            std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
+            std::exit(-1);
+        }
+
+        activeState = fucPtr();
+
+        Init();
     }
 
-    activeState = fucPtr();
+    void GameStateManger::Init() {
 
-    Init();
-}
-
-void GameStateManger::Init() {
-
-}
-
-void GameStateManger::Cleanup() {
-    if(activeState) {
-        activeState->Exit();
-        delete (activeState);
     }
-}
 
-void GameStateManger::AttachGameState(int gameStateKey, function_pointer fucPtr) {
-    gameStates_UMap[gameStateKey] = fucPtr;
-}
-
-void GameStateManger::ChangeGameState(int gameStateKey) {
-    if(activeState) {
-        activeState->Exit();
-        delete (activeState);
+    void GameStateManger::Cleanup() {
+        if (activeState) {
+            activeState->Exit();
+            delete (activeState);
+        }
     }
-    activeState = gameStates_UMap[gameStateKey]();
-}
 
-void GameStateManger::Update(double deltaTime) {
-    activeState->Update(deltaTime);
-}
+    void GameStateManger::AttachGameState(int gameStateKey, function_pointer fucPtr) {
+        gameStates_UMap[gameStateKey] = fucPtr;
+    }
 
-void GameStateManger::Draw() {
-    activeState->Draw();
+    void GameStateManger::ChangeGameState(int gameStateKey) {
+        if (activeState) {
+            activeState->Exit();
+            delete (activeState);
+        }
+        activeState = gameStates_UMap[gameStateKey]();
+    }
+
+    void GameStateManger::Update(double deltaTime) {
+        activeState->Update(deltaTime);
+    }
+
+    void GameStateManger::Draw() {
+        activeState->Draw();
+    }
 }
