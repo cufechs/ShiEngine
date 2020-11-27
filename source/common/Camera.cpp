@@ -44,11 +44,9 @@ using namespace glm;
 
         for(const auto& object : objects) {
             program.set("transform", camera_matrix * object.to_mat4());
-            quad.draw();
         }
     }
 
     void Camera::onDestroy() {
         program.destroy();
-        quad.destroy();
     }

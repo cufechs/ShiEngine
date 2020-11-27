@@ -40,15 +40,19 @@ public:
     glm::mat4 trans_mat,rot_mat,scal_mat;
 
 
-
     //funcs
+    Transform();
     Transform(glm::vec3 trans,glm::vec3 rot,glm::vec3 scal);
 
     glm:: mat4 to_mat4() const;
     void composed();
     glm::mat4 compose();
 
-    //GUI part
+    void Translate_vec(glm::vec3 translated_vec);
+    void rot_vec(glm::vec3 rotated_vec);
+    void scal_vec(glm::vec3 scaled_vec);
+
+        //GUI part
     void onImmediateGui(ImGuiIO &io) override ;
 
 

@@ -19,7 +19,6 @@
 class Camera : public ShiEngine::Application {
 
     ShiEngine::ShaderProgram program;
-    ShiEngine::Mesh quad;
 
     std::vector<Transform> objects;
     Transform camera;

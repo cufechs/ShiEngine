@@ -15,6 +15,13 @@ using namespace std;
 
 
 
+
+Transform:: Transform()
+{
+    Trans.value = vec3(0,0,0);
+    Scal.value = vec3(0,0,0);
+    Rot.value = vec3(0,0,0);
+}
     Transform :: Transform(vec3 trans,vec3 rot,vec3 scal){
 
         Trans.type = TransformationType::Translation;
@@ -34,11 +41,26 @@ using namespace std;
            glm::scale(glm::mat4(1.0f), Scal.value);
 }
 
-    void Transform::composed()
+    void Transform ::Translate_vec(vec3 translated_vec)
     {
-        mat4 trans_mat(1.0f);
-        mat4 rot_mat(1.0f);
-        mat4 scal_mat(1.0f);
+        Trans.value = translated_vec;
+        composed();
+    }
+    void Transform:: rot_vec(glm::vec3 rotated_vec)
+    {
+        Rot.value = rotated_vec;
+        composed();
+    }
+    void Transform::scal_vec(glm::vec3 scaled_vec)
+    {
+        Scal.value = scaled_vec;
+        composed();
+    }
+void Transform::composed()
+    {
+    trans_mat = mat4(1.0f);
+    rot_mat=mat4(1.0f);
+    scal_mat=mat4(1.0f);
 
         trans_mat = translate(mat4(1.0f), Trans.value) * trans_mat;
 
