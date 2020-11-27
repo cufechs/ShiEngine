@@ -16,12 +16,13 @@ using namespace std;
 
 
 
-Transform:: Transform()
-{
-    Trans.value = vec3(0,0,0);
-    Scal.value = vec3(0,0,0);
-    Rot.value = vec3(0,0,0);
-}
+    Transform:: Transform()
+    {
+        Trans.value = vec3(0,0,0);
+        Scal.value = vec3(1,1,1);
+        Rot.value = vec3(0,0,0);
+    }
+
     Transform :: Transform(vec3 trans,vec3 rot,vec3 scal){
 
         Trans.type = TransformationType::Translation;
