@@ -51,7 +51,7 @@ void GameState::ScaleGameTime(double userTimeScale) {
 void GameState::Update(double deltaTime) {
     int vecSize = (int)GameObj_vector.size();
     for(int i=0; i<vecSize; i++)
-        GameObj_vector[i]->Update(deltaTime);
+        GameObj_vector[i]->Update(deltaTime*timeScale);
 }
 
 void GameState::Draw() {

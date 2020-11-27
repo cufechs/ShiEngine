@@ -8,7 +8,7 @@ int GameStateManger::GSM_Controller = 0;
 GameStateManger::GameStateManger(function_pointer fucPtr) {
     GSM_Controller++;
     if(GSM_Controller != 1){
-        std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;           // print the char array of the log error.
+        std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
         std::exit(-1);
     }
 
