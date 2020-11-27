@@ -104,5 +104,6 @@ class Main : public ShiEngine::Application {
 int main(int argc, char** argv) {
     
     // Creates an instance of EmptyWindowApplication and call run on this instance
+
     return Main().run();
 }

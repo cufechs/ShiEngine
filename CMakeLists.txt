@@ -49,3 +49,6 @@ include_directories(
 # Then we link GLFW with each target
 add_executable(Main source/examples/Main.cpp ${COMMON_SOURCES} ${VENDOR_SOURCES})
 target_link_libraries(Main glfw)
+
+add_executable(Transform source/common/Transform.cpp ${COMMON_SOURCES} ${VENDOR_SOURCES})
+target_link_libraries(Transform glfw)
