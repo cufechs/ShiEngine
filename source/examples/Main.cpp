@@ -1,12 +1,13 @@
 #include <application.hpp>
 #include <Shader.hpp>
-#include "GameObjectComponent.h"
+#include "GameObject.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
 
     ShiEngine::ShaderProgram program;
     GLuint vertex_array = 0;
+    ShiEngine::GameObject GO;
 
     // This overriden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {

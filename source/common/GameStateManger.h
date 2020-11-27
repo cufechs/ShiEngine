@@ -9,27 +9,29 @@
 #include <GameState.h>
 #include <unordered_map>
 
+namespace ShiEngine {
+    typedef GameState *(*function_pointer)(); // pointer to function type
 
-typedef GameState* (*function_pointer)(); // pointer to function type
+    class GameStateManger {
+    private:
+        GameState *activeState;
+        std::unordered_map<int, function_pointer> gameStates_UMap;
+        static int GSM_Controller;
+    public:
+        explicit GameStateManger(function_pointer);
 
-class GameStateManger {
-private:
-    GameState* activeState;
-    std::unordered_map<int,function_pointer> gameStates_UMap;
-    static int GSM_Controller;
-public:
-    explicit GameStateManger(function_pointer);
+        void Init();
 
-    void Init();
-    void Cleanup();
+        void Cleanup();
 
-    void AttachGameState(int gameStateKey, function_pointer fucPtr);
+        void AttachGameState(int gameStateKey, function_pointer fucPtr);
 
-    void ChangeGameState(int gameStateKey);
+        void ChangeGameState(int gameStateKey);
 
-    void Update(double deltaTime);
-    void Draw();
-};
+        void Update(double deltaTime);
 
+        void Draw();
+    };
+}
 
 #endif //GAMESTATEMANGER_H

@@ -33,7 +33,10 @@ set(VENDOR_SOURCES ${GLAD_SOURCE} ${IMGUI_SOURCES})
 set(COMMON_SOURCES
         source/common/application.cpp
         source/common/Shader.cpp
-        source/common/GameState.cpp source/common/GameState.h source/common/GameStateManger.cpp source/common/GameStateManger.h source/common/GameObject.cpp source/common/GameObject.h)
+        source/common/GameState.cpp source/common/GameState.h source/common/GameStateManger.cpp source/common/GameStateManger.h source/common/GameObject.cpp source/common/GameObject.h
+        source/common/GameObjectComponent.cpp
+        source/common/GameObjectComponent.h
+        )
 # Define the directories in which to search for the included headers
 include_directories(
         source/common
