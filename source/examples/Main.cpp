@@ -1,5 +1,6 @@
 #include <application.hpp>
 #include <Shader.hpp>
+#include "GameObjectComponent.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
