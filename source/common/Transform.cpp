@@ -2,11 +2,6 @@
 // Created by yuze on 11/26/2020.
 //
 
-#include <application.hpp>
-#include <shader.hpp>
-#include <imgui-utils/utils.hpp>
-
-#include <glm/gtx/euler_angles.hpp>
 #include "Transform.h"
 using namespace ShiEngine;
 using namespace glm;
@@ -71,50 +66,4 @@ using namespace std;
 
     }
 
-    //GUI part
-    void Transform :: onImmediateGui(ImGuiIO &io) {
 
-        ImGui::Begin("Controls");
-
-        ImGui::Text("Transformations");
-
-        const char* transformation_names[] = {
-                "Translation",
-                "Rotation",
-                "Scaling"
-        };
-
-        NotEngine::ReorderableList(transformations.begin(), transformations.end(),
-                             [transformation_names](size_t index, Transformation& transform){
-                                 auto selected = static_cast<int>(transform.type);
-                                 if(ImGui::BeginCombo("Type", transformation_names[selected])){
-                                     for(int selectable = 0; selectable < 3; ++selectable){
-                                         bool is_selected = selected == selectable;
-                                         if(ImGui::Selectable(transformation_names[selectable], is_selected))
-                                             selected = selectable;
-                                         if(is_selected)
-                                             ImGui::SetItemDefaultFocus();
-                                     }
-                                     ImGui::EndCombo();
-                                     transform.type = static_cast<TransformationType>(selected);
-                                 }
-                                 ImGui::DragFloat3("Value", glm::value_ptr(transform.value), 0.1f);
-                             }, [this](size_t index){
-                    transformations.insert(transformations.begin() + index, { TransformationType::Translation, glm::vec3() });
-                }, [this](size_t index){
-                    transformations.erase(transformations.begin() + index);
-                });
-
-        if(ImGui::Button("Clear")){
-            transformations.clear();
-        }
-
-        ImGui::Separator();
-
-        ImGui::Text("Result:");
-        auto matrix = compose();
-        for(int row = 0; row < 4; ++row)
-            ImGui::Text("%f\t%f\t%f\t%f", matrix[0][row], matrix[1][row], matrix[2][row], matrix[3][row]);
-
-        ImGui::End();
-    }

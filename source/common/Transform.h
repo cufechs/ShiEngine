@@ -47,8 +47,5 @@ public:
     void composed();
     glm::mat4 compose();
 
-    //GUI part
-    void onImmediateGui(ImGuiIO &io) override ;
-
 
 };
