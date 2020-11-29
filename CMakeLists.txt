@@ -36,6 +36,13 @@ set(COMMON_SOURCES
         source/common/GameState.cpp source/common/GameState.h source/common/GameStateManger.cpp source/common/GameStateManger.h source/common/GameObject.cpp source/common/GameObject.h
         source/common/GameObjectComponent.cpp
         source/common/GameObjectComponent.h
+        source/common/Mesh.h
+        source/common/MeshRenderer.h
+        source/common/MeshRenderer.cpp
+        source/common/colors.h
+        source/common/common-vertex-attributes.hpp
+        source/common/common-vertex-types.hpp
+        source/common/vertex-attributes.hpp
         )
 # Define the directories in which to search for the included headers
 include_directories(

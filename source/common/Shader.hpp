@@ -78,6 +78,20 @@ namespace ShiEngine {
 			glUniformMatrix4fv(getUniformLocation(uniform), 1, transpose, glm::value_ptr(value));
 		}
 
+        void use() {
+            glUseProgram(this->program);
+        }
+
+        void unuse() {
+            glUseProgram(0);
+        }
+
+        void create(const std::string &filename1, GLenum type1, const std::string &filename2, GLenum type2) {
+            this->create();
+            this->attach(filename1, type1);
+            this->attach(filename2, type2);
+            this->link();
+		}
 
 		//Delete copy constructor and assignment operation
 		//This is important for Class that follow the RAII pattern since we destroy the underlying OpenGL object in deconstruction
