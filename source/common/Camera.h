@@ -1,10 +1,10 @@
 #include <application.hpp>
 #include <shader.hpp>
 #include <imgui-utils/utils.hpp>
-//#include "GameObjectComponent.h"
-#include "GameObject.h"
+#include "GameObjectComponent.h"
+//#include "GameObject.h"
 #include <glm/gtx/euler_angles.hpp>
-#include "Transform.h"
+//#include "Transform.h"
 
 #ifndef OUR_CAMERA_HPP
 #define OUR_CAMERA_HPP
@@ -22,7 +22,7 @@ namespace ShiEngine {
 
     // A class that represents a camera
     // Used to generate a view and a projection matrix
-    class Camera : ShiEngine::GameObjectComponent{
+    class Camera : public ShiEngine::GameObjectComponent{
     private:
         // Dirty Flags are programming pattern where we only regenerate some output if:
         // 1- The inputs were changed.
@@ -214,8 +214,8 @@ namespace ShiEngine {
             // Note that we must divide by w even though we not going to the NDC space. This is because of the projection matrix.
         }
 
-        void Start() {
-            
+        void Start() override {
+
         }
 
     };

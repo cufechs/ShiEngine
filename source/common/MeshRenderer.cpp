@@ -1,6 +1,6 @@
 #include "MeshRenderer.h"
 #include "testComp.h"
-
+#include "Camera.h"
 
 ShiEngine::MeshRenderer::MeshRenderer() {
 
@@ -41,18 +41,12 @@ void ShiEngine::MeshRenderer::destroy() {
 
 void ShiEngine::MeshRenderer::Draw() {
 
-//    if (transform_sent) {
-//        //auto& x = gameObject->GetComponent<ShiEngine::Transform>();
-//        transform = gameObject->GetComponent<ShiEngine::Transform>();
-//        setTransformationMatrix(transform.to_mat4());
-//    }
-
-
     std::cout << "Mesh renderer draw before\n";
+    ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
 
     shaderProgram->use();
     shaderProgram->set("tint", color_intensity);
-    shaderProgram->set("transform", transformationMatrix);
+    shaderProgram->set("transform", transformationMatrix * cam->getVPMatrix());
     mesh->draw();
     shaderProgram->unuse(); //not sure if we should un use the program
     std::cout << "Mesh renderer draw\n";

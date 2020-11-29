@@ -5,6 +5,7 @@
 #include "testComp.h"
 #include "Camera.h"
 
+
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
 
@@ -16,8 +17,8 @@ class Main : public ShiEngine::Application {
     ShiEngine::GameObject obj1;
 
     ShiEngine::Transform* transform;
-
     ShiEngine::Camera* camera;
+    //ShiEngine::Camera* camera;
 
     //std::shared_ptr<ShiEngine::testComp> comp1;
 
@@ -46,10 +47,14 @@ class Main : public ShiEngine::Application {
 
         glm::mat4 trans = trans_for_mesh->to_mat4();
 
+        int width, height;
+        glfwGetFramebufferSize(window, &width, &height);
         camera = new ShiEngine::Camera();
-        camera->program = &program;
+        camera->setEyePosition({10, 10, 10});
+        camera->setTarget({0, 0, 0});
+        camera->setUp({0, 1, 0});
+        camera->setupPerspective(glm::pi<float>()/2, static_cast<float>(width)/height, 0.1f, 100.0f);
 
-        camera->To_cam(transform);
 
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
         mesh = new ShiEngine::MeshRenderer(&program);
@@ -60,6 +65,7 @@ class Main : public ShiEngine::Application {
 
         //obj1.AddComponent(comp1);
         obj1.AddComponent(transform);
+        obj1.AddComponent(camera);
         obj1.AddComponent(mesh);
         //obj1.AddComponent(comp_mesh);
         //obj1.AddComponent(comp1);
