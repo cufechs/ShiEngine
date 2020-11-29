@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "MeshRenderer.h"
 #include "testComp.h"
+#include "Camera.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
@@ -16,6 +17,8 @@ class Main : public ShiEngine::Application {
 
     ShiEngine::Transform* transform;
 
+    ShiEngine::Camera* camera;
+
     //std::shared_ptr<ShiEngine::testComp> comp1;
 
     // This overriden function sets the window configuration params struct (title, size, isFullscreen).
@@ -27,9 +30,8 @@ class Main : public ShiEngine::Application {
 
     // onInitialize() function is called once before the application loop
     void onInitialize() override {
-//        if (typeid(ShiEngine::GameObjectComponent) == typeid(ShiEngine::MeshRenderer))
-//            std::cout << "yes  "  << std::endl;
-//        else std::cout << "No\n";
+
+        std::cout << "name = " << typeid(ShiEngine::Transform).name() << std::endl;
 
         program.create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER, "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
 
@@ -37,12 +39,17 @@ class Main : public ShiEngine::Application {
         transform = new ShiEngine::Transform();
         transform->position = glm::vec3({0, 0, 0});
         transform->scale = glm::vec3({0.2,0.2,0.2});
-        transform->rotation = glm::vec3({30,30,10});
+        transform->rotation = glm::vec3({1,1,1});
 
         glm::vec4 m = glm::vec4({1,1,1,1}); //responsible for the intensity of the color
 
 
         glm::mat4 trans = trans_for_mesh->to_mat4();
+
+        camera = new ShiEngine::Camera();
+        camera->program = &program;
+
+        camera->To_cam(transform);
 
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
         mesh = new ShiEngine::MeshRenderer(&program);

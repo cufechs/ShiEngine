@@ -14,7 +14,7 @@ namespace ShiEngine {
         ShaderProgram* shaderProgram;
         glm::vec4 color_intensity;
         glm::mat4 transformationMatrix;
-        ShiEngine::Transform transform;
+        ShiEngine::Transform* transform;
 
         bool transform_sent;
     public:

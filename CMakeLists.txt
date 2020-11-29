@@ -43,6 +43,8 @@ set(COMMON_SOURCES
         source/common/common-vertex-attributes.hpp
         source/common/common-vertex-types.hpp
         source/common/vertex-attributes.hpp
+        source/common/Camera.h
+        source/common/Camera.cpp
         )
 # Define the directories in which to search for the included headers
 include_directories(
