@@ -10,13 +10,13 @@ class Main : public ShiEngine::Application {
     ShiEngine::ShaderProgram program;
     GLuint vertex_array = 0;
     ShiEngine::GameObject GO;
-    std::shared_ptr<ShiEngine::MeshRenderer> mesh;
-    std::shared_ptr<ShiEngine::GameObjectComponent> comp_mesh;
+    ShiEngine::MeshRenderer* mesh;
+    //ShiEngine:: comp_mesh;
     ShiEngine::GameObject obj1;
 
-    std::shared_ptr<ShiEngine::Transform> transform;
+    ShiEngine::Transform* transform;
 
-    std::shared_ptr<ShiEngine::testComp> comp1;
+    //std::shared_ptr<ShiEngine::testComp> comp1;
 
     // This overriden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
@@ -33,8 +33,8 @@ class Main : public ShiEngine::Application {
 
         program.create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER, "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
 
-        std::shared_ptr<ShiEngine::Transform> trans_for_mesh = std::make_shared<ShiEngine::Transform>();
-        transform = std::make_shared<ShiEngine::Transform>();
+        ShiEngine::Transform* trans_for_mesh = new ShiEngine::Transform();
+        transform = new ShiEngine::Transform();
         transform->position = glm::vec3({0, 0, 0});
         transform->scale = glm::vec3({0.2,0.2,0.2});
         transform->rotation = glm::vec3({30,30,10});
@@ -45,13 +45,13 @@ class Main : public ShiEngine::Application {
         glm::mat4 trans = trans_for_mesh->to_mat4();
 
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
-        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program);
+        mesh = new ShiEngine::MeshRenderer(&program);
         mesh->Primitives(ShiEngine::Sphere3D, true);
 
-        comp_mesh = mesh;
-        comp1 = std::make_shared<ShiEngine::testComp>();
+        //comp_mesh = mesh;
+        //comp1 = std::make_shared<ShiEngine::testComp>();
 
-        obj1.AddComponent(comp1);
+        //obj1.AddComponent(comp1);
         obj1.AddComponent(transform);
         obj1.AddComponent(mesh);
         //obj1.AddComponent(comp_mesh);

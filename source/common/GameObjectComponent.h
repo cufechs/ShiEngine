@@ -12,12 +12,12 @@ namespace ShiEngine {
         GameObject * gameObject;
         GameObjectComponent();
 
-        virtual void Start() = 0;
+        virtual void Start() {};
 
         //Called once per component
-        virtual void Update(double deltaTime) = 0;  //Called every frame
+        virtual void Update(double deltaTime) {};  //Called every frame
 
-        virtual void Draw() = 0;  //Called every frame after "Update()" execution
+        virtual void Draw() {};  //Called every frame after "Update()" execution
 
         ~GameObjectComponent();
 

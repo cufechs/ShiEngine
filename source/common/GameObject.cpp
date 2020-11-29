@@ -35,32 +35,19 @@ namespace ShiEngine {
 
     }
 
-    void ShiEngine::GameObject::AddComponent(std::shared_ptr<GameObjectComponent> component)
+    void ShiEngine::GameObject::AddComponent(GameObjectComponent* component)
     //void ShiEngine::GameObject::AddComponent(GameObjectComponent* component)
     {
+        component->gameObject = this;
         Components.push_back(component);
     }
 
-    void ShiEngine::GameObject::RemoveComponent(GameObjectComponent& component)
-    {
+    //void ShiEngine::GameObject::RemoveComponent(GameObjectComponent& component)
+    //{
 //        for (auto ptr = Components.begin(); ptr < Components.end(); ptr++)
 //            if((*ptr) == &component)
 //                Components.erase(ptr);
-    }
-
-    template <class T>
-    T& ShiEngine::GameObject::GetComponent()
-    {
-        for(auto & Component : Components)
-            if(typeid(Component) == typeid(T)) {
-                std::cout << "yes"  << std::endl;
-                return Component;
-            } else {
-                std::cout << "No\n";
-            }
-
-
-    }
+    //}
 
     ShiEngine::GameObject::~GameObject() = default;
 }

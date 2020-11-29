@@ -67,7 +67,7 @@ void ShiEngine::MeshRenderer::Start() {
 //    if (mesh == NULL) {
 //        mesh = std::make_shared<Mesh>();
 //    }
-
+    auto x = gameObject->GetComponent<Transform>();
 }
 
 void ShiEngine::MeshRenderer::setShader(ShiEngine::ShaderProgram *program) {
@@ -91,8 +91,7 @@ void ShiEngine::MeshRenderer::setTransformationMatrix(glm::mat4 m) {
 void ShiEngine::MeshRenderer::Update(double deltaTime) {
     //update transformation matrix
     //get transformation matrix from parent entity and update transformationMatrix
-    //transform = gameObject->GetComponent<Transform>();
-    //setTransformationMatrix(transform.to_mat4());
+    setTransformationMatrix(transform.to_mat4());
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
@@ -102,8 +101,7 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
     //transform = gameObject->GetComponent<Transform>();
     //setTransformationMatrix(transform.to_mat4());
     transform_sent = true;
-    //testComp* t;
-    //auto x = gameObject->GetComponent<testComp>();
+    //testComp* t
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngine::Mesh *m) {

@@ -16,7 +16,7 @@ namespace ShiEngine {
     public:
         int ComponentsCount;
         //vector<GameObjectComponent*> Components;
-        vector<std::shared_ptr<GameObjectComponent> > Components;
+        vector<GameObjectComponent*> Components;
         Tags Tag;
         string Name;
         bool Active;
@@ -25,10 +25,17 @@ namespace ShiEngine {
         GameObject();
         ~GameObject();
 
-        void AddComponent(std::shared_ptr<GameObjectComponent> component); //Should be Implemented as Template
-        void RemoveComponent(GameObjectComponent& component); //Should be Implemented as Template
-        template <class T>
-        T& GetComponent();
+        void AddComponent(GameObjectComponent* component); //Should be Implemented as Template
+        //void RemoveComponent(GameObjectComponent* component); //Should be Implemented as Template
+        template <typename T>
+        T* GetComponent()
+        {
+            for(auto & Component : Components)
+                if (typeid(Component) == typeid(T))
+                    return (T*)Component;
+
+            return nullptr;
+        }
 
         void Start();
         void Update(double deltatime);
