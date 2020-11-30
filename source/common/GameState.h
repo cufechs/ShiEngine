@@ -17,23 +17,18 @@ namespace ShiEngine {
         GameState();
 
         void Enter();
-
         void Exit();
 
         void addGameObject(GameObject *gameObject);
 
         static void enableGameObject(GameObject *gameObject);
-
         static void disableGameObject(GameObject *gameObject);
 
         void Pause();
-
         void Resume();
-
         void ScaleGameTime(double timeScale);
 
         void Update(double deltaTime);
-
         void Draw();
     };
 }

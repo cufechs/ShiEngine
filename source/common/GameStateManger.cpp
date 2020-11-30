@@ -7,15 +7,23 @@
 namespace ShiEngine {
     int GameStateManger::GSM_Controller = 0;
 
+    GameStateManger::GameStateManger() {
+        GSM_Controller++;
+        if (GSM_Controller != 1) {
+            std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
+            std::exit(-1);
+        }
+        activeState = nullptr;
+        Init();
+    }
+
     GameStateManger::GameStateManger(function_pointer fucPtr) {
         GSM_Controller++;
         if (GSM_Controller != 1) {
             std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
             std::exit(-1);
         }
-
         activeState = fucPtr();
-
         Init();
     }
 
