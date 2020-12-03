@@ -4,7 +4,7 @@
 #include "MeshRenderer.h"
 #include "testComp.h"
 #include "Camera.h"
-
+#include "CameraController.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
@@ -19,7 +19,7 @@ class Main : public ShiEngine::Application {
     ShiEngine::Transform* transform;
     ShiEngine::Camera* camera;
     //ShiEngine::Camera* camera;
-
+    ShiEngine::FlyCameraController controller;
     //std::shared_ptr<ShiEngine::testComp> comp1;
 
     // This overriden function sets the window configuration params struct (title, size, isFullscreen).
@@ -50,6 +50,7 @@ class Main : public ShiEngine::Application {
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         camera = new ShiEngine::Camera();
+
        // std::cout<<"field of view, aspect_ratio, near, far "<<field_of_view_y << "space"<< aspect_ratio<< "space"<< near<< "space"<< far;
         //std::cout<<"hey";
 
@@ -62,6 +63,7 @@ class Main : public ShiEngine::Application {
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
         mesh = new ShiEngine::MeshRenderer(&program);
         mesh->Setcam(camera);
+        controller.initialize(this, camera);
         mesh->Primitives(ShiEngine::Cube3D, true);
 
         //comp_mesh = mesh;
@@ -71,7 +73,6 @@ class Main : public ShiEngine::Application {
         obj1.AddComponent(transform);
         obj1.AddComponent(camera);
        // obj1.AddComponent(Cameraconrtoller);
-
       //  obj2.AddComponent(transform);
         obj1.AddComponent(mesh);
 
@@ -101,7 +102,9 @@ class Main : public ShiEngine::Application {
 
     void onUpdate(double deltaTime) override {
         //Here you write all your game logic
+        controller.Update(deltaTime);
         obj1.Update(deltaTime);
+
     }
 
 	void onDraw() override {

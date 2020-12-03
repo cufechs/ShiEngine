@@ -57,8 +57,9 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->use();
     shaderProgram->set("tint", color_intensity);
 
-   // std::cout << "cam projection\n"<< glm::to_string(cam->getProjectionMatrix());
+    //std::cout << "cam projection\n"<< glm::to_string(cam_era->getVPMatrix());
     shaderProgram->set("transform", cam_era->getVPMatrix()*transformationMatrix );
+
     mesh->draw();
     shaderProgram->unuse(); //not sure if we should un use the program
     //std::cout << "Mesh renderer draw\n";

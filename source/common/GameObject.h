@@ -33,12 +33,12 @@ namespace ShiEngine {
         {
 
             for(auto & Component : Components) {
-                std::cout << "name Comp: " << typeid(Component).name() << ", name T: " << typeid(T).name() << "\n";
+                //std::cout << "name Comp: " << typeid(Component).name() << ", name T: " << typeid(T).name() << "\n";
                 if (typeid((T*)Component) == typeid(T*)) {
-                    std::cout << "in get comp\n";
+                    //std::cout << "in get comp\n";
                     return (T *) Component;
                 } else {
-                    std::cout << "not found\n";
+                   // std::cout << "not found\n";
                 }
             }
 
