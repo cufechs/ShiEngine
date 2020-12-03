@@ -2,15 +2,20 @@
 #include "testComp.h"
 #include "Camera.h"
 
+#include <glm/gtx/string_cast.hpp>
 ShiEngine::MeshRenderer::MeshRenderer() {
 
     Enabled = true;
-    mesh = std::make_shared<ShiEngine::Mesh>();
     color_intensity = glm::vec4({1,1,1,1}); //pure color
     //transform = gameObject->GetComponent<Transform>();
     //setTransformationMatrix(transform->to_mat4());
     //transform = gameObject->GetComponent<Transform>();
     transform_sent = false;
+}
+
+void ShiEngine::MeshRenderer:: Setcam(Camera *cam)
+{
+    cam_era=cam;
 }
 
 ShiEngine::MeshRenderer::~MeshRenderer() {
@@ -41,18 +46,26 @@ void ShiEngine::MeshRenderer::destroy() {
 
 void ShiEngine::MeshRenderer::Draw() {
 
-    std::cout << "Mesh renderer draw before\n";
-    ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
+   // ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
 
     shaderProgram->use();
     shaderProgram->set("tint", color_intensity);
-    shaderProgram->set("transform", transformationMatrix * cam->getVPMatrix());
+    shaderProgram->set("transform", cam_era->getVPMatrix()*transformationMatrix );
+
     mesh->draw();
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LEQUAL);
+
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
+
+    glClearColor(0, 0, 0, 1);
+
     shaderProgram->unuse(); //not sure if we should un use the program
-    std::cout << "Mesh renderer draw\n";
 }
 
-void ShiEngine::MeshRenderer::setMesh(std::shared_ptr<Mesh> m) {
+void ShiEngine::MeshRenderer::setMesh(ShiEngine::Mesh* m) {
     mesh = m;
 }
 
@@ -69,53 +82,36 @@ void ShiEngine::MeshRenderer::setShader(ShiEngine::ShaderProgram *program) {
 
 }
 
-ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, glm::mat4 m) : shaderProgram(program) {
-    Enabled = true;
-    mesh = std::make_shared<Mesh>();
-    color_intensity = glm::vec4({1,1,1,1}); //pure color
-    setTransformationMatrix(m);
-    std::cout << "Mesh renderer created\n";
-    transform_sent = false;
-}
+
 
 void ShiEngine::MeshRenderer::setTransformationMatrix(glm::mat4 m) {
     transformationMatrix = m;
 }
 
 void ShiEngine::MeshRenderer::Update(double deltaTime) {
-    std::cout << "Mesh renderer update\n";
+    //std::cout << "Mesh renderer update\n";
     //update transformation matrix
     //get transformation matrix from parent entity and update transformationMatrix
     transform = gameObject->GetComponent<ShiEngine::Transform>();
     setTransformationMatrix(transform->to_mat4());
-    std::cout << "Mesh renderer update after\n";
+    //std::cout << "Mesh renderer update after\n";
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
     Enabled = true;
-    //mesh = std::make_shared<Mesh>();
-    mesh = std::make_shared<ShiEngine::Mesh>();
     color_intensity = glm::vec4({1,1,1,1}); //pure color
     shaderProgram = program;
-    //transform = gameObject->GetComponent<Transform>();
-    //setTransformationMatrix(transform.to_mat4());
     transform_sent = true;
-    std::cout << "I am here\n";
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngine::Mesh *m) {
+    Enabled = true;
     shaderProgram = program;
-    //mesh = std::shared_ptr<ShiEngine::Mesh>m;
-    std::shared_ptr<Mesh> m1(m);
-    mesh = m1;
+    mesh = m;
+    color_intensity = glm::vec4({1,1,1,1}); //pure color
 }
 
-//template<typename... T>
-//void ShiEngine::MeshRenderer::Update(double deltaTime, T &&... arguments) {
-//    //This is done just if we were to take the transformation matrix from outside
-//    setTransformationMatrix(std::forward<T>(arguments)... );
-//
-//}
+
 
 
 
