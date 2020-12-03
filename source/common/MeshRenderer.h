@@ -11,7 +11,8 @@ namespace ShiEngine {
 
     class MeshRenderer : public ShiEngine::GameObjectComponent {
     private:
-        std::shared_ptr<ShiEngine::Mesh> mesh;
+        //std::shared_ptr<ShiEngine::Mesh> mesh;
+        ShiEngine::Mesh* mesh;
         ShaderProgram* shaderProgram;
         glm::vec4 color_intensity;
         glm::mat4 transformationMatrix;
@@ -24,13 +25,12 @@ namespace ShiEngine {
 
         MeshRenderer(ShaderProgram* program);
         MeshRenderer(ShaderProgram* program, Mesh* m);
-        MeshRenderer(ShaderProgram* program, glm::mat4 m);
         ~MeshRenderer();
 
         void Primitives(ShiEngine::Shapes3D shape, bool colored = false);
         void destroy();
         void Setcam(Camera *cam);
-        void setMesh(std::shared_ptr<Mesh> m);
+        void setMesh(ShiEngine::Mesh* m);
         void setShader(ShaderProgram* program);
         void setTransformationMatrix(glm::mat4 m);
         void Start() override;

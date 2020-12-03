@@ -16,7 +16,10 @@
 namespace ShiEngine {
 
     // An enum for the camera projection type
-
+    enum struct CameraType {
+        Orthographic,
+        Perspective
+    };
     // A class that represents a camera
     // Used to generate a view and a projection matrix
     class Camera : public ShiEngine::GameObjectComponent{
@@ -28,7 +31,12 @@ namespace ShiEngine {
 
         glm::mat4 V{}, P{}, VP{};
 
+        CameraType type = CameraType::Perspective;
+
     public:
+
+
+
         Camera(){
             up = {0, 1, 0};
             eye = {0, 0, 0};
@@ -95,8 +103,14 @@ namespace ShiEngine {
         }
 
         glm::mat4 getProjectionMatrix(){
+            if (type == CameraType::Perspective) {
+                P = glm::perspective(field_of_view_y, aspect_ratio, near, far);
+            } else {
+                float half_height = orthographic_height * 0.5f;
+                float half_width = aspect_ratio * half_height;
+                P = glm::ortho(-half_width, half_width, -half_height, half_height, near, far);
+            }
 
-            P = glm::perspective(field_of_view_y, aspect_ratio, near, far);
             //std::cout<<"field of view, aspect_ratio, near, far "<<field_of_view_y << "space"<< aspect_ratio<< "space"<< near<< "space"<< far;
             return P;
         }
@@ -168,6 +182,15 @@ namespace ShiEngine {
             return glm::vec3(clip)/clip.w;
             // Note that we must divide by w even though we not going to the NDC space. This is because of the projection matrix.
         }
+
+        void setupOrthographic(float orthographic_height, float aspect_ratio, float near, float far){
+            this->type = CameraType::Orthographic;
+            this->orthographic_height = orthographic_height;
+            this->aspect_ratio = aspect_ratio;
+            this->near = near;
+            this->far = far;
+        }
+
 
        // void Start() override {
 
