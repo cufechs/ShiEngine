@@ -54,11 +54,10 @@ class Main : public ShiEngine::Application {
        // std::cout<<"field of view, aspect_ratio, near, far "<<field_of_view_y << "space"<< aspect_ratio<< "space"<< near<< "space"<< far;
         //std::cout<<"hey";
 
-        // camera->setEyePosition({10.f, 10.f, 10.f});
-        //camera->setTarget({0.f, 0.f, 0.f});
-        //camera->setUp({0, 1, 0});
-        //camera->setupPerspective(glm::pi<float>()/2, static_cast<float>(width)/height, 0.1f, 100.0f);
-
+         camera->setEyePosition({10.f, 10.f, 10.f});
+        camera->setTarget({0.f, 0.f, 0.f});
+        camera->setUp({0, 1, 0});
+        camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
 
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
         mesh = new ShiEngine::MeshRenderer(&program);

@@ -49,10 +49,10 @@ void ShiEngine::MeshRenderer::Draw() {
 
    // ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
 
-    cam_era->setEyePosition({10.f, 10.f, 10.f});
-    cam_era->setTarget({0.f, 0.f, 0.f});
-    cam_era->setUp({0, 1, 0});
-    cam_era->setupPerspective(glm::pi<float>()/2, 1.7, 0.1f, 100.0f);
+    //cam_era->setEyePosition({10.f, 10.f, 10.f});
+   // cam_era->setTarget({0.f, 0.f, 0.f});
+   // cam_era->setUp({0, 1, 0});
+  //  cam_era->setupPerspective(glm::pi<float>()/2, 1.7, 0.1f, 100.0f);
 
     shaderProgram->use();
     shaderProgram->set("tint", color_intensity);
