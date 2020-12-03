@@ -28,6 +28,37 @@ namespace ShiEngine {
         GameObj_vector.push_back(gameObject);
     }
 
+    bool GameState::deleteGameObject(GameObject *gameObject) {
+
+        for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter )
+            if(*iter == gameObject) {
+                GameObj_vector.erase(iter);
+                delete gameObject;
+                return true;
+            }
+        return false;
+    }
+
+    GameObject *GameState::getGameObject(Tags tag) {
+
+        for(auto & i : GameObj_vector)
+            if(i->Tag == tag)
+                return i;
+
+        return nullptr;
+    }
+
+    vector<GameObject *> GameState::getGameObjects(Tags tag) {
+
+        vector<GameObject *> vec;
+
+        for(auto & i : GameObj_vector)
+            if(i->Tag == tag)
+                vec.push_back(i);
+
+        return vec;
+    }
+
     void GameState::enableGameObject(GameObject *gameObject) {
         gameObject->Active = true;
     }

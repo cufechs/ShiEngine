@@ -20,6 +20,10 @@ namespace ShiEngine {
         void Exit();
 
         void addGameObject(GameObject *gameObject);
+        bool deleteGameObject(GameObject *gameObject);
+
+        GameObject* getGameObject(Tags tag);
+        vector<GameObject*> getGameObjects(Tags tag);
 
         static void enableGameObject(GameObject *gameObject);
         static void disableGameObject(GameObject *gameObject);
