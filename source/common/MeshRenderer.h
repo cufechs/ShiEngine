@@ -5,6 +5,7 @@
 //#include "GameObjectComponent.h"
 #include "Shader.hpp"
 #include "Transform.h"
+#include "Camera.h"
 
 namespace ShiEngine {
 
@@ -15,10 +16,12 @@ namespace ShiEngine {
         glm::vec4 color_intensity;
         glm::mat4 transformationMatrix;
         ShiEngine::Transform* transform;
+        ShiEngine:: Camera* cam_era;
 
         bool transform_sent;
     public:
         MeshRenderer();
+
         MeshRenderer(ShaderProgram* program);
         MeshRenderer(ShaderProgram* program, Mesh* m);
         MeshRenderer(ShaderProgram* program, glm::mat4 m);
@@ -26,7 +29,7 @@ namespace ShiEngine {
 
         void Primitives(ShiEngine::Shapes3D shape, bool colored = false);
         void destroy();
-
+        void Setcam(Camera *cam);
         void setMesh(std::shared_ptr<Mesh> m);
         void setShader(ShaderProgram* program);
         void setTransformationMatrix(glm::mat4 m);

@@ -2,6 +2,7 @@
 #include "testComp.h"
 #include "Camera.h"
 
+#include <glm/gtx/string_cast.hpp>
 ShiEngine::MeshRenderer::MeshRenderer() {
 
     Enabled = true;
@@ -11,6 +12,11 @@ ShiEngine::MeshRenderer::MeshRenderer() {
     //setTransformationMatrix(transform->to_mat4());
     //transform = gameObject->GetComponent<Transform>();
     transform_sent = false;
+}
+
+void ShiEngine::MeshRenderer:: Setcam(Camera *cam)
+{
+    cam_era=cam;
 }
 
 ShiEngine::MeshRenderer::~MeshRenderer() {
@@ -41,15 +47,21 @@ void ShiEngine::MeshRenderer::destroy() {
 
 void ShiEngine::MeshRenderer::Draw() {
 
-    std::cout << "Mesh renderer draw before\n";
-    ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
+   // ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
+
+    cam_era->setEyePosition({10.f, 10.f, 10.f});
+    cam_era->setTarget({0.f, 0.f, 0.f});
+    cam_era->setUp({0, 1, 0});
+    cam_era->setupPerspective(glm::pi<float>()/2, 1.7, 0.1f, 100.0f);
 
     shaderProgram->use();
     shaderProgram->set("tint", color_intensity);
-    shaderProgram->set("transform", transformationMatrix * cam->getVPMatrix());
+
+   // std::cout << "cam projection\n"<< glm::to_string(cam->getProjectionMatrix());
+    shaderProgram->set("transform", cam_era->getVPMatrix()*transformationMatrix );
     mesh->draw();
     shaderProgram->unuse(); //not sure if we should un use the program
-    std::cout << "Mesh renderer draw\n";
+    //std::cout << "Mesh renderer draw\n";
 }
 
 void ShiEngine::MeshRenderer::setMesh(std::shared_ptr<Mesh> m) {
@@ -74,7 +86,7 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, glm::ma
     mesh = std::make_shared<Mesh>();
     color_intensity = glm::vec4({1,1,1,1}); //pure color
     setTransformationMatrix(m);
-    std::cout << "Mesh renderer created\n";
+    //std::cout << "Mesh renderer created\n";
     transform_sent = false;
 }
 
@@ -83,12 +95,12 @@ void ShiEngine::MeshRenderer::setTransformationMatrix(glm::mat4 m) {
 }
 
 void ShiEngine::MeshRenderer::Update(double deltaTime) {
-    std::cout << "Mesh renderer update\n";
+    //std::cout << "Mesh renderer update\n";
     //update transformation matrix
     //get transformation matrix from parent entity and update transformationMatrix
     transform = gameObject->GetComponent<ShiEngine::Transform>();
     setTransformationMatrix(transform->to_mat4());
-    std::cout << "Mesh renderer update after\n";
+    //std::cout << "Mesh renderer update after\n";
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
@@ -100,7 +112,7 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
     //transform = gameObject->GetComponent<Transform>();
     //setTransformationMatrix(transform.to_mat4());
     transform_sent = true;
-    std::cout << "I am here\n";
+    //std::cout << "I am here\n";
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngine::Mesh *m) {

@@ -32,15 +32,15 @@ class Main : public ShiEngine::Application {
     // onInitialize() function is called once before the application loop
     void onInitialize() override {
 
-        std::cout << "name = " << typeid(ShiEngine::Transform).name() << std::endl;
+       // std::cout << "name = " << typeid(ShiEngine::Transform).name() << std::endl;
 
         program.create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER, "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
 
         ShiEngine::Transform* trans_for_mesh = new ShiEngine::Transform();
         transform = new ShiEngine::Transform();
         transform->position = glm::vec3({0, 0, 0});
-        transform->scale = glm::vec3({0.2,0.2,0.2});
-        transform->rotation = glm::vec3({1,1,1});
+        transform->scale = glm::vec3({5,5,5});
+        transform->rotation = glm::vec3({0,0,0});
 
         glm::vec4 m = glm::vec4({1,1,1,1}); //responsible for the intensity of the color
 
@@ -50,15 +50,19 @@ class Main : public ShiEngine::Application {
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         camera = new ShiEngine::Camera();
-        camera->setEyePosition({10, 10, 10});
-        camera->setTarget({0, 0, 0});
-        camera->setUp({0, 1, 0});
-        camera->setupPerspective(glm::pi<float>()/2, static_cast<float>(width)/height, 0.1f, 100.0f);
+       // std::cout<<"field of view, aspect_ratio, near, far "<<field_of_view_y << "space"<< aspect_ratio<< "space"<< near<< "space"<< far;
+        //std::cout<<"hey";
+
+        // camera->setEyePosition({10.f, 10.f, 10.f});
+        //camera->setTarget({0.f, 0.f, 0.f});
+        //camera->setUp({0, 1, 0});
+        //camera->setupPerspective(glm::pi<float>()/2, static_cast<float>(width)/height, 0.1f, 100.0f);
 
 
 //        mesh = std::make_shared<ShiEngine::MeshRenderer>(&program, trans);
         mesh = new ShiEngine::MeshRenderer(&program);
-        mesh->Primitives(ShiEngine::Sphere3D, true);
+        mesh->Setcam(camera);
+        mesh->Primitives(ShiEngine::Cube3D, true);
 
         //comp_mesh = mesh;
         //comp1 = std::make_shared<ShiEngine::testComp>();
@@ -66,7 +70,11 @@ class Main : public ShiEngine::Application {
         //obj1.AddComponent(comp1);
         obj1.AddComponent(transform);
         obj1.AddComponent(camera);
+       // obj1.AddComponent(Cameraconrtoller);
+
+      //  obj2.AddComponent(transform);
         obj1.AddComponent(mesh);
+
         //obj1.AddComponent(comp_mesh);
         //obj1.AddComponent(comp1);
 
@@ -76,6 +84,14 @@ class Main : public ShiEngine::Application {
 
         obj1.Start();
 
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
+        glFrontFace(GL_CCW);
+
+        glClearColor(0, 0, 0, 1);
     }
 
     //void onImmediateGui(ImGuiIO &io) override {
