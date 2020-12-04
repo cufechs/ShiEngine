@@ -17,11 +17,12 @@ namespace ShiEngine {
     private:
         Application* application_ptr;
         GameState *activeState;
+        int activeStateKey;
         std::unordered_map<int, function_pointer> gameStates_UMap;
         static int GSM_Controller;
     public:
         GameStateManger();
-        GameStateManger(Application *pApplication);
+        explicit GameStateManger(Application *pApplication);
         explicit GameStateManger(Application*, function_pointer);
 
         void attachApplicationPtr(Application* );

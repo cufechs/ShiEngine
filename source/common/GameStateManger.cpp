@@ -23,8 +23,10 @@ namespace ShiEngine {
             std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
             std::exit(-1);
         }
-        activeState = nullptr;
         application_ptr = appPtr;
+        activeState = nullptr;
+        activeStateKey = -1;
+
         Init();
     }
 
@@ -36,6 +38,8 @@ namespace ShiEngine {
         }
         application_ptr = appPtr;
         activeState = fucPtr(appPtr);
+        activeStateKey = -1;
+
         Init();
     }
 
@@ -65,6 +69,7 @@ namespace ShiEngine {
         }
         activeState = gameStates_UMap[gameStateKey](application_ptr);
         activeState->Enter();
+        activeStateKey = gameStateKey;
     }
 
     void GameStateManger::Update(double deltaTime) {

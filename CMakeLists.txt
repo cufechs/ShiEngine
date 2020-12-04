@@ -45,7 +45,8 @@ set(COMMON_SOURCES
         source/common/vertex-attributes.hpp
         source/common/Camera.h
         source/common/Camera.cpp
-        source/common/CameraController.h source/examples/State1.h)
+        source/common/CameraController.h
+        source/examples/States.h)
 # Define the directories in which to search for the included headers
 include_directories(
         source/common

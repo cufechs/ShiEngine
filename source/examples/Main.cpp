@@ -1,6 +1,6 @@
 #include <application.hpp>
 #include "GameStateManger.h"
-#include "State1.h"
+#include "States.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
@@ -17,8 +17,9 @@ class Main : public ShiEngine::Application {
 
         gameStateManger = new ShiEngine::GameStateManger();
         gameStateManger->attachApplicationPtr(this);
+
         gameStateManger->AttachGameState(State1,&CreateState1);
-        //gameStateManger->AttachGameState(State2,&CreateState2);
+        gameStateManger->AttachGameState(State2,&CreateState2);
 
         gameStateManger->ChangeGameState(State1);
     }
@@ -30,6 +31,12 @@ class Main : public ShiEngine::Application {
 
     void onUpdate(double deltaTime) override {
         //Here you write all your game logic
+
+        if(this->getKeyboard().isPressed(GLFW_KEY_P))
+            gameStateManger->ChangeGameState(State2);
+
+        if(this->getKeyboard().isPressed(GLFW_KEY_O))
+            gameStateManger->ChangeGameState(State1);
 
         gameStateManger->Update(deltaTime);
     }

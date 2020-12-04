@@ -31,12 +31,13 @@ namespace ShiEngine {
 
     bool GameState::deleteGameObject(GameObject *gameObject) {
 
-        for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter )
-            if(*iter == gameObject) {
+        for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter ) {
+            if (*iter == gameObject) {
                 GameObj_vector.erase(iter);
                 delete gameObject;
                 return true;
             }
+        }
         return false;
     }
 
@@ -86,18 +87,16 @@ namespace ShiEngine {
     }
 
     void GameState::Update(double deltaTime) {
-        if((int)GameObj_vector.size() != 0)
-            for(auto & gameObj : GameObj_vector) {
-                gameObj->Update(deltaTime);
-            }
+
+        for(auto & gameObj : GameObj_vector)
+            gameObj->Update(deltaTime);
 
         if(cameraController)
             cameraController->Update(deltaTime);
     }
 
     void GameState::Draw() {
-        if((int)GameObj_vector.size() != 0)
-            for(auto & gameObj : GameObj_vector)
-                gameObj->Draw();
+        for(auto & gameObj : GameObj_vector)
+            gameObj->Draw();
     }
 }
