@@ -51,7 +51,7 @@ void GLAPIENTRY opengl_callback(GLenum source, GLenum type, GLuint id, GLenum se
         case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
             _type = "DEPRECATED BEHAVIOR"; break;
         case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
-            _type = "UDEFINED BEHAVIOR"; break;
+            _type = "UNDEFINED BEHAVIOR"; break;
         case GL_DEBUG_TYPE_PORTABILITY:
             _type = "PORTABILITY"; break;
         case GL_DEBUG_TYPE_PERFORMANCE:
@@ -273,7 +273,7 @@ void ShiEngine::Application::setupCallbacks() {
 
     // The second parameter to "glfwSet---Callback" is a function pointer.
     // It is replaced by an inline function -lambda expression- as it is not needed to create
-    // a seperate function for it.
+    // a separate function for it.
     // In the inline function we retrieve the window instance and use it to set our (Mouse/Keyboard) classes values.
 
     // Keyboard callbacks

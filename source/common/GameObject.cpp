@@ -20,9 +20,12 @@ namespace ShiEngine {
 
     void ShiEngine::GameObject::Update(double deltatime)
     {
+
         if(Active)
-            for(auto & Component : Components)
+            for(auto & Component : Components) {
                 (*Component).Update(deltatime);
+            }
+
     }
 
     void ShiEngine::GameObject::Draw()
@@ -38,6 +41,7 @@ namespace ShiEngine {
     {
         component->gameObject = this;
         Components.push_back(component);
+        ComponentsCount++;
     }
 
     GameObjectComponent* ShiEngine::GameObject::GetComponent(ComponentType type1) {
