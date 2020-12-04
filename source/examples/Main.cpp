@@ -61,7 +61,6 @@ class Main : public ShiEngine::Application {
         transform2->scale = glm::vec3({1,1,1});
         transform2->rotation = glm::vec3({0,0,0});
 
-
         int width, height;
         glfwGetFramebufferSize(window, &width, &height);
         camera = new ShiEngine::Camera();
@@ -93,9 +92,6 @@ class Main : public ShiEngine::Application {
         obj2.AddComponent(meshRenderer2);
 
 
-
-
-
         obj1.Start();
         obj2.Start();
 
@@ -111,7 +107,6 @@ class Main : public ShiEngine::Application {
         controller.Update(deltaTime);
         obj1.Update(deltaTime);
         obj2.Update(deltaTime);
-
     }
 
 	void onDraw() override {

@@ -45,7 +45,7 @@ namespace ShiEngine {
             aspect_ratio = 1.0f;
             near = 0.01;
             far = 100.0f;
-
+            Type = ComponentType::Camera;
         }
 
         // Setup the camera as a perspective camera

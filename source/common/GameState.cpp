@@ -7,11 +7,12 @@
 namespace ShiEngine {
     GameState::GameState() {
         timeScale = 1;
-        Enter();
     }
 
     void GameState::Enter() {
-
+        int vecSize = (int) GameObj_vector.size();
+        for (int i=0; i<vecSize; i++)
+            GameObj_vector[i]->Start();
     }
 
     void GameState::Exit() {
@@ -48,9 +49,9 @@ namespace ShiEngine {
         return nullptr;
     }
 
-    vector<GameObject *> GameState::getGameObjects(Tags tag) {
+    std::vector<GameObject *> GameState::getGameObjects(Tags tag) {
 
-        vector<GameObject *> vec;
+        std::vector<GameObject *> vec;
 
         for(auto & i : GameObj_vector)
             if(i->Tag == tag)
