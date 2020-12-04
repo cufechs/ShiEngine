@@ -17,14 +17,30 @@ namespace ShiEngine {
         Init();
     }
 
-    GameStateManger::GameStateManger(function_pointer fucPtr) {
+    GameStateManger::GameStateManger(Application* appPtr) {
         GSM_Controller++;
         if (GSM_Controller != 1) {
             std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
             std::exit(-1);
         }
-        activeState = fucPtr();
+        activeState = nullptr;
+        application_ptr = appPtr;
         Init();
+    }
+
+    GameStateManger::GameStateManger(Application* appPtr, function_pointer fucPtr) {
+        GSM_Controller++;
+        if (GSM_Controller != 1) {
+            std::cerr << "ERROR: Multiple game state manger is created!" << std::endl;
+            std::exit(-1);
+        }
+        application_ptr = appPtr;
+        activeState = fucPtr(appPtr);
+        Init();
+    }
+
+    void GameStateManger::attachApplicationPtr(Application * appPtr) {
+        application_ptr = appPtr;
     }
 
     void GameStateManger::Init() {
@@ -47,11 +63,13 @@ namespace ShiEngine {
             activeState->Exit();
             delete (activeState);
         }
-        activeState = gameStates_UMap[gameStateKey]();
+        activeState = gameStates_UMap[gameStateKey](application_ptr);
+        activeState->Enter();
     }
 
     void GameStateManger::Update(double deltaTime) {
         activeState->Update(deltaTime);
+
     }
 
     void GameStateManger::Draw() {

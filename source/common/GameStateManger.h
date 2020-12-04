@@ -8,18 +8,23 @@
 #include <iostream>
 #include <GameState.h>
 #include <unordered_map>
+#include "application.hpp"
 
 namespace ShiEngine {
-    typedef GameState* (*function_pointer)(); // pointer to function type
+    typedef GameState* (*function_pointer)(Application* application); // pointer to function type
 
     class GameStateManger {
     private:
+        Application* application_ptr;
         GameState *activeState;
         std::unordered_map<int, function_pointer> gameStates_UMap;
         static int GSM_Controller;
     public:
         GameStateManger();
-        explicit GameStateManger(function_pointer);
+        GameStateManger(Application *pApplication);
+        explicit GameStateManger(Application*, function_pointer);
+
+        void attachApplicationPtr(Application* );
 
         void Init();
         void Cleanup();

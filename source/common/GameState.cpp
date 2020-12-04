@@ -7,19 +7,20 @@
 namespace ShiEngine {
     GameState::GameState() {
         timeScale = 1;
-        Enter();
+        cameraController = nullptr;
     }
 
     void GameState::Enter() {
-
+        for(auto & gameObj : GameObj_vector)
+            if(gameObj)
+                gameObj->Start();
     }
 
     void GameState::Exit() {
         // Deleting all game objects
-        int vecSize = (int)GameObj_vector.size();
-        for (int i=0; i<vecSize; i++)
-            if (GameObj_vector[i])
-                delete (GameObj_vector[i]);
+        for(auto & gameObj : GameObj_vector)
+            if (gameObj)
+                delete (gameObj);
 
         GameObj_vector.clear();
     }
@@ -39,11 +40,15 @@ namespace ShiEngine {
         return false;
     }
 
+    void GameState::attachCameraController(FlyCameraController * camCont) {
+        cameraController = camCont;
+    }
+
     GameObject *GameState::getGameObject(Tags tag) {
 
-        for(auto & i : GameObj_vector)
-            if(i->Tag == tag)
-                return i;
+        for(auto & gameObj : GameObj_vector)
+            if(gameObj->Tag == tag)
+                return gameObj;
 
         return nullptr;
     }
@@ -52,9 +57,9 @@ namespace ShiEngine {
 
         vector<GameObject *> vec;
 
-        for(auto & i : GameObj_vector)
-            if(i->Tag == tag)
-                vec.push_back(i);
+        for(auto & gameObj : GameObj_vector)
+            if(gameObj->Tag == tag)
+                vec.push_back(gameObj);
 
         return vec;
     }
@@ -81,14 +86,20 @@ namespace ShiEngine {
     }
 
     void GameState::Update(double deltaTime) {
-        int vecSize = (int) GameObj_vector.size();
-        for (int i=0; i<vecSize; i++)
-            GameObj_vector[i]->Update(deltaTime * timeScale);
+        if((int)GameObj_vector.size() != 0)
+            for(auto & gameObj : GameObj_vector) {
+                cout << "FML ";
+                gameObj->Update(deltaTime);
+                cout << "FML ";
+            }
+
+        if(cameraController)
+            cameraController->Update(deltaTime);
     }
 
     void GameState::Draw() {
-        int vecSize = (int) GameObj_vector.size();
-        for (int i = 0; i < vecSize; i++)
-            GameObj_vector[i]->Draw();
+        if((int)GameObj_vector.size() != 0)
+            for(auto & gameObj : GameObj_vector)
+                gameObj->Draw();
     }
 }

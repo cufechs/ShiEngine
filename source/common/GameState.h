@@ -7,12 +7,14 @@
 
 #include <vector>
 #include <GameObject.h>
+#include <CameraController.h>
 
 namespace ShiEngine {
     class GameState {
     private:
         double timeScale;
         std::vector<GameObject *> GameObj_vector;
+        FlyCameraController *cameraController;
     public:
         GameState();
 
@@ -21,6 +23,8 @@ namespace ShiEngine {
 
         void addGameObject(GameObject *gameObject);
         bool deleteGameObject(GameObject *gameObject);
+
+        void attachCameraController(FlyCameraController *cameraController);
 
         GameObject* getGameObject(Tags tag);
         vector<GameObject*> getGameObjects(Tags tag);
