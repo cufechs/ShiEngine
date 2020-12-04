@@ -69,7 +69,6 @@ namespace ShiEngine {
 
     void GameStateManger::Update(double deltaTime) {
         activeState->Update(deltaTime);
-
     }
 
     void GameStateManger::Draw() {

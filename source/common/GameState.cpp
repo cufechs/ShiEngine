@@ -88,9 +88,7 @@ namespace ShiEngine {
     void GameState::Update(double deltaTime) {
         if((int)GameObj_vector.size() != 0)
             for(auto & gameObj : GameObj_vector) {
-                cout << "FML ";
                 gameObj->Update(deltaTime);
-                cout << "FML ";
             }
 
         if(cameraController)
