@@ -54,9 +54,9 @@ namespace ShiEngine {
         return nullptr;
     }
 
-    vector<GameObject *> GameState::getGameObjects(Tags tag) {
+    std::vector<GameObject *> GameState::getGameObjects(Tags tag) {
 
-        vector<GameObject *> vec;
+        std::vector<GameObject *> vec;
 
         for(auto & gameObj : GameObj_vector)
             if(gameObj->Tag == tag)

@@ -27,7 +27,7 @@ namespace ShiEngine {
         void attachCameraController(FlyCameraController *cameraController);
 
         GameObject* getGameObject(Tags tag);
-        vector<GameObject*> getGameObjects(Tags tag);
+        std::vector<GameObject*> getGameObjects(Tags tag);
 
         static void enableGameObject(GameObject *gameObject);
         static void disableGameObject(GameObject *gameObject);

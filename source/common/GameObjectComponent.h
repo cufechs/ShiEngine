@@ -1,15 +1,17 @@
 #pragma once
-//#include "GameObject.h"
+#include "GameObject.h"
 
-class GameObject;
+//class GameObject;
 namespace ShiEngine {
+
     class GameObjectComponent
     {
     protected:
 
     public:
+        ShiEngine::ComponentType Type;
         bool Enabled;
-        GameObject * gameObject;
+        GameObject* gameObject;
         GameObjectComponent();
 
         virtual void Start() {};

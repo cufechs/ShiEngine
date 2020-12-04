@@ -5,6 +5,7 @@
 #include <glm/gtx/string_cast.hpp>
 ShiEngine::MeshRenderer::MeshRenderer() {
 
+    Type = ComponentType::MeshRenderer;
     Enabled = true;
     color_intensity = glm::vec4({1,1,1,1}); //pure color
     //transform = gameObject->GetComponent<Transform>();
@@ -71,6 +72,7 @@ void ShiEngine::MeshRenderer::setMesh(ShiEngine::Mesh* m) {
 
 void ShiEngine::MeshRenderer::Start() {
     Enabled = true;
+    transform = (Transform*)gameObject->GetComponent(ComponentType::Transform);
 //    if (mesh == NULL) {
 //        mesh = std::make_shared<Mesh>();
 //    }
@@ -85,19 +87,19 @@ void ShiEngine::MeshRenderer::setShader(ShiEngine::ShaderProgram *program) {
 
 
 void ShiEngine::MeshRenderer::setTransformationMatrix(glm::mat4 m) {
-    transformationMatrix = m;
+    transformationMatrix = transform->to_mat4();
 }
 
 void ShiEngine::MeshRenderer::Update(double deltaTime) {
     //std::cout << "Mesh renderer update\n";
     //update transformation matrix
     //get transformation matrix from parent entity and update transformationMatrix
-    transform = gameObject->GetComponent<ShiEngine::Transform>();
-    setTransformationMatrix(transform->to_mat4());
     //std::cout << "Mesh renderer update after\n";
+    transformationMatrix = transform->to_mat4();
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
+    Type = ComponentType::MeshRenderer;
     Enabled = true;
     color_intensity = glm::vec4({1,1,1,1}); //pure color
     shaderProgram = program;
@@ -105,6 +107,7 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program) {
 }
 
 ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngine::Mesh *m) {
+    Type = ComponentType::MeshRenderer;
     Enabled = true;
     shaderProgram = program;
     mesh = m;

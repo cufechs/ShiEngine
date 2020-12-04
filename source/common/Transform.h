@@ -18,7 +18,9 @@ namespace ShiEngine {
                 const glm::vec3 &rotation = {0, 0, 0},
                 const glm::vec3 &scale = {1, 1, 1},
                 const glm::vec4 &tint = {1, 1, 1, 1}
-        ) : position(position), rotation(rotation), scale(scale), tint(tint) {}
+        ) : position(position), rotation(rotation), scale(scale), tint(tint) {
+            Type = ComponentType::Transform;
+        }
 
         glm::mat4 to_mat4() const {
 
