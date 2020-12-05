@@ -11,7 +11,7 @@ namespace ShiEngine {
     public:
         glm::vec4 tint;
         glm::vec3 position, rotation, scale;
-
+        Transform* parent;
 
         Transform(
                 const glm::vec3 &position = {0, 0, 0},
