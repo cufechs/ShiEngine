@@ -4,7 +4,7 @@
 #include "GameObject.h"
 //#include "GameObjectComponent.h"
 #include "Shader.hpp"
-#include "Transform.h"
+//#include "Transform.h"
 #include "Camera.h"
 
 namespace ShiEngine {

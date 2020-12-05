@@ -29,6 +29,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     ShiEngine::Transform* transform1;
     ShiEngine::Transform* transform2;
+    ShiEngine::Transform* transformCamera;
 
     ShiEngine::Camera* camera;
 
@@ -47,6 +48,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshPlane->Plane(true);
 
     // Camera Transformer
+    transformCamera = new ShiEngine::Transform();
+    transformCamera->position = glm::vec3({10, 10, 10});
+    transformCamera->scale = glm::vec3({1,1,1});
+    transformCamera->rotation = glm::vec3({0,0,0});
+
     transform1 = new ShiEngine::Transform();
     transform1->position = glm::vec3({1.5, 0, 0});
     transform1->scale = glm::vec3({1,1,1});
@@ -60,21 +66,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     camera = new ShiEngine::Camera();
 
-    camera->setEyePosition({10.f, 10.f, 10.f});
-    camera->setTarget({0.f, 0.f, 0.f});
-    camera->setUp({0, 1, 0});
+
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
     //camera->setupOrthographic(2.f, 1.7, 0.1f, 100.0f);
 
     meshRenderer1 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRenderer1->Setcam(camera);
-    controller->initialize(application, camera);
-
 
     meshRenderer2 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRenderer2->Setcam(camera);
 
-    objCamera->AddComponent(transform1); // TODO: independent transform -> transformCamera
+    //objCamera->AddComponent(transform1); // TODO: independent transform -> transformCamera
+    objCamera->AddComponent(transformCamera);
     objCamera->AddComponent(camera);
     //objCamera.Name = "objCamera";
 
@@ -85,6 +88,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     obj2->AddComponent(transform2);
     obj2->AddComponent(meshRenderer2);
     obj2->Name = "obj 2";
+
+    objCamera->Start();
+    controller->initialize(application, camera);
 
     state->addGameObject(obj1);
     state->addGameObject(obj2);
