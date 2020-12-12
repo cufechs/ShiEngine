@@ -115,7 +115,8 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     auto *controller = new ShiEngine::FlyCameraController;
 
-    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER, "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
+    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER,
+                    "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
 
     // Resources
     meshCube = new ShiEngine::Mesh();

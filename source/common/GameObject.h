@@ -21,12 +21,15 @@ namespace ShiEngine {
         std::string Name;
         Tags Tag;
         bool Active;
+        bool deleteMeFlag;
         GameObject* Parent;
+        std::vector<GameObject*> Children;
 
         GameObject();
 
         ~GameObject();
 
+        void DeleteMe();
         void AddComponent(GameObjectComponent *component); //Should be Implemented as Template
         //void RemoveComponent(GameObjectComponent* component); //Should be Implemented as Template
         GameObjectComponent* GetComponent(ComponentType type1);

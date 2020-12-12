@@ -22,7 +22,10 @@ namespace ShiEngine {
         void Exit();
 
         void addGameObject(GameObject *gameObject);
-        bool deleteGameObject(GameObject *gameObject);
+        void addChildGameObject(GameObject *Parent, GameObject *Child);
+
+        void deleteGameObject();
+        void deleteGameObject(Tags tag);
 
         void attachCameraController(FlyCameraController *cameraController);
 

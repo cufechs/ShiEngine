@@ -5,6 +5,7 @@ namespace ShiEngine {
     ShiEngine::GameObject::GameObject()
     {
         Active = true;
+        deleteMeFlag = false;
         ComponentsCount = 0;
         Tag = Tags::Default;
         Name = "GameObject";
@@ -15,25 +16,27 @@ namespace ShiEngine {
     {
         if(Active)
             for(auto & Component : Components)
-                (*Component).Start();
+                Component->Start();
     }
 
     void ShiEngine::GameObject::Update(double deltatime)
     {
-
         if(Active)
-            for(auto & Component : Components) {
-                (*Component).Update(deltatime);
-            }
-
+            for(auto & Component : Components)
+                Component->Update(deltatime);
     }
 
     void ShiEngine::GameObject::Draw()
     {
         if(Active)
             for(auto & Component : Components)
-                (*Component).Draw();
+                Component->Draw();
+    }
 
+    void ShiEngine::GameObject::DeleteMe(){
+        deleteMeFlag = true;
+        for(auto & gameObject : Children)
+            gameObject->DeleteMe();
     }
 
     void ShiEngine::GameObject::AddComponent(GameObjectComponent* component)
@@ -59,5 +62,8 @@ namespace ShiEngine {
 //                Components.erase(ptr);
     //}
 
-    ShiEngine::GameObject::~GameObject() = default;
+    ShiEngine::GameObject::~GameObject() {
+        for(auto & Component : Components)
+            delete(Component);
+    }
 }

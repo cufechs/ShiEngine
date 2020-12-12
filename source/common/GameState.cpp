@@ -29,16 +29,28 @@ namespace ShiEngine {
         GameObj_vector.push_back(gameObject);
     }
 
-    bool GameState::deleteGameObject(GameObject *gameObject) {
+    void GameState::addChildGameObject(GameObject *Parent, GameObject *Child) {
+        GameObj_vector.push_back(Child);
+        if(Parent) {
+            Parent->Children.push_back(Child);
+            Child->Parent = Parent;
+        }
+    }
 
+    void GameState::deleteGameObject() {
         for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter ) {
-            if (*iter == gameObject) {
+            GameObject* GO = *iter;
+            if (GO->deleteMeFlag) {
                 GameObj_vector.erase(iter);
-                delete gameObject;
-                return true;
+                delete(GO);
             }
         }
-        return false;
+    }
+
+    void GameState::deleteGameObject(Tags tag) {
+        std::vector<GameObject *> vec = getGameObjects(tag);
+        for(auto & gameObj : vec)
+            gameObj->DeleteMe();
     }
 
     void GameState::attachCameraController(FlyCameraController * camCont) {
@@ -89,10 +101,12 @@ namespace ShiEngine {
     void GameState::Update(double deltaTime) {
 
         for(auto & gameObj : GameObj_vector)
-            gameObj->Update(deltaTime);
+            gameObj->Update(deltaTime * timeScale);
 
         if(cameraController)
-            cameraController->Update(deltaTime);
+            cameraController->Update(deltaTime * timeScale);
+
+        deleteGameObject();
     }
 
     void GameState::Draw() {
