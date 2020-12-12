@@ -12,6 +12,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
+//#include "Transform.h"
+#include "GameObject.h"
+#include "Transform.h"
+#include <glm/gtx/io.hpp>
 
 namespace ShiEngine {
 
@@ -33,6 +37,8 @@ namespace ShiEngine {
 
         CameraType type = CameraType::Perspective;
 
+        ShiEngine::Transform* transform;
+
     public:
 
 
@@ -45,6 +51,7 @@ namespace ShiEngine {
             aspect_ratio = 1.0f;
             near = 0.01;
             far = 100.0f;
+
             Type = ComponentType::Camera;
         }
 
@@ -102,7 +109,16 @@ namespace ShiEngine {
             }
         }
 
+        void setTransform() {
+            transform = (Transform*)gameObject->GetComponent(ComponentType::Transform);
+
+            this->setEyePosition(transform->to_mat4()*glm::vec4(0,0,0,1));
+            this->setTarget(glm::vec3(0,0,0));
+            this->setUp(transform->to_mat4()*glm::vec4(0,1,0,0));
+        }
+
         glm::mat4 getProjectionMatrix(){
+
             if (type == CameraType::Perspective) {
                 P = glm::perspective(field_of_view_y, aspect_ratio, near, far);
             } else {
@@ -192,9 +208,9 @@ namespace ShiEngine {
         }
 
 
-       // void Start() override {
-
-       // }
+        void Start() override {
+            setTransform();
+        }
 
     };
 
