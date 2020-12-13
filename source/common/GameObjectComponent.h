@@ -1,8 +1,12 @@
-#pragma once
-#include "GameObject.h"
+#ifndef GAMEOBJECTCOMPONENT_H
+#define GAMEOBJECTCOMPONENT_H
+
+#include "Global.h"
 
 //class GameObject;
 namespace ShiEngine {
+
+    class GameObject;
 
     class GameObjectComponent
     {
@@ -29,3 +33,5 @@ namespace ShiEngine {
         }*/
     };
 }
+
+#endif //GAMEOBJECTCOMPONENT_H

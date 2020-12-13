@@ -1,3 +1,6 @@
+#ifndef MESHRENDERER_H
+#define MESHRENDERER_H
+
 #include <iostream>
 #include "Mesh.h"
 
@@ -43,3 +46,5 @@ namespace ShiEngine {
 
 
 }
+
+#endif //MESHRENDERER_H

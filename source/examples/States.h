@@ -38,7 +38,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     auto *controller = new ShiEngine::FlyCameraController;
 
-    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER, "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
+    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER,
+                    "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
 
     // Resources
     meshCube = new ShiEngine::Mesh();
@@ -54,12 +55,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformCamera->rotation = glm::vec3({0,0,0});
 
     transform1 = new ShiEngine::Transform();
-    transform1->position = glm::vec3({1.5, 0, 0});
+    transform1->position = glm::vec3({1, 0, 0});
     transform1->scale = glm::vec3({1,1,1});
     transform1->rotation = glm::vec3({0,0,0});
 
     transform2 = new ShiEngine::Transform();
-    transform2->position = glm::vec3({-1.5, 0, 0});
+    transform2->position = glm::vec3({-2, 0, 0});
     transform2->scale = glm::vec3({1,1,1});
     transform2->rotation = glm::vec3({0,0,0});
 
@@ -93,7 +94,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     controller->initialize(application, camera);
 
     state->addGameObject(obj1);
-    state->addGameObject(obj2);
+    state->addChildGameObject(obj1, obj2);
+    //state->addGameObject(obj2);
     state->attachCameraController(controller);
 
     return state;

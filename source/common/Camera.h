@@ -1,18 +1,15 @@
+#ifndef CAMERA_H
+#define CAMERA_H
+
 #include <application.hpp>
 #include <shader.hpp>
 #include <imgui-utils/utils.hpp>
 #include "GameObjectComponent.h"
-//#include "GameObject.h"
 #include <glm/gtx/euler_angles.hpp>
-//#include "Transform.h"
-
-#ifndef OUR_CAMERA_HPP
-#define OUR_CAMERA_HPP
 #include <glm/gtx/string_cast.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
-//#include "Transform.h"
 #include "GameObject.h"
 #include "Transform.h"
 #include <glm/gtx/io.hpp>
@@ -216,4 +213,4 @@ namespace ShiEngine {
 
 }
 
-#endif //OUR_CAMERA_HPP
+#endif //CAMERA_H

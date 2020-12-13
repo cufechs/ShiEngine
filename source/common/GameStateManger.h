@@ -26,6 +26,7 @@ namespace ShiEngine {
         explicit GameStateManger(Application*, function_pointer);
 
         void attachApplicationPtr(Application* );
+        GameState* GetActiveState()const;
 
         void Init();
         void Cleanup();

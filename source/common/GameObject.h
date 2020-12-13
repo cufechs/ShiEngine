@@ -1,14 +1,15 @@
 #pragma once
 #include <vector>
 //#include "GameObjectComponent.h"
+#include "Transform.h"
 #include <string>
 #include <memory>
 #include <iostream>
+#include "Global.h"
 //using namespace std;
 
 //class GameObjectComponent;
 namespace ShiEngine {
-    enum class ComponentType {Transform, MeshRenderer, Camera};
     enum class Tags {Default};
 
     class GameObjectComponent;
@@ -24,6 +25,7 @@ namespace ShiEngine {
         bool deleteMeFlag;
         GameObject* Parent;
         std::vector<GameObject*> Children;
+        Transform* transform;
 
         GameObject();
 

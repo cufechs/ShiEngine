@@ -32,11 +32,20 @@ class Main : public ShiEngine::Application {
     void onUpdate(double deltaTime) override {
         //Here you write all your game logic
 
-        if(this->getKeyboard().isPressed(GLFW_KEY_P))
+        if(this->getKeyboard().justPressed(GLFW_KEY_1))
+            gameStateManger->ChangeGameState(State1);
+        if(this->getKeyboard().justPressed(GLFW_KEY_2))
             gameStateManger->ChangeGameState(State2);
 
-        if(this->getKeyboard().isPressed(GLFW_KEY_O))
-            gameStateManger->ChangeGameState(State1);
+        if(this->getKeyboard().isPressed(GLFW_KEY_X))
+            gameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->transform->rotation.x++;
+        if(this->getKeyboard().isPressed(GLFW_KEY_C))
+            gameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->transform->rotation.y++;
+        if(this->getKeyboard().isPressed(GLFW_KEY_Z))
+            gameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->transform->rotation.z++;
+
+        if(this->getKeyboard().justPressed(GLFW_KEY_K))
+            gameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->DeleteMe();
 
         gameStateManger->Update(deltaTime);
     }

@@ -47,6 +47,10 @@ namespace ShiEngine {
         application_ptr = appPtr;
     }
 
+    GameState *GameStateManger::GetActiveState() const {
+        return activeState;
+    }
+
     void GameStateManger::Init() {
 
     }

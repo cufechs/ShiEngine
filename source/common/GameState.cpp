@@ -41,7 +41,7 @@ namespace ShiEngine {
         for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter ) {
             GameObject* GO = *iter;
             if (GO->deleteMeFlag) {
-                GameObj_vector.erase(iter);
+                GameObj_vector.erase(iter--);
                 delete(GO);
             }
         }
@@ -100,13 +100,13 @@ namespace ShiEngine {
 
     void GameState::Update(double deltaTime) {
 
+        deleteGameObject();
+
         for(auto & gameObj : GameObj_vector)
             gameObj->Update(deltaTime * timeScale);
 
         if(cameraController)
             cameraController->Update(deltaTime * timeScale);
-
-        deleteGameObject();
     }
 
     void GameState::Draw() {

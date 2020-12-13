@@ -1,5 +1,5 @@
 #include "GameObject.h"
-#include "GameObjectComponent.h"
+
 namespace ShiEngine {
 
     ShiEngine::GameObject::GameObject()
@@ -10,6 +10,7 @@ namespace ShiEngine {
         Tag = Tags::Default;
         Name = "GameObject";
         Parent = nullptr;
+        transform = nullptr;
     }
 
     void ShiEngine::GameObject::Start()
@@ -17,6 +18,10 @@ namespace ShiEngine {
         if(Active)
             for(auto & Component : Components)
                 Component->Start();
+
+        transform = (Transform*)this->GetComponent(ComponentType::Transform);
+        if(Parent)
+            transform->parent = (Transform*)Parent->GetComponent(ComponentType::Transform);
     }
 
     void ShiEngine::GameObject::Update(double deltatime)
@@ -40,7 +45,6 @@ namespace ShiEngine {
     }
 
     void ShiEngine::GameObject::AddComponent(GameObjectComponent* component)
-    //void ShiEngine::GameObject::AddComponent(GameObjectComponent* component)
     {
         component->gameObject = this;
         Components.push_back(component);
