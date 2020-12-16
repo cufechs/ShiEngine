@@ -33,7 +33,7 @@ namespace ShiEngine {
             m = glm::scale(m, scale);
 
             if(parent)
-                return m * parent->to_mat4();
+                return parent->to_mat4() * m;
             else
                 return m;
         }
