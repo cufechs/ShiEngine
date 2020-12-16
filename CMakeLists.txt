@@ -52,7 +52,8 @@ set(COMMON_SOURCES
         source/common/Camera.cpp
         source/common/CameraController.h
         source/examples/States.h
-        source/common/Global.h)
+        source/common/Global.h
+        source/common/LoadState.h)
 # Define the directories in which to search for the included headers
 include_directories(
         source/common

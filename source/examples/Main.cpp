@@ -1,6 +1,7 @@
 #include <application.hpp>
 #include "GameStateManger.h"
 #include "States.h"
+#include "LoadState.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
@@ -36,6 +37,10 @@ class Main : public ShiEngine::Application {
             gameStateManger->ChangeGameState(State1);
         if(this->getKeyboard().justPressed(GLFW_KEY_2))
             gameStateManger->ChangeGameState(State2);
+        if(this->getKeyboard().justPressed(GLFW_KEY_0))
+            gameStateManger->ChangeGameState(
+                    DeserializeState("../assets/simple.json", this));
+
 
         if(this->getKeyboard().isPressed(GLFW_KEY_X))
             gameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->transform->rotation.x++;

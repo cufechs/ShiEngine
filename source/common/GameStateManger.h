@@ -33,6 +33,7 @@ namespace ShiEngine {
 
         void AttachGameState(int gameStateKey, function_pointer fucPtr);
         void ChangeGameState(int gameStateKey);
+        void ChangeGameState(GameState* gameState);
 
         void Update(double deltaTime);
         void Draw();

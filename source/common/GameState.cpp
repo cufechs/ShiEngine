@@ -37,6 +37,13 @@ namespace ShiEngine {
         }
     }
 
+    void GameState::attachChildGameObject(GameObject *Parent, GameObject *Child) {
+        if(Parent) {
+            Parent->Children.push_back(Child);
+            Child->Parent = Parent;
+        }
+    }
+
     void GameState::deleteGameObject() {
         for( auto iter = GameObj_vector.begin(); iter != GameObj_vector.end(); ++iter ) {
             GameObject* GO = *iter;

@@ -37,6 +37,16 @@ namespace ShiEngine {
         GLsizei element_count = 0, vertex_count = 0; // How meany elements/vertices are there. Needed by draw()
 
     public:
+
+        explicit Mesh(const std::string& mesh, bool colored = false){
+            if(mesh == "cube")
+                this->Cuboid(colored);
+            else if(mesh == "plane")
+                this->Plane(colored);
+            else if(mesh == "sphere")
+                this->Sphere(colored);
+        }
+
         // The underlying OpenGL objects creator
         // This receives a list of functions with the signature void(void).
         // Each function setups up how to access each buffer to send data to the attributes
