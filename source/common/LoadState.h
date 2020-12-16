@@ -23,8 +23,8 @@ namespace glm {
 }
 namespace ShiEngine {
 
-    GameObject* LoadGameObject(const nlohmann::json&,GameState*,ShaderProgram*,Camera*);
-    void loadState(const nlohmann::json&,GameState*,ShaderProgram*,Camera*,GameObject*);
+    GameObject* LoadGameObjects(const nlohmann::json&,GameState*,ShaderProgram*,Camera*);
+    GameState* loadState(const nlohmann::json&,Application*);
 
     GameState* DeserializeState(const std::string& fileName, Application* app ){
         std::ifstream file_in(fileName);
@@ -32,10 +32,12 @@ namespace ShiEngine {
         file_in >> json;
         file_in.close();
 
-        auto GS = new GameState;
+        return loadState(json, app);
+    }
 
-        auto GO = new GameObject;
-        GO->AddComponent(new Transform());
+    GameState* loadState(const nlohmann::json& json, Application* app){
+
+        auto GS = new GameState;
 
         auto *program = new ShiEngine::ShaderProgram;
         program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER,
@@ -59,18 +61,12 @@ namespace ShiEngine {
         controller->initialize(app, camera);
         GS->attachCameraController(controller);
 
-        loadState(json, GS, program, camera, GO);
+        LoadGameObjects(json,GS,program,camera);
 
         return GS;
     }
 
-    void loadState(const nlohmann::json& json, GameState* gs, ShaderProgram* prg, Camera* cam, GameObject* root){
-
-        auto gameObj = LoadGameObject(json,gs,prg,cam);
-        gs->addChildGameObject(root, gameObj);
-    }
-
-    GameObject* LoadGameObject(const nlohmann::json& json, GameState* gs, ShaderProgram* prg, Camera* cam){
+    GameObject* LoadGameObjects(const nlohmann::json& json, GameState* gs, ShaderProgram* prg, Camera* cam){
 
         auto GO = new GameObject;
 
@@ -88,7 +84,6 @@ namespace ShiEngine {
         if(json.contains("mesh")){
             MR = new MeshRenderer(prg, new ShiEngine::Mesh(json.value<std::string>("mesh", "cube"), true));
             MR->Setcam(cam);
-
             GO->AddComponent(MR);
         }
 
@@ -96,8 +91,7 @@ namespace ShiEngine {
 
         if(json.contains("children"))
             for(auto& [name, child]: json["children"].items())
-                gs->attachChildGameObject(GO, LoadGameObject(child,gs,prg,cam));
-
+                GameState::attachChildGameObject(GO, LoadGameObjects(child,gs,prg,cam));
 
         return GO;
     }
