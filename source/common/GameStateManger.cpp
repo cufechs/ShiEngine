@@ -76,6 +76,15 @@ namespace ShiEngine {
         activeStateKey = gameStateKey;
     }
 
+    void GameStateManger::ChangeGameState(GameState *gameState) {
+        if (activeState) {
+            activeState->Exit();
+            delete (activeState);
+        }
+        activeState = gameState;
+        activeState->Enter();
+    }
+
     void GameStateManger::Update(double deltaTime) {
         activeState->Update(deltaTime);
     }

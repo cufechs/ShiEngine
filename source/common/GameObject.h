@@ -1,14 +1,14 @@
-#pragma once
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
+
 #include <vector>
-//#include "GameObjectComponent.h"
 #include "Transform.h"
 #include <string>
 #include <memory>
 #include <iostream>
 #include "Global.h"
-//using namespace std;
 
-//class GameObjectComponent;
+
 namespace ShiEngine {
     enum class Tags {Default};
 
@@ -41,3 +41,5 @@ namespace ShiEngine {
         void Draw();
     };
 }
+
+#endif //GAMEOBJECT_H

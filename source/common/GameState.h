@@ -23,6 +23,7 @@ namespace ShiEngine {
 
         void addGameObject(GameObject *gameObject);
         void addChildGameObject(GameObject *Parent, GameObject *Child);
+        static void attachChildGameObject(GameObject *Parent, GameObject *Child);
 
         void deleteGameObject();
         void deleteGameObject(Tags tag);
