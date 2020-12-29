@@ -53,7 +53,10 @@ set(COMMON_SOURCES
         source/common/CameraController.h
         source/examples/States.h
         source/common/Global.h
-        source/common/LoadState.h)
+        source/common/LoadState.h
+        source/common/texture-utils.cpp
+        source/common/texture-utils.h
+        source/common/data-types.h)
 # Define the directories in which to search for the included headers
 include_directories(
         source/common

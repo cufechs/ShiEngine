@@ -32,6 +32,9 @@ class Main : public ShiEngine::Application {
 
     void onUpdate(double deltaTime) override {
         //Here you write all your game logic
+        //Close window on pressing ESC key
+        if(this->getKeyboard().justReleased(GLFW_KEY_ESCAPE))
+            glfwSetWindowShouldClose(window, 1);
 
         if(this->getKeyboard().justPressed(GLFW_KEY_1))
             gameStateManger->ChangeGameState(State1);
