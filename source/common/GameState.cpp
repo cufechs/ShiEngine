@@ -117,7 +117,9 @@ namespace ShiEngine {
     }
 
     void GameState::Draw() {
-        for(auto & gameObj : GameObj_vector)
+        for(auto & gameObj : GameObj_vector) {
+            //std::cout << gameObj->Name << "\n";
             gameObj->Draw();
+        }
     }
 }

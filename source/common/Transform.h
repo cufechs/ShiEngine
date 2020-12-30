@@ -13,6 +13,7 @@ namespace ShiEngine {
     public:
         glm::vec4 tint;
         glm::vec3 position, rotation, scale;
+        glm::vec3 direction; // Used for Directional and Spot Lights only
         Transform* parent;
 
         explicit Transform(
@@ -23,6 +24,7 @@ namespace ShiEngine {
         ) : position(position), rotation(rotation), scale(scale), tint(tint) {
             Type = ComponentType::Transform;
             parent = nullptr;
+            direction = {-1, -1, -1};
         }
 
         [[nodiscard]] glm::mat4 to_mat4() const {
