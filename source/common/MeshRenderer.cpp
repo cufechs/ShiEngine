@@ -3,6 +3,10 @@
 #include "Camera.h"
 
 #include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/euler_angles.hpp>
+#include <glm/glm.hpp>
+#include <glm/geometric.hpp>
+
 ShiEngine::MeshRenderer::MeshRenderer() {
 
     Type = ComponentType::MeshRenderer;
@@ -47,13 +51,69 @@ void ShiEngine::MeshRenderer::destroy() {
 
 void ShiEngine::MeshRenderer::Draw() {
 
-   // ShiEngine::Camera* cam = gameObject->GetComponent<ShiEngine::Camera>();
+   // TODO: Check if light is enabled for this object or not
+
 
     shaderProgram->use();
-    shaderProgram->set("tint", color_intensity);
-    shaderProgram->set("transform", cam_era->getVPMatrix()*transformationMatrix );
+
+    material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
+    shaderProgram = material->shaderProgram;
+
+    shaderProgram->set("camera_position", cam_era->getEyePosition());
+    shaderProgram->set("view_projection", cam_era->getVPMatrix());
+
+    shaderProgram->set("object_to_world", transformationMatrix);
+    shaderProgram->set("object_to_world_inv_transpose", glm::inverse(transformationMatrix), true);
+
+    shaderProgram->set("material.diffuse", material->diffuse);
+    shaderProgram->set("material.specular", material->specular);
+    shaderProgram->set("material.ambient", material->ambient);
+    shaderProgram->set("material.shininess", material->shininess);
+
+
+   // We will go through all the lights and send the enabled ones to the shader.
+    int light_index = 0;
+    const int MAX_LIGHT_COUNT = 16;
+    for(const auto light : lights) {
+        if(!light->isEnabled()) continue;
+
+        std::string prefix = "lights[" + std::to_string(light_index) + "].";
+
+        shaderProgram->set(prefix + "diffuse", light->getDiffuse());
+        shaderProgram->set(prefix + "specular", light->getSpecular());
+        shaderProgram->set(prefix + "ambient", light->getAmbient());
+        shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
+
+
+        switch (light->getType()) {
+            case LightType::DIRECTIONAL:
+                shaderProgram->set(prefix + "direction", glm::normalize(lightTransforms[light_index]->direction));
+                break;
+            case LightType::POINT:
+                shaderProgram->set(prefix + "position", lightTransforms[light_index]->position);
+                shaderProgram->set(prefix + "attenuation_constant", light->getAttenuationConstant());
+                shaderProgram->set(prefix + "attenuation_linear", light->getAttenuationLinear());
+                shaderProgram->set(prefix + "attenuation_quadratic", light->getAttenuationQuadratic());
+                break;
+            case LightType::SPOT:
+                shaderProgram->set(prefix + "position", lightTransforms[light_index]->position);
+                shaderProgram->set(prefix + "direction", glm::normalize(lightTransforms[light_index]->direction));
+                shaderProgram->set(prefix + "attenuation_constant", light->getAttenuationConstant());
+                shaderProgram->set(prefix + "attenuation_linear", light->getAttenuationLinear());
+                shaderProgram->set(prefix + "attenuation_quadratic", light->getAttenuationQuadratic());
+                shaderProgram->set(prefix + "inner_angle", light->getSpotAngleInner());
+                shaderProgram->set(prefix + "outer_angle", light->getSpotAngleOuter());
+                break;
+        }
+        light_index++;
+        if(light_index >= MAX_LIGHT_COUNT) break;
+    }
+    // Since the light array in the shader has a constant size, we need to tell the shader how many lights we sent.
+    shaderProgram->set("light_count", light_index);
+
 
     mesh->draw();
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
 
@@ -61,7 +121,7 @@ void ShiEngine::MeshRenderer::Draw() {
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
 
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.5, 0.5, 0.5, 1);
 
     shaderProgram->unuse(); //not sure if we should un use the program
 }
@@ -113,6 +173,19 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngi
     mesh = m;
     color_intensity = glm::vec4({1,1,1,1}); //pure color
 }
+
+void ShiEngine::MeshRenderer::SetLight(ShiEngine::Light *_light) {
+    lights.push_back(_light);
+}
+
+void ShiEngine::MeshRenderer::SetLight(ShiEngine::Light *_light, ShiEngine::Transform *_transformLight) {
+    lights.push_back(_light);
+    lightTransforms.push_back(_transformLight);
+}
+
+
+
+
 
 
 
