@@ -7,7 +7,7 @@
 
 namespace ShiEngine {
     enum class ComponentType {
-        Transform, MeshRenderer, Camera, Light, Material
+        Transform, MeshRenderer, Camera
     };
 }
 
