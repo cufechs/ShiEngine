@@ -25,13 +25,14 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRenderer1;
     ShiEngine::MeshRenderer* meshRenderer2;
     ShiEngine::MeshRenderer* meshRendererPlane;
-    //ShiEngine:: comp_mesh;
-    auto* obj1 = new ShiEngine::GameObject;
-    auto* directionalLightGameObject = new ShiEngine::GameObject;
-    auto* objCamera = new ShiEngine::GameObject;
-    auto* pointLightGameObject = new ShiEngine::GameObject;
+
+    auto* obj1 = new ShiEngine::GameObject();
+    auto* directionalLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
+    auto* objCamera = new ShiEngine::GameObject(ShiEngine::Tags::CAMERA);
+    auto* pointLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* planeGameObject = new ShiEngine::GameObject;
-    auto* spotLightGameObject = new ShiEngine::GameObject;
+    auto* spotLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
+    auto* pointLightGameObject2 = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
 
     ShiEngine::Transform* transformCube;
     ShiEngine::Transform* transformCamera;
@@ -39,11 +40,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformPointLight;
     ShiEngine::Transform* transformPlane;
     ShiEngine::Transform* transformSpotLight;
+    ShiEngine::Transform* transformPointLight2;
 
     ShiEngine::Camera* camera;
     ShiEngine::Light* directionalLight;
     ShiEngine::Light* pointLight;
     ShiEngine::Light* spotLight;
+    ShiEngine::Light* pointLight2;
 
     ShiEngine::Material* material1;
     ShiEngine::Material* materialPlane;
@@ -52,9 +55,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Mesh* meshPlane;
     ShiEngine::Mesh* meshSphere;
 
-    std::vector<ShiEngine::Light*> lights;
-    std::vector<ShiEngine::MeshRenderer*> meshRenderers;
-    std::vector<ShiEngine::Transform*> lightTransforms;
 
     auto *controller = new ShiEngine::FlyCameraController;
 
@@ -89,11 +89,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Directional Light Transform
     transformDirectionalLight = new ShiEngine::Transform();
-    transformDirectionalLight->position = glm::vec3({0, 10, 2});
+    transformDirectionalLight->position = glm::vec3({0, 0, 0});
     transformDirectionalLight->scale = glm::vec3({1,1,1});
     transformDirectionalLight->rotation = glm::vec3({0,0,0});
-    transformDirectionalLight->direction = glm::vec3({-1, -1, -1});
-    lightTransforms.push_back(transformDirectionalLight);
+    transformDirectionalLight->direction = glm::vec3({1, 10, 1});
 
     // Point Light Transform
     transformPointLight = new ShiEngine::Transform();
@@ -101,7 +100,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPointLight->scale = glm::vec3({1,1,1});
     transformPointLight->rotation = glm::vec3({0,0,0});
     transformPointLight->direction = glm::vec3({-1, -1, -1});
-    lightTransforms.push_back(transformPointLight);
+
+    // Point Light Transform
+    transformPointLight2 = new ShiEngine::Transform();
+    transformPointLight2->position = glm::vec3({2, -0.9, 0});
+    transformPointLight2->scale = glm::vec3({1,1,1});
+    transformPointLight2->rotation = glm::vec3({0,0,0});
+    transformPointLight2->direction = glm::vec3({-1, -1, -1});
 
     // Spot Light Transform
     transformSpotLight = new ShiEngine::Transform();
@@ -109,41 +114,34 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformSpotLight->scale = glm::vec3({1,1,1});
     transformSpotLight->rotation = glm::vec3({0,0,0});
     transformSpotLight->direction = glm::vec3({0,0,1});
-    lightTransforms.push_back(transformSpotLight);
 
     camera = new ShiEngine::Camera();
-
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
     //camera->setupOrthographic(2.f, 1.7, 0.1f, 100.0f);
 
+    // Directional Light, Set attenuation and other stuff if needed
     directionalLight = new ShiEngine::Light(ShiEngine::LightType::DIRECTIONAL);
-    lights.push_back(directionalLight);
 
     pointLight = new ShiEngine::Light(ShiEngine::LightType::POINT);
     pointLight->setAttenuation(0,1,0);
     pointLight->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({0.1,0.1,0.1}));
-    lights.push_back(pointLight);
+
+    pointLight2 = new ShiEngine::Light(ShiEngine::LightType::POINT);
+    pointLight2->setAttenuation(0,1,0);
+    pointLight2->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({0.1,0.1,0.1}));
+
 
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
     spotLight->setAttenuation(0,1,0);
     spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({0.101,0.101,0.101}));
     spotLight->setSpotAngle(0.785, 1.571);
-    lights.push_back(spotLight);
 
     meshRenderer1 = new ShiEngine::MeshRenderer(program, meshSphere);
-    meshRenderer1->Setcam(camera);
-    meshRenderers.push_back(meshRenderer1);
 
     meshRenderer2 = new ShiEngine::MeshRenderer(program, meshCube);
-    meshRenderer2->Setcam(camera);
-    meshRenderers.push_back(meshRenderer2);
 
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
-    meshRendererPlane->Setcam(camera);
-    meshRenderers.push_back(meshRendererPlane);
 
-
-    // TODO: zabbat el shader program fel meshrenderer
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
     material1->diffuse = {0.93, 0.1019, 0.301};
@@ -174,8 +172,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     planeGameObject->AddComponent(materialPlane);
     planeGameObject->Name = "plane gameObject";
 
+    // Point Light 1
     pointLightGameObject->AddComponent(transformPointLight);
     pointLightGameObject->AddComponent(pointLight);
+
+    // Point light 2
+    pointLightGameObject2->AddComponent(transformPointLight2);
+    pointLightGameObject2->AddComponent(pointLight2);
 
     spotLightGameObject->AddComponent(transformSpotLight);
     spotLightGameObject->AddComponent(spotLight);
@@ -187,21 +190,16 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     directionalLightGameObject->Name = "directional light";
 
 
-    for (auto _meshRenderer : meshRenderers) {
-        for (int i = 0;i < lights.size(); i++) {
-            _meshRenderer->SetLight(lights[i], lightTransforms[i]);
-        }
-    }
-
     objCamera->Start();
     controller->initialize(application, camera);
 
-
+    state->addGameObject(objCamera);
     state->addGameObject(obj1);
     state->addGameObject(planeGameObject);
     state->addGameObject(directionalLightGameObject);
     state->addGameObject(pointLightGameObject);
-    state->addGameObject(spotLightGameObject);
+    state->addGameObject(pointLightGameObject2);
+    //state->addGameObject(spotLightGameObject);
 
     state->attachCameraController(controller);
 

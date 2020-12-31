@@ -122,4 +122,8 @@ namespace ShiEngine {
             gameObj->Draw();
         }
     }
+
+     std::vector<GameObject *> GameState::getGameObjects() {
+        return GameObj_vector;
+    }
 }

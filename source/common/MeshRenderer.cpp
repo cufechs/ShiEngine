@@ -6,6 +6,7 @@
 #include <glm/gtx/euler_angles.hpp>
 #include <glm/glm.hpp>
 #include <glm/geometric.hpp>
+#include "GameState.h"
 
 ShiEngine::MeshRenderer::MeshRenderer() {
 
@@ -51,7 +52,6 @@ void ShiEngine::MeshRenderer::destroy() {
 
 void ShiEngine::MeshRenderer::Draw() {
 
-   // TODO: Check if light is enabled for this object or not
 
 
     shaderProgram->use();
@@ -133,10 +133,24 @@ void ShiEngine::MeshRenderer::setMesh(ShiEngine::Mesh* m) {
 void ShiEngine::MeshRenderer::Start() {
     Enabled = true;
     transform = (Transform*)gameObject->GetComponent(ComponentType::Transform);
-//    if (mesh == NULL) {
-//        mesh = std::make_shared<Mesh>();
-//    }
-    //auto x = gameObject->GetComponent<Transform>();
+
+    std::vector<ShiEngine::GameObject*> gameObject_vec = GameState::getGameObjects();
+
+    for (auto _gameObj : gameObject_vec) {
+
+        if (_gameObj->Tag == ShiEngine::Tags::LIGHT ) {
+
+            ShiEngine::Transform* transformLight = static_cast<ShiEngine::Transform*>(_gameObj->GetComponent(ComponentType::Transform));
+            ShiEngine::Light* lightComponent = static_cast<ShiEngine::Light*>(_gameObj->GetComponent(ComponentType::Light));
+            this->SetLight(lightComponent, transformLight);
+        } else if(_gameObj->Tag == ShiEngine::Tags::CAMERA) {
+            ShiEngine::Camera* _camera = static_cast<ShiEngine::Camera*>(_gameObj->GetComponent(ComponentType::Camera));
+            this->Setcam(_camera);
+        }
+
+    }
+
+
 }
 
 void ShiEngine::MeshRenderer::setShader(ShiEngine::ShaderProgram *program) {

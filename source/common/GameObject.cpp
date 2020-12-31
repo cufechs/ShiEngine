@@ -13,6 +13,17 @@ namespace ShiEngine {
         transform = nullptr;
     }
 
+    ShiEngine::GameObject::GameObject(Tags tag)
+    {
+        Active = true;
+        deleteMeFlag = false;
+        ComponentsCount = 0;
+        Tag = tag;
+        Name = "GameObject";
+        Parent = nullptr;
+        transform = nullptr;
+    }
+
     void ShiEngine::GameObject::Start()
     {
         if(Active)
