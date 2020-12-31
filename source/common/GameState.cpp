@@ -5,6 +5,7 @@
 #include "GameState.h"
 
 namespace ShiEngine {
+    
     GameState::GameState() {
         timeScale = 1;
         cameraController = nullptr;
@@ -71,6 +72,10 @@ namespace ShiEngine {
                 return gameObj;
 
         return nullptr;
+    }
+
+    std::vector<GameObject *> GameState::getAllGameObjects() {
+        return GameObj_vector;
     }
 
     std::vector<GameObject *> GameState::getGameObjects(Tags tag) {
