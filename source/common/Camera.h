@@ -209,9 +209,6 @@ namespace ShiEngine {
             setTransform();
         }
 
-        void Draw() override { }
-        void Update(double deltaTime) override { }
-
     };
 
 }
