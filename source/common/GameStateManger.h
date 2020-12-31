@@ -31,6 +31,8 @@ namespace ShiEngine {
         void Init();
         void Cleanup();
 
+        std::vector<GameObject *> GetActiveGameObject();
+
         void AttachGameState(int gameStateKey, function_pointer fucPtr);
         void ChangeGameState(int gameStateKey);
         void ChangeGameState(GameState* gameState);

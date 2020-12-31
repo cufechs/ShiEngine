@@ -1,7 +1,7 @@
 #ifndef GAMEOBJECTCOMPONENT_H
 #define GAMEOBJECTCOMPONENT_H
 
-#include "Global.h"
+#include "Globals/Global.h"
 
 //class GameObject;
 namespace ShiEngine {

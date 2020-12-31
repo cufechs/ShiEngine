@@ -62,6 +62,10 @@ namespace ShiEngine {
         }
     }
 
+    std::vector<GameObject *> GameStateManger::GetActiveGameObject() {
+        return activeState->getAllGameObjects();
+    }
+
     void GameStateManger::AttachGameState(int gameStateKey, function_pointer fucPtr) {
         gameStates_UMap[gameStateKey] = fucPtr;
     }
