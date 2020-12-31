@@ -2,11 +2,14 @@
 #include "GameStateManger.h"
 #include "States.h"
 #include "LoadState.h"
+#include "Texture2D.h"
+#include "Globals/Global_vars.h"
 
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
 
     enum States {State1,State2};
+    ShiEngine::Texture2D* texture;
 
     // This overridden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
@@ -23,6 +26,9 @@ class Main : public ShiEngine::Application {
         gameStateManger->AttachGameState(State2,&CreateState2);
 
         gameStateManger->ChangeGameState(State1);
+
+        texture = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
+        //program
     }
 
     //void onImmediateGui(ImGuiIO &io) override {
@@ -60,7 +66,13 @@ class Main : public ShiEngine::Application {
 
 	void onDraw() override {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
         gameStateManger->Draw();
+
+        ShiEngine::Global::Global_ShaderProgram->use();
+        ShiEngine::Global::Global_ShaderProgram->set("sampler", 0);
+        texture->Draw();
+        ShiEngine::Global::Global_ShaderProgram->unuse();
 	}
 
 

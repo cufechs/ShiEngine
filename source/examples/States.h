@@ -13,11 +13,14 @@
 #include "Camera.h"
 #include "CameraController.h"
 #include <application.hpp>
+#include "Globals/Global_vars.h"
 
 ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
     auto *program = new ShiEngine::ShaderProgram;
+    ShiEngine::Global::Global_ShaderProgram = program;
+
     GLuint vertex_array = 0;
     //ShiEngine::GameObject GO;
     ShiEngine::MeshRenderer* meshRenderer1;
@@ -106,6 +109,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
     auto *program = new ShiEngine::ShaderProgram;
+    ShiEngine::Global::Global_ShaderProgram = program;
     GLuint vertex_array = 0;
     //ShiEngine::GameObject GO;
     ShiEngine::MeshRenderer* meshRenderer1;
