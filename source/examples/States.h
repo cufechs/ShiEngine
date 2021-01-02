@@ -46,7 +46,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Resources
     meshCube = new ShiEngine::Mesh();
-    meshCube->Cuboid(true);
+    meshCube->Sphere(false);
 
     meshPlane = new ShiEngine::Mesh();
     meshPlane->Plane(true);

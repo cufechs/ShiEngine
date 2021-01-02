@@ -69,7 +69,9 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_ShaderProgram->use();
         ShiEngine::Global::Global_ShaderProgram->set("sampler", 0);
+
         texture->Draw();
+
         ShiEngine::Global::Global_ShaderProgram->unuse();
 
         ShiEngine::Global::Global_GameStateManger->Draw();

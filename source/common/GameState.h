@@ -32,6 +32,7 @@ namespace ShiEngine {
 
         std::vector<GameObject*> getAllGameObjects();
         GameObject* getGameObject(Tags tag);
+        GameObject *getGameObject(std::string Name);
         std::vector<GameObject*> getGameObjects(Tags tag);
 
         static void enableGameObject(GameObject *gameObject);

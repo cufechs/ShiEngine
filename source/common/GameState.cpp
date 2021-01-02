@@ -74,6 +74,15 @@ namespace ShiEngine {
         return nullptr;
     }
 
+    GameObject *GameState::getGameObject(std::string Name) {
+
+        for(auto & gameObj : GameObj_vector)
+            if(gameObj->Name == Name)
+                return gameObj;
+
+        return nullptr;
+    }
+
     std::vector<GameObject *> GameState::getAllGameObjects() {
         return GameObj_vector;
     }

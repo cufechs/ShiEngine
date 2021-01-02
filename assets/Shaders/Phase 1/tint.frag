@@ -1,25 +1,26 @@
 #version 330 core
 
-// To read colors from a texture, we need a "Sampler" which fetches the color from texture based on our query
-uniform sampler2D sampler;
-// The Level-Of-Detail (lod) allows us to select a mip level to read the color from.
-// Higher LOD means smaller mip size, thus a lower resolution version of the texture.
-//uniform int lod;
-// Since some mip levels are too small, we will use the zoom variable to zoom in.
-//uniform float zoom;
+// Since we are now receiving multiple Varyings, it would be nice to pack them together in what is called an "Interface Block".
+// "Varyings" is just a name for the block (we can choose any name as long as it is the same in the vertex shader).
+// "vsout" is an instance name (we can make an array of the same block and pick any name we want).
+// instance names can be different in the vertex shader and the blocks will still match and link together.
+// Interface blocks are nice for organization.
+in Varyings {
+    vec4 color;
+    vec2 tex_coord;
+} fsin;
+
+uniform vec4 tint;
+uniform sampler2D sampler; // We need a sampler to sample from a texture
 
 out vec4 frag_color;
 
 void main() {
-    // Get the mip level size based on the Level-Of-Detail (lod)
-    // NOTE: the size of a mip level at a specific lod should be: full_texture_size / 2^lod
-    ivec2 texture_size = textureSize(sampler, 0);
-    // Get the pixel location on the framebuffer and apply zooming
-    ivec2 frag_coord = ivec2(gl_FragCoord.xy / 1);
-    // Since we should query a color from outside the mip level range (behaviour is undefined),
-    // We only read the colors if fragment coordinate is less than the mip level size
-    if(all(lessThan(frag_coord, texture_size)))
-        frag_color = texelFetch(sampler, frag_coord, 0); // Fetch a color from the texture at the given mip level (lod).
-    else
-        frag_color = vec4(0, 0, 0, 1); // Send black if fragment coordinate is out of range
+    // Unlike "texelFetch" which is queried by coordinates in the pixel space,
+    // "texture" is queried by the coordinates in the texture space.
+    // Also "texture" applies filtering (so it also selects a suitable Level-Of-Detail automatically).
+    frag_color = tint * fsin.color * texture(sampler, fsin.tex_coord);
+
+    // NOTE: (coordinates in pixel space) = (coordinates in texture space) * (texture size)
+    // So texture space is convenient since it is independent of the texture size.
 }

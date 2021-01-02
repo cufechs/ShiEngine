@@ -25,7 +25,6 @@ namespace ShiEngine {
     // Used to generate a view and a projection matrix
     class Camera : public ShiEngine::GameObjectComponent{
     private:
-
         glm::vec3 eye = {0, 0, 0}, direction = {0, 0, -1}, up = {0, 1, 0};
 
         float field_of_view_y = glm::radians(90.0f), orthographic_height = 2.0f, aspect_ratio = 1.0f, near = 0.01f, far = 100.0f;
