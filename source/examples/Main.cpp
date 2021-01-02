@@ -1,4 +1,5 @@
 #include <application.hpp>
+#include "Sampler.h"
 #include "GameStateManger.h"
 #include "States.h"
 #include "LoadState.h"
@@ -10,6 +11,7 @@ class Main : public ShiEngine::Application {
 
     enum States {State1,State2};
     ShiEngine::Texture2D* texture;
+    ShiEngine::Sampler* sampler;
 
     // This overridden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
@@ -24,6 +26,8 @@ class Main : public ShiEngine::Application {
         ShiEngine::Global::Global_GameStateManger->attachApplicationPtr(this);
 
         texture = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
+        sampler = new ShiEngine::Sampler();
+
         //program
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State1,&CreateState1);
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState2);
@@ -68,7 +72,8 @@ class Main : public ShiEngine::Application {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         ShiEngine::Global::Global_ShaderProgram->use();
-        ShiEngine::Global::Global_ShaderProgram->set("sampler", 0);
+
+        sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
 
         texture->Draw();
 
