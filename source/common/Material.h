@@ -18,6 +18,7 @@ namespace ShiEngine {
         glm::vec3 albedo_tint{}, specular_tint{}, emissive_tint{};
         glm::vec2 roughness_range{};
 
+        //Rendere State*
 
         explicit Material(
                 const glm::vec3& diffuse = {0,0,0},

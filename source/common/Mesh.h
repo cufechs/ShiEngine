@@ -365,6 +365,7 @@ namespace ShiEngine {
                             glm::mix(ShiEngine::Color(255, 0, 0, 255), ShiEngine::Color(0, 255, 0, 255), uv.s),
                             glm::mix(ShiEngine::Color(255, 255, 0, 255), ShiEngine::Color(0, 0, 255, 255), uv.s),
                             uv.t) : WHITE;
+                    //color.w = 0.5;
                     vertices.push_back({position, color, tex_coord, {0, 1, 0}});
                 }
             }
@@ -413,6 +414,8 @@ namespace ShiEngine {
                     glm::vec3 position = radius * normal + center;
                     glm::vec2 tex_coords = texture_tiling * glm::vec2(u, v) + texture_offset;
                     ShiEngine::Color color = colored ? ShiEngine::Color(127.5f * (normal + 1.0f), 255) : WHITE;
+                    //color.w = 100;
+                    //std::cout << "Color: " << (float)color.w << "\n";
                     vertices.push_back({position, color, tex_coords, normal});
                 }
             }

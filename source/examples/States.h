@@ -170,8 +170,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRenderer1->SetRenderState(renderState1);
 
     meshRenderer2 = new ShiEngine::MeshRenderer(program, meshCube);
+    meshRenderer2->SetRenderState(renderState1);
 
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
+    meshRendererPlane->SetRenderState(renderState1);
 
     texture1 = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
     sampler1 = new ShiEngine::Sampler();

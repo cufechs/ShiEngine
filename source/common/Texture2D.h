@@ -15,20 +15,26 @@ namespace ShiEngine {
     class Texture2D {
     private:
         GLuint texture;
-        GLuint _textureUnit;
+        //GLuint _textureUnit;
     public:
         int MipMapLevel;
-
+        GLuint _textureUnit;
         Texture2D();
 
         Texture2D(const char *FilePath);
 
         Texture2D(const char *FilePath, bool GenerateMipMaps = true);
 
+        Texture2D(const char *FilePath, GLuint texUnit, bool GenerateMipMaps = true);
+
         ~Texture2D() {
             std::cout <<"destructed\n";
+            textureUnit--;
             glDeleteTextures(1, &texture);
         }
+
+        Texture2D(Texture2D const &) = delete;
+        Texture2D &operator=(Texture2D const &) = delete;
 
         void Draw();
 

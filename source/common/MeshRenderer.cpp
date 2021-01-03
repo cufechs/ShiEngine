@@ -62,9 +62,8 @@ void ShiEngine::MeshRenderer::Draw() {
         shaderProgram = material->shaderProgram;
         //material->sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
         material->texture->Draw(); //bind the texture
-        shaderProgram->set("sampler", (int)material->texture->getTextureUnit());
+        shaderProgram->set("sampler", 0);
     }
-
 
     shaderProgram->set("tint", color_intensity);
     shaderProgram->set("material.albedo_tint", material->albedo_tint);
@@ -72,6 +71,7 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->set("material.roughness_range", material->roughness_range);
     shaderProgram->set("material.emissive_tint", material->emissive_tint);
 
+    // TODO: add a skybox, set initially with zeros
     shaderProgram->set("sky_light.top_color", glm::vec3(0.0f));
     shaderProgram->set("sky_light.middle_color", glm::vec3(0.0f));
     shaderProgram->set("sky_light.bottom_color", glm::vec3(0.0f));
@@ -131,7 +131,7 @@ void ShiEngine::MeshRenderer::Draw() {
     mesh->draw();
 
 
-
+    //renderState->SetBlending();
 
 //    glEnable(GL_DEPTH_TEST);
 //    glDepthFunc(GL_LEQUAL);
