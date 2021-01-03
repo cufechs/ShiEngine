@@ -11,6 +11,7 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Material.h"
+#include "RenderState.h"
 
 namespace ShiEngine {
 
@@ -23,12 +24,13 @@ namespace ShiEngine {
         glm::mat4 transformationMatrix;
         ShiEngine::Transform* transform;
         ShiEngine:: Camera* cam_era;
-        //ShiEngine::Light * light;
+
         ShiEngine::Material* material;
-
+        ShiEngine::Light* light;
         std::vector<ShiEngine::Light*> lights;
-        std::vector<ShiEngine::Transform*> lightTransforms;
+        std::vector<Transform*> lightTransforms;
 
+        RenderState* renderState;
 
         bool transform_sent;
     public:
@@ -41,14 +43,15 @@ namespace ShiEngine {
         void Primitives(ShiEngine::Shapes3D shape, bool colored = false);
         void destroy();
         void Setcam(Camera *cam);
-        void SetLight(Light *_light);
         void setMesh(ShiEngine::Mesh* m);
         void setShader(ShaderProgram* program);
         void setTransformationMatrix(glm::mat4 m);
+
         void SetLight(Light* _light, Transform* _transformLight);
         void SetMaterial(Material* _material);
 
-
+        void SetLight(ShiEngine::Light* _light);
+        void SetRenderState(RenderState* _renderState);
 
         void Start() override;
         void Update(double deltaTime) override;

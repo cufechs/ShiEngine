@@ -13,9 +13,8 @@
 #include "Camera.h"
 #include "CameraController.h"
 #include <application.hpp>
-//#include "Material.h"
-#include <vector>
-
+#include "Globals/Global_vars.h"
+#include "RenderState.h"
 
 
 //ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
@@ -216,10 +215,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
     auto *program = new ShiEngine::ShaderProgram;
+    ShiEngine::Global::Global_ShaderProgram = program;
+
     GLuint vertex_array = 0;
     //ShiEngine::GameObject GO;
     ShiEngine::MeshRenderer* meshRenderer1;
     ShiEngine::MeshRenderer* meshRenderer2;
+
     ShiEngine::MeshRenderer* meshRendererPlane;
 
     auto* obj1 = new ShiEngine::GameObject();
@@ -230,8 +232,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* spotLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* pointLightGameObject2 = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
 
-    ShiEngine::Transform* transformCube;
+    RenderState* renderState1;
+
+    ShiEngine::Transform* transform1;
+    ShiEngine::Transform* transform2;
     ShiEngine::Transform* transformCamera;
+    ShiEngine::Transform* transformCube;
+
     ShiEngine::Transform* transformDirectionalLight;
     ShiEngine::Transform* transformPointLight;
     ShiEngine::Transform* transformPlane;
@@ -251,6 +258,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Mesh* meshPlane;
     ShiEngine::Mesh* meshSphere;
 
+    ShiEngine::Texture2D* texture1;
+    ShiEngine::Sampler* sampler1;
+
 
 
     auto *controller = new ShiEngine::FlyCameraController;
@@ -262,17 +272,27 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     program->create("../assets/Shaders/Phase3/light_transform.vert", GL_VERTEX_SHADER,
                     "../assets/Shaders/Phase3/light_array.frag", GL_FRAGMENT_SHADER);
 
+
+//    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER,
+//                    "../assets/Shaders/Phase 1/tint.frag", GL_FRAGMENT_SHADER);
+
+
     // Resources
     meshCube = new ShiEngine::Mesh();
-    meshCube->Cuboid(false);
-
-    meshPlane = new ShiEngine::Mesh();
-    meshPlane->Plane(false);
+    meshCube->Sphere(false);
 
     meshSphere = new ShiEngine::Mesh();
     meshSphere->Sphere(false);
 
-    // Camera Transformer
+    meshPlane = new ShiEngine::Mesh();
+    meshPlane->Plane(true);
+
+    transform1 = new ShiEngine::Transform();
+    transform1->position = glm::vec3({0, 0, 0});
+    transform1->scale = glm::vec3({1,1,1});
+    transform1->rotation = glm::vec3({0,0,0});
+
+    // Camera Transform
     transformCamera = new ShiEngine::Transform();
     transformCamera->position = glm::vec3({10, 10, 10});
     transformCamera->scale = glm::vec3({1,1,1});
@@ -293,7 +313,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformDirectionalLight->position = glm::vec3({0, 0, 0});
     transformDirectionalLight->scale = glm::vec3({1,1,1});
     transformDirectionalLight->rotation = glm::vec3({0,0,0});
-    transformDirectionalLight->direction = glm::vec3({1, 10, 1});
+    transformDirectionalLight->direction = glm::vec3({-1, -1, -1});
 
     // Point Light Transform
     transformPointLight = new ShiEngine::Transform();
@@ -337,14 +357,16 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({0.101,0.101,0.101}));
     spotLight->setSpotAngle(0.785, 1.571);
 
+    renderState1 = new RenderState(true,true,true);
     meshRenderer1 = new ShiEngine::MeshRenderer(program, meshSphere);
-
+    meshRenderer1->SetRenderState(renderState1);
 
     meshRenderer2 = new ShiEngine::MeshRenderer(program, meshCube);
 
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
 
-
+    texture1 = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
+    sampler1 = new ShiEngine::Sampler();
 
 
     material1 = new ShiEngine::Material();
@@ -353,6 +375,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     material1->specular = {1, 1, 1};
     material1->ambient = {0.93, 0.1019, 0.301};
     material1->shininess = 100;
+    material1->setTexture(texture1);
+    material1->setSampler(sampler1);
     meshRenderer1->SetMaterial(material1);
 
     materialPlane = new ShiEngine::Material();
@@ -361,15 +385,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     materialPlane->specular = {1, 1, 1};
     materialPlane->ambient = {0.93, 0.1019, 0.301};
     materialPlane->shininess = 1;
+
     meshRendererPlane->SetMaterial(materialPlane);
 
+
+    //objCamera->AddComponent(transform1); // TODO: independent transform -> transformCamera
     objCamera->AddComponent(transformCamera);
     objCamera->AddComponent(camera);
     //objCamera.Name = "objCamera";
 
-    // Cube, Sphere for now :(
-    obj1->AddComponent(transformCube);
+    obj1->AddComponent(transform1);
     obj1->AddComponent(meshRenderer1);
+
     //obj1->AddComponent(material1);
     obj1->Name = "cube 1";
 
@@ -409,8 +436,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(pointLightGameObject2);
     //state->addGameObject(spotLightGameObject);
 
-    state->attachCameraController(controller);
 
+    state->attachCameraController(controller);
 
     return state;
 }
@@ -422,6 +449,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
     auto *program = new ShiEngine::ShaderProgram;
+    ShiEngine::Global::Global_ShaderProgram = program;
     GLuint vertex_array = 0;
     //ShiEngine::GameObject GO;
     ShiEngine::MeshRenderer* meshRenderer1;

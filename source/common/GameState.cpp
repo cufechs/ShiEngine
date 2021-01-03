@@ -5,6 +5,7 @@
 #include "GameState.h"
 
 namespace ShiEngine {
+    
     GameState::GameState() {
         timeScale = 1;
         cameraController = nullptr;
@@ -73,6 +74,19 @@ namespace ShiEngine {
         return nullptr;
     }
 
+    GameObject *GameState::getGameObject(std::string Name) {
+
+        for(auto & gameObj : GameObj_vector)
+            if(gameObj->Name == Name)
+                return gameObj;
+
+        return nullptr;
+    }
+
+    std::vector<GameObject *> GameState::getAllGameObjects() {
+        return GameObj_vector;
+    }
+
     std::vector<GameObject *> GameState::getGameObjects(Tags tag) {
 
         std::vector<GameObject *> vec;
@@ -117,10 +131,8 @@ namespace ShiEngine {
     }
 
     void GameState::Draw() {
-        for(auto & gameObj : GameObj_vector) {
-            //std::cout << gameObj->Name << "\n";
+        for(auto & gameObj : GameObj_vector)
             gameObj->Draw();
-        }
     }
 
      std::vector<GameObject *> GameState::getGameObjects() {

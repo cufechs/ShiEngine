@@ -52,14 +52,19 @@ set(COMMON_SOURCES
         source/common/Camera.cpp
         source/common/CameraController.h
         source/examples/States.h
-        source/common/Global.h
+        source/common/Globals/Global.h
         source/common/LoadState.h
         source/common/texture-utils.cpp
         source/common/texture-utils.h
         source/common/data-types.h
         source/common/Light.h
         source/common/Material.h
-        )
+        source/common/Texture2D.cpp
+        source/common/Texture2D.h
+        source/common/Globals/Global_vars.h
+        source/common/Sampler.cpp source/common/Sampler.h
+        source/common/RenderState.h)
+
 # Define the directories in which to search for the included headers
 include_directories(
         source/common

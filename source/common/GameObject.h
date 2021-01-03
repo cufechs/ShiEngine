@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 #include <iostream>
-#include "Global.h"
+#include "Globals/Global.h"
 
 
 namespace ShiEngine {

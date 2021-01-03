@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/geometric.hpp>
 #include "GameState.h"
+#include "Globals/Global_vars.h"
 
 ShiEngine::MeshRenderer::MeshRenderer() {
 
@@ -17,6 +18,7 @@ ShiEngine::MeshRenderer::MeshRenderer() {
     //setTransformationMatrix(transform->to_mat4());
     //transform = gameObject->GetComponent<Transform>();
     transform_sent = false;
+
 }
 
 void ShiEngine::MeshRenderer:: Setcam(Camera *cam)
@@ -53,11 +55,17 @@ void ShiEngine::MeshRenderer::destroy() {
 void ShiEngine::MeshRenderer::Draw() {
 
 
-
     shaderProgram->use();
 
     //material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
-    shaderProgram = material->shaderProgram;
+    if (material->sampler != NULL) {
+        shaderProgram = material->shaderProgram;
+        //material->sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
+        material->texture->Draw();
+    }
+
+
+    shaderProgram->set("tint", color_intensity);
 
     shaderProgram->set("camera_position", cam_era->getEyePosition());
     shaderProgram->set("view_projection", cam_era->getVPMatrix());
@@ -114,17 +122,17 @@ void ShiEngine::MeshRenderer::Draw() {
 
     mesh->draw();
 
-    std::cout << cam_era->getTransform()->position << "\n";
 
 
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LEQUAL);
 
-    glEnable(GL_CULL_FACE);
-    glCullFace(GL_BACK);
-    glFrontFace(GL_CCW);
+//    glEnable(GL_DEPTH_TEST);
+//    glDepthFunc(GL_LEQUAL);
+//
+//    glEnable(GL_CULL_FACE);
+//    glCullFace(GL_BACK);
+//    glFrontFace(GL_CCW);
 
-    glClearColor(0.5, 0.5, 0.5, 1);
+    glClearColor(0, 0, 0, 1);
 
     shaderProgram->unuse(); //not sure if we should un use the program
 }
@@ -152,6 +160,7 @@ void ShiEngine::MeshRenderer::Start() {
         }
 
     }
+
 
 
 }
@@ -191,6 +200,7 @@ ShiEngine::MeshRenderer::MeshRenderer(ShiEngine::ShaderProgram *program, ShiEngi
     color_intensity = glm::vec4({1,1,1,1}); //pure color
 }
 
+
 void ShiEngine::MeshRenderer::SetLight(ShiEngine::Light *_light) {
     lights.push_back(_light);
 }
@@ -204,7 +214,9 @@ void ShiEngine::MeshRenderer::SetMaterial(Material* _material) {
     material = _material;
 }
 
-
+void ShiEngine::MeshRenderer::SetRenderState(RenderState *_renderState) {
+    renderState = _renderState;
+}
 
 
 
