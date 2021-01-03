@@ -66,6 +66,15 @@ void ShiEngine::MeshRenderer::Draw() {
 
 
     shaderProgram->set("tint", color_intensity);
+    shaderProgram->set("material.albedo_tint", material->albedo_tint);
+    shaderProgram->set("material.specular_tint", material->specular_tint);
+    shaderProgram->set("material.roughness_range", material->roughness_range);
+    shaderProgram->set("material.emissive_tint", material->emissive_tint);
+
+    shaderProgram->set("sky_light.top_color", glm::vec3(0.0f));
+    shaderProgram->set("sky_light.middle_color", glm::vec3(0.0f));
+    shaderProgram->set("sky_light.bottom_color", glm::vec3(0.0f));
+
 
     shaderProgram->set("camera_position", cam_era->getEyePosition());
     shaderProgram->set("view_projection", cam_era->getVPMatrix());
@@ -87,10 +96,14 @@ void ShiEngine::MeshRenderer::Draw() {
 
         std::string prefix = "lights[" + std::to_string(light_index) + "].";
 
-        shaderProgram->set(prefix + "diffuse", light->getDiffuse());
-        shaderProgram->set(prefix + "specular", light->getSpecular());
-        shaderProgram->set(prefix + "ambient", light->getAmbient());
+
         shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
+        shaderProgram->set(prefix + "color", light->color);
+
+//        shaderProgram->set(prefix + "diffuse", light->getDiffuse());
+//        shaderProgram->set(prefix + "specular", light->getSpecular());
+//        shaderProgram->set(prefix + "ambient", light->getAmbient());
+//        shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
 
 
         switch (light->getType()) {

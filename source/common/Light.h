@@ -10,11 +10,12 @@ namespace ShiEngine {
     };
 
     class Light : public ShiEngine::GameObjectComponent {
-    private:
+    public:
         // Here we define our light. First member specifies its type.
         LightType type;
         // We also define the color & intensity of the light for each component of the Phong model (Ambient, Diffuse, Specular).
         glm::vec3 diffuse, specular, ambient;
+        glm::vec3 color = {1,0.5,0.5};
         //glm::vec3 position; // Used for Point and Spot Lights only
         //glm::vec3 direction; // Used for Directional and Spot Lights only
         // This affects how the light will dim out as we go further from the light.

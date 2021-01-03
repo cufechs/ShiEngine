@@ -270,7 +270,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
 
     program->create("../assets/Shaders/Phase3/light_transform.vert", GL_VERTEX_SHADER,
-                    "../assets/Shaders/Phase3/light_array.frag", GL_FRAGMENT_SHADER);
+                    "../assets/Shaders/Phase3/light_array2.frag", GL_FRAGMENT_SHADER);
 
 
 //    program->create("../assets/Shaders/Phase 1/transform.vert", GL_VERTEX_SHADER,
@@ -285,7 +285,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshSphere->Sphere(false);
 
     meshPlane = new ShiEngine::Mesh();
-    meshPlane->Plane(true);
+    meshPlane->Plane(false);
 
     transform1 = new ShiEngine::Transform();
     transform1->position = glm::vec3({0, 0, 0});
@@ -313,7 +313,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformDirectionalLight->position = glm::vec3({0, 0, 0});
     transformDirectionalLight->scale = glm::vec3({1,1,1});
     transformDirectionalLight->rotation = glm::vec3({0,0,0});
-    transformDirectionalLight->direction = glm::vec3({-1, -1, -1});
+    transformDirectionalLight->direction = glm::vec3({1, 60, 1});
 
     // Point Light Transform
     transformPointLight = new ShiEngine::Transform();
