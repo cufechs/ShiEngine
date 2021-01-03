@@ -10,7 +10,7 @@
 
 
 namespace ShiEngine {
-    enum class Tags {Default};
+    enum class Tags {Default, LIGHT, CAMERA};
 
     class GameObjectComponent;
 
@@ -28,6 +28,7 @@ namespace ShiEngine {
         Transform* transform;
 
         GameObject();
+        GameObject(Tags tag);
 
         ~GameObject();
 

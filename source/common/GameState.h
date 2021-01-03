@@ -10,12 +10,15 @@
 #include <CameraController.h>
 
 namespace ShiEngine {
+
+    static std::vector<GameObject *> GameObj_vector;
     class GameState {
     private:
         double timeScale;
-        std::vector<GameObject *> GameObj_vector;
+
         FlyCameraController *cameraController;
     public:
+
         GameState();
 
         void Enter();
@@ -34,6 +37,8 @@ namespace ShiEngine {
         GameObject* getGameObject(Tags tag);
         GameObject *getGameObject(std::string Name);
         std::vector<GameObject*> getGameObjects(Tags tag);
+
+        static std::vector<GameObject*> getGameObjects();
 
         static void enableGameObject(GameObject *gameObject);
         static void disableGameObject(GameObject *gameObject);

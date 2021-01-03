@@ -51,6 +51,8 @@ namespace ShiEngine {
             Type = ComponentType::Camera;
         }
 
+        ShiEngine::Transform* getTransform() const { return transform; }
+
         // Setup the camera as a perspective camera
         void setupPerspective(float field_of_view_y, float aspect_ratio, float near, float far){
             this->field_of_view_y = field_of_view_y;
@@ -84,11 +86,13 @@ namespace ShiEngine {
         void setEyePosition(glm::vec3 eye){
             if(this->eye != eye){
                 this->eye = eye;
+                this->transform->position = eye;
             }
         }
         void setDirection(glm::vec3 direction){
             if(this->direction != direction){
                 this->direction = direction;
+
             }
         }
         void setTarget(glm::vec3 target){
@@ -104,6 +108,11 @@ namespace ShiEngine {
                 this->up = up;
             }
         }
+
+        void setTransformRotation(glm::vec3 rot) {
+            transform->rotation = rot;
+        }
+
 
         void setTransform() {
             transform = (Transform*)gameObject->GetComponent(ComponentType::Transform);

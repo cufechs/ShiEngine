@@ -3,6 +3,7 @@
 //
 
 #include "Sampler.h"
+#include <iostream>
 
 void ShiEngine::Sampler::create() {
     glGenSamplers(1, &sampler);
@@ -16,6 +17,7 @@ void ShiEngine::Sampler::destroy() {
 
 void ShiEngine::Sampler::use(ShiEngine::ShaderProgram *program) {
     // To tell OpenGL which sampler object we will use for this unit, we bind the sampler to unit 0 (which is specified by the 1st parameter of the following function).
+    std::cout << "sampler: " << sampler << "\n";
     glBindSampler(0, sampler);
     program->set("sampler", 0);
 

@@ -8,6 +8,7 @@
 
 #include "application.hpp"
 #include "Shader.hpp"
+#include <iostream>
 
 namespace ShiEngine {
     class Sampler : public ShiEngine::Application {

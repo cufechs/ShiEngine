@@ -25,8 +25,7 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->attachApplicationPtr(this);
 
-        texture = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
-        sampler = new ShiEngine::Sampler();
+
 
         //program
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State1,&CreateState1);
@@ -70,14 +69,6 @@ class Main : public ShiEngine::Application {
 
 	void onDraw() override {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        ShiEngine::Global::Global_ShaderProgram->use();
-
-        sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
-
-        texture->Draw();
-
-        ShiEngine::Global::Global_ShaderProgram->unuse();
 
         ShiEngine::Global::Global_GameStateManger->Draw();
 	}
