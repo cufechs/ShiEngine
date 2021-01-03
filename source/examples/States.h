@@ -31,6 +31,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererPlane;
 
     auto* obj1 = new ShiEngine::GameObject();
+    auto* cubeGameObj = new ShiEngine::GameObject();
     auto* directionalLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* objCamera = new ShiEngine::GameObject(ShiEngine::Tags::CAMERA);
     auto* pointLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
@@ -50,6 +51,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformPlane;
     ShiEngine::Transform* transformSpotLight;
     ShiEngine::Transform* transformPointLight2;
+    ShiEngine::Transform* transformCubeObj;
 
     ShiEngine::Camera* camera;
     ShiEngine::Light* directionalLight;
@@ -59,14 +61,17 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     ShiEngine::Material* material1;
     ShiEngine::Material* materialPlane;
+    ShiEngine::Material* materialCube;
 
     ShiEngine::Mesh* meshCube;
     ShiEngine::Mesh* meshPlane;
     ShiEngine::Mesh* meshSphere;
 
-    ShiEngine::Texture2D* texture1;
+    ShiEngine::Texture2D* texture1; //texture Earth
     ShiEngine::Sampler* sampler1;
 
+    ShiEngine::Texture2D* texture2;
+    ShiEngine::Texture2D* textureEarth;
 
 
     auto *controller = new ShiEngine::FlyCameraController;
@@ -76,7 +81,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Resources
     meshCube = new ShiEngine::Mesh();
-    meshCube->Sphere(false);
+    meshCube->Cuboid(false);
 
     meshSphere = new ShiEngine::Mesh();
     meshSphere->Sphere(false);
@@ -88,6 +93,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transform1->position = glm::vec3({0, 0, 0});
     transform1->scale = glm::vec3({1,1,1});
     transform1->rotation = glm::vec3({0,0,0});
+
+    transformCubeObj = new ShiEngine::Transform();
+    transformCubeObj->position = glm::vec3({-4, 0, 3});
+    transformCubeObj->scale = glm::vec3({2,2,2});
+    transformCubeObj->rotation = glm::vec3({0,0,0});
 
     // Camera Transform
     transformCamera = new ShiEngine::Transform();
@@ -110,7 +120,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformDirectionalLight->position = glm::vec3({0, 0, 0});
     transformDirectionalLight->scale = glm::vec3({1,1,1});
     transformDirectionalLight->rotation = glm::vec3({0,0,0});
-    transformDirectionalLight->direction = glm::vec3({1, 60, 1});
+    transformDirectionalLight->direction = glm::vec3({1, -0.2, 1});
 
     // Point Light Transform
     transformPointLight = new ShiEngine::Transform();
@@ -139,6 +149,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Directional Light, Set attenuation and other stuff if needed
     directionalLight = new ShiEngine::Light(ShiEngine::LightType::DIRECTIONAL);
+    directionalLight->color = {1,1,1};
 
     pointLight = new ShiEngine::Light(ShiEngine::LightType::POINT);
     pointLight->setAttenuation(0,0,1);
@@ -165,33 +176,50 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     texture1 = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
     sampler1 = new ShiEngine::Sampler();
 
+    texture2 = new ShiEngine::Texture2D("../assets/Textures/monarch.png", true);
+    textureEarth = new ShiEngine::Texture2D("../assets/Textures/2k_earth_daymap.jpg", true);
+
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
-    material1->diffuse = {0.93, 0.1019, 0.301};
-    material1->specular = {1, 1, 1};
-    material1->ambient = {0.93, 0.1019, 0.301};
-    material1->shininess = 100;
-    material1->setTexture(texture1);
+    material1->albedo_tint = {1, 1, 1}; // The reflectance color
+    material1->specular_tint = {1, 1, 1};
+    material1->roughness_range = {0,1};
+    material1->emissive_tint = {1,1,1};
+    material1->setTexture(textureEarth);
     material1->setSampler(sampler1);
     meshRenderer1->SetMaterial(material1);
 
+    materialCube = new ShiEngine::Material();
+    materialCube->shaderProgram = program;
+    materialCube->albedo_tint = {1, 1, 1}; // The reflectance color
+    materialCube->specular_tint = {1, 1, 1};
+    materialCube->roughness_range = {0,1};
+    materialCube->emissive_tint = {1,1,1};
+    materialCube->setTexture(texture2);
+    materialCube->setSampler(sampler1);
+
     materialPlane = new ShiEngine::Material();
+    materialPlane->albedo_tint = {0.93, 0.1019, 0.301}; // The reflectance color
+    materialPlane->specular_tint = {1, 1, 1};
+    materialPlane->roughness_range = {0,1};
+    materialPlane->emissive_tint = {0.1,0.1,0.1};
+    materialPlane->setTexture(texture1);
+    materialPlane->setSampler(sampler1);
     materialPlane->shaderProgram = program;
-    materialPlane->diffuse = {0.93, 0.1019, 0.301};
-    materialPlane->specular = {1, 1, 1};
-    materialPlane->ambient = {0.93, 0.1019, 0.301};
-    materialPlane->shininess = 1;
 
     meshRendererPlane->SetMaterial(materialPlane);
+    meshRenderer2->SetMaterial(materialCube); //cube will have same material as sphere
 
 
-    //objCamera->AddComponent(transform1); // TODO: independent transform -> transformCamera
     objCamera->AddComponent(transformCamera);
     objCamera->AddComponent(camera);
     //objCamera.Name = "objCamera";
 
     obj1->AddComponent(transform1);
     obj1->AddComponent(meshRenderer1);
+
+    cubeGameObj->AddComponent(transformCubeObj);
+    cubeGameObj->AddComponent(meshRenderer2);
 
     //obj1->AddComponent(material1);
     obj1->Name = "cube 1";
@@ -226,6 +254,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(objCamera);
     //state->addChildGameObject(objCamera, obj1);
     state->addGameObject(obj1);
+    //state->addChildGameObject(obj1, cubeGameObj);
+    state->addGameObject(cubeGameObj);
     state->addGameObject(planeGameObject);
     state->addGameObject(directionalLightGameObject);
     state->addGameObject(pointLightGameObject);
@@ -383,7 +413,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
 
-    texture1 = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
+    texture1 = new ShiEngine::Texture2D("../assets/Textures/monarch.png", true);
     sampler1 = new ShiEngine::Sampler();
 
     material1 = new ShiEngine::Material();

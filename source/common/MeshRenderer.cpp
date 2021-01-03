@@ -58,10 +58,11 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->use();
 
     //material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
-    if (material->sampler != NULL) {
+    if (material->texture != NULL) {
         shaderProgram = material->shaderProgram;
         //material->sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
-        material->texture->Draw();
+        material->texture->Draw(); //bind the texture
+        shaderProgram->set("sampler", (int)material->texture->getTextureUnit());
     }
 
 
@@ -82,10 +83,10 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->set("object_to_world", transformationMatrix);
     shaderProgram->set("object_to_world_inv_transpose", glm::inverse(transformationMatrix), true);
 
-    shaderProgram->set("material.diffuse", material->diffuse);
-    shaderProgram->set("material.specular", material->specular);
-    shaderProgram->set("material.ambient", material->ambient);
-    shaderProgram->set("material.shininess", material->shininess);
+//    shaderProgram->set("material.diffuse", material->diffuse);
+//    shaderProgram->set("material.specular", material->specular);
+//    shaderProgram->set("material.ambient", material->ambient);
+//    shaderProgram->set("material.shininess", material->shininess);
 
 
    // We will go through all the lights and send the enabled ones to the shader.
@@ -99,12 +100,6 @@ void ShiEngine::MeshRenderer::Draw() {
 
         shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
         shaderProgram->set(prefix + "color", light->color);
-
-//        shaderProgram->set(prefix + "diffuse", light->getDiffuse());
-//        shaderProgram->set(prefix + "specular", light->getSpecular());
-//        shaderProgram->set(prefix + "ambient", light->getAmbient());
-//        shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
-
 
         switch (light->getType()) {
             case LightType::DIRECTIONAL:
