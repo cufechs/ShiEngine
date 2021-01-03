@@ -69,7 +69,7 @@ namespace ShiEngine {
 
         float getAttenuationConstant() const { return attenuation.constant; }
         float getAttenuationLinear() const { return attenuation.linear; }
-        float getAttenuationQuadratic() const { return attenuation.linear; }
+        float getAttenuationQuadratic() const { return attenuation.quadratic; }
 
         glm::vec3 getDiffuse() const { return diffuse; }
         glm::vec3 getSpecular() const { return specular; }

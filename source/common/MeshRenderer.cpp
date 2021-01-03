@@ -56,7 +56,7 @@ void ShiEngine::MeshRenderer::Draw() {
 
     shaderProgram->use();
 
-    material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
+    //material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
     shaderProgram = material->shaderProgram;
 
     shaderProgram->set("camera_position", cam_era->getEyePosition());
@@ -113,6 +113,9 @@ void ShiEngine::MeshRenderer::Draw() {
 
 
     mesh->draw();
+
+    std::cout << cam_era->getTransform()->position << "\n";
+
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LEQUAL);
@@ -195,6 +198,10 @@ void ShiEngine::MeshRenderer::SetLight(ShiEngine::Light *_light) {
 void ShiEngine::MeshRenderer::SetLight(ShiEngine::Light *_light, ShiEngine::Transform *_transformLight) {
     lights.push_back(_light);
     lightTransforms.push_back(_transformLight);
+}
+
+void ShiEngine::MeshRenderer::SetMaterial(Material* _material) {
+    material = _material;
 }
 
 

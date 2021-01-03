@@ -46,7 +46,7 @@ namespace ShiEngine {
         void setShader(ShaderProgram* program);
         void setTransformationMatrix(glm::mat4 m);
         void SetLight(Light* _light, Transform* _transformLight);
-
+        void SetMaterial(Material* _material);
 
 
 

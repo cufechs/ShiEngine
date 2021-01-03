@@ -88,8 +88,10 @@ class FlyCameraController :public ShiEngine::GameObjectComponent{
             if(app->getKeyboard().isPressed(GLFW_KEY_D)) position += right * ((float)delta_time * current_sensitivity.x);
             if(app->getKeyboard().isPressed(GLFW_KEY_A)) position -= right * ((float)delta_time * current_sensitivity.x);
 
+            //camera->setTransformRotation(glm::vec3({rot.x = yaw, rot.y = pitch, rot.z = roll}))
             camera->setDirection(glm::vec3(glm::cos(yaw), 0, -glm::sin(yaw)) * glm::cos(pitch) + glm::vec3(0, glm::sin(pitch), 0));
             camera->setEyePosition(position);
+
         }
 
         [[nodiscard]] float getYaw() const {return yaw;}
