@@ -33,13 +33,15 @@ ShiEngine::MeshRenderer::~MeshRenderer() {
     Enabled = false;
 }
 
-void ShiEngine::MeshRenderer::Primitives(ShiEngine::Shapes3D shape, bool colored) {
+void ShiEngine::MeshRenderer::Primitives(ShiEngine::Shapes3D shape, bool colored,const char* FilePath) {
     if (shape == ShiEngine::Sphere3D) {
         mesh->Sphere(colored);
     } else if (shape == ShiEngine::Cube3D) {
         mesh->Cuboid(colored);
     } else if (shape == ShiEngine::Plane3D) {
         mesh->Plane(colored);
+    } else if (shape == ShiEngine::Model3D){
+        mesh->Model(FilePath);
     }
 
 
@@ -55,6 +57,7 @@ void ShiEngine::MeshRenderer::Draw() {
 
 
     shaderProgram->use();
+
 
     material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
     shaderProgram = material->shaderProgram;

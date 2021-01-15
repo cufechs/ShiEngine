@@ -58,7 +58,7 @@ set(COMMON_SOURCES
         source/common/texture-utils.h
         source/common/data-types.h
         source/common/Light.h
-        source/common/Material.h)
+        source/common/Material.h source/common/Mesh.cpp)
 # Define the directories in which to search for the included headers
 include_directories(
         source/common

@@ -25,6 +25,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRenderer1;
     ShiEngine::MeshRenderer* meshRenderer2;
     ShiEngine::MeshRenderer* meshRendererPlane;
+    ShiEngine::MeshRenderer* meshRendererSuzane;
 
     auto* obj1 = new ShiEngine::GameObject();
     auto* directionalLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
@@ -33,6 +34,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* planeGameObject = new ShiEngine::GameObject;
     auto* spotLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* pointLightGameObject2 = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
+    auto* objSuzane = new ShiEngine::GameObject();
 
     ShiEngine::Transform* transformCube;
     ShiEngine::Transform* transformCamera;
@@ -41,6 +43,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformPlane;
     ShiEngine::Transform* transformSpotLight;
     ShiEngine::Transform* transformPointLight2;
+    ShiEngine::Transform* transformSuzane;
 
     ShiEngine::Camera* camera;
     ShiEngine::Light* directionalLight;
@@ -50,10 +53,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     ShiEngine::Material* material1;
     ShiEngine::Material* materialPlane;
+    ShiEngine::Material* materialSuzane;
 
     ShiEngine::Mesh* meshCube;
     ShiEngine::Mesh* meshPlane;
     ShiEngine::Mesh* meshSphere;
+    ShiEngine::Mesh* meshSuzane;
 
 
     auto *controller = new ShiEngine::FlyCameraController;
@@ -71,6 +76,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshSphere = new ShiEngine::Mesh();
     meshSphere->Sphere(false);
 
+    meshSuzane = new ShiEngine::Mesh();
+    meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
+
     // Camera Transformer
     transformCamera = new ShiEngine::Transform();
     transformCamera->position = glm::vec3({10, 10, 10});
@@ -86,6 +94,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPlane->position = glm::vec3({0, -1, 0});
     transformPlane->scale = glm::vec3({50,1,50});
     transformPlane->rotation = glm::vec3({0,0,0});
+
+    //Loading Objects
+    transformSuzane = new ShiEngine::Transform();
+    transformSuzane->position = glm::vec3({3, 0, 0});
+    transformSuzane->scale = glm::vec3({2,2,2});
+    transformSuzane->rotation = glm::vec3({0,0,0});
 
     // Directional Light Transform
     transformDirectionalLight = new ShiEngine::Transform();
@@ -142,6 +156,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
 
+    meshRendererSuzane = new ShiEngine::MeshRenderer(program, meshSuzane);
+
+
+
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
     material1->diffuse = {0.93, 0.1019, 0.301};
@@ -149,11 +167,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     material1->ambient = {0.93, 0.1019, 0.301};
     material1->shininess = 100;
 
+    materialSuzane = new ShiEngine::Material();
+    materialSuzane->shaderProgram = program;
+    materialSuzane->diffuse = {0.93, 0.1019, 0.301};
+    materialSuzane->specular = {1, 1, 1};
+    materialSuzane->ambient = {0.93, 0.1019, 0.301};
+    materialSuzane->shininess = 100;
+
     materialPlane = new ShiEngine::Material();
     materialPlane->shaderProgram = program;
-    materialPlane->diffuse = {0.93, 0.1019, 0.301};
+    materialPlane->diffuse = {0.5, 0.5, 0.5};
     materialPlane->specular = {1, 1, 1};
-    materialPlane->ambient = {0.93, 0.1019, 0.301};
+    materialPlane->ambient = {0.5, 0.5, 0.5};
     materialPlane->shininess = 1;
 
     objCamera->AddComponent(transformCamera);
@@ -165,6 +190,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     obj1->AddComponent(meshRenderer1);
     obj1->AddComponent(material1);
     obj1->Name = "cube 1";
+
+    //Loading Objects
+    objSuzane->AddComponent(transformSuzane);
+    objSuzane->AddComponent(meshRendererSuzane);
+    objSuzane->AddComponent(materialSuzane);
+    objSuzane->Name = "Suzane";
 
     // Plane
     planeGameObject->AddComponent(transformPlane);
@@ -193,15 +224,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     objCamera->Start();
     controller->initialize(application, camera);
 
+    obj1->transform->parent = transformCamera;
     state->addGameObject(objCamera);
+    state->addGameObject(objSuzane);
     state->addGameObject(obj1);
     state->addGameObject(planeGameObject);
     state->addGameObject(directionalLightGameObject);
     state->addGameObject(pointLightGameObject);
     state->addGameObject(pointLightGameObject2);
-    //state->addGameObject(spotLightGameObject);
+    state->addGameObject(spotLightGameObject);
 
     state->attachCameraController(controller);
+
 
 
     return state;

@@ -1,12 +1,18 @@
 #ifndef SHI_MESH_H
 #define SHI_MESH_H
 
+
+
 #include <map>
 #include <string>
 #include <vector>
 #include <functional>
 #include <iostream>
 #include <cassert>
+
+
+#include <filesystem>
+#include <unordered_map>
 
 #include <glad/gl.h>
 
@@ -20,7 +26,8 @@ namespace ShiEngine {
     enum Shapes3D {
         Cube3D,
         Sphere3D,
-        Plane3D
+        Plane3D,
+        Model3D
     };
 
     // A mesh class to hold the vertex array and its associated buffers (VBOs and EBO)
@@ -45,6 +52,11 @@ namespace ShiEngine {
                 this->Plane(colored);
             else if(mesh == "sphere")
                 this->Sphere(colored);
+        }
+        explicit Mesh(const std::string& mesh, const char* FilePath){
+
+            if(mesh == "Model")
+                this->Model(FilePath);
         }
 
         // The underlying OpenGL objects creator
@@ -342,6 +354,8 @@ namespace ShiEngine {
             this->setVertexData(0, vertices);
             this->setElementData(elements);
         }
+
+        void Model(const char* FilePath);
 
         void Plane(bool colored = false,
                    const glm::ivec2& resolution = {1, 1},

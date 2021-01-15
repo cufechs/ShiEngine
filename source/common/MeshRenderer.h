@@ -38,7 +38,7 @@ namespace ShiEngine {
         MeshRenderer(ShaderProgram* program, Mesh* m);
         ~MeshRenderer();
 
-        void Primitives(ShiEngine::Shapes3D shape, bool colored = false);
+        void Primitives(ShiEngine::Shapes3D shape, bool colored , const char* FilePath);
         void destroy();
         void Setcam(Camera *cam);
         void SetLight(Light *_light);
