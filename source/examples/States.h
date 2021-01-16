@@ -16,7 +16,7 @@
 #include "Globals/Global_vars.h"
 #include "RenderState.h"
 #include "BoxCollider.h"
-
+#include "EnemyMovement.h"
 
 ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
@@ -122,6 +122,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Texture2D* texture2;
     ShiEngine::Texture2D* textureEarth;
 
+    ShiEngine::EnemyMovement* moveEnemy1;
+
 
     auto *controller = new ShiEngine::FlyCameraController;
 
@@ -158,7 +160,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
    // meshSphere->Model("../assets/models/Ghost/ghost.obj");
 
     meshSuzane = new ShiEngine::Mesh();
-    meshSuzane->Model( "../assets/models/kairi/kairi.obj");
+    meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
@@ -203,7 +205,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
-    transformSuzane->position = glm::vec3({-208, 0, 10});//kairi
+    transformSuzane->position = glm::vec3({-208, 5, 1});//kairi
     transformSuzane->scale = glm::vec3({4,4,4});
     transformSuzane->rotation = glm::vec3({0,-90,0});
 
@@ -290,6 +292,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformSpotLight->direction = glm::vec3({0,-1,0});
 
 
+    moveEnemy1 = new ShiEngine::EnemyMovement();
+    moveEnemy1->setOscillateY(2.0, 0.01);
+
     camera = new ShiEngine::Camera();
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
     //camera->setupOrthographic(2.f, 1.7, 0.1f, 100.0f);
@@ -371,7 +376,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     material1->albedo_tint = {1, 1, 1}; // The reflectance color
     material1->specular_tint = {1, 1, 1};
     material1->roughness_range = {0,1};
-    material1->emissive_tint = {1,1,1};
+    material1->emissive_tint = {0.01,0.01,0.01};
     material1->setTexture(textureEarth);
     material1->setSampler(sampler1);
     meshRenderer1->SetMaterial(material1);
@@ -451,7 +456,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 //////-------//////
     objSuzane->AddComponent(transformSuzane);
     objSuzane->AddComponent(meshRendererSuzane);
-    //objSuzane->AddComponent(material1);
+    objSuzane->AddComponent(moveEnemy1);
     objSuzane->Name = "Suzane";
 
     // Plane
