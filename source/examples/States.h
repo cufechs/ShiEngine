@@ -130,10 +130,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshPlane6->Plane(false);
 
     meshSphere = new ShiEngine::Mesh();
-    meshSphere->Sphere(false);
+    meshSphere->Model("../assets/models/Ghost/ghost.obj");
 
     meshSuzane = new ShiEngine::Mesh();
-    meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
+    meshSuzane->Model( "../assets/models/kairi/kairi.obj");
 
     // Camera Transformer
     transformCamera = new ShiEngine::Transform();
@@ -142,8 +142,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformCamera->rotation = glm::vec3({0,0,0});
 
     transformCube = new ShiEngine::Transform();
-    transformCube->position = glm::vec3({0, 0, 0});
-    transformCube->scale = glm::vec3({2,2,2});
+    transformCube->position = glm::vec3({-208, 0, 6});
+    transformCube->scale = glm::vec3({0.1,0.1,0.1});
     transformCube->rotation = glm::vec3({5,0,0});
 
     transformPlane2 = new ShiEngine::Transform();
@@ -178,8 +178,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
-    transformSuzane->position = glm::vec3({-208, 6, 10});
-    transformSuzane->scale = glm::vec3({2,2,2});
+    transformSuzane->position = glm::vec3({-208, 0, 10});//kairi
+    transformSuzane->scale = glm::vec3({4,4,4});
     transformSuzane->rotation = glm::vec3({0,-90,0});
 
     // Directional Light Transform
@@ -264,7 +264,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     pointLight6->setAttenuation(0,1,0);
     pointLight6->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({0.1,0.1,0.1}));
 
-
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
     spotLight->setAttenuation(0,1,0);
     spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({0.101,0.101,0.101}));
@@ -287,7 +286,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererPlane6 = new ShiEngine::MeshRenderer(program, meshPlane6);
 
     meshRendererSuzane = new ShiEngine::MeshRenderer(program, meshSuzane);
-
 
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
@@ -316,7 +314,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     materialPlane6->specular = {0.3, 0.3, 0.3}; // This is how bright
     materialPlane6->ambient = {0.1, 0.1, 0.1};
     materialPlane6->shininess = 1;
-
 
     materialPlane4 = new ShiEngine::Material();
     materialPlane4->shaderProgram = program;
@@ -445,10 +442,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(pointLightGameObject);
     state->addGameObject(pointLightGameObject2);
     state->addGameObject(spotLightGameObject);
-    state->addGameObject(pointLightGameObject3);
-    state->addGameObject(pointLightGameObject4);
-    state->addGameObject(pointLightGameObject5);
-    state->addGameObject(pointLightGameObject6);
+    //state->addGameObject(pointLightGameObject3);
+    //state->addGameObject(pointLightGameObject4);
+    //state->addGameObject(pointLightGameObject5);
+  //  state->addGameObject(pointLightGameObject6);
 
 
 
