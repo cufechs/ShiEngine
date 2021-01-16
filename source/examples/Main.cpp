@@ -64,7 +64,30 @@ class Main : public ShiEngine::Application {
         if(this->getKeyboard().justPressed(GLFW_KEY_K))
             ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObjects(ShiEngine::Tags::Default)[0]->DeleteMe();
 
+        ///
+        if(this->getKeyboard().isPressed(GLFW_KEY_L))
+            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.x = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.x + 0.1f;
+        if(this->getKeyboard().isPressed(GLFW_KEY_J))
+            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.x = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.x - 0.1f;
+        if(this->getKeyboard().isPressed(GLFW_KEY_I))
+            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y + 0.1f;
+        if(this->getKeyboard().isPressed(GLFW_KEY_M))
+            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y - 0.1f;
+
+        ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                "cube 1")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+        ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                "cube 2")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+        if(B2->CollidesWith(B1->GetStartVector(), B1->GetEndVector()))
+        {
+            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
+
+            //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
+        }
+        ///
+
         ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
+        ShiEngine::Global::Global_GameStateManger->LateUpdate(deltaTime);
     }
 
 	void onDraw() override {

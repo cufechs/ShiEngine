@@ -38,6 +38,7 @@ namespace ShiEngine {
         void ChangeGameState(GameState* gameState);
 
         void Update(double deltaTime);
+        void LateUpdate(double deltaTime);
         void Draw();
     };
 }

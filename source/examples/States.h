@@ -15,6 +15,7 @@
 #include <application.hpp>
 #include "Globals/Global_vars.h"
 #include "RenderState.h"
+#include "BoxCollider.h"
 
 
 ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
@@ -27,10 +28,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     //ShiEngine::GameObject GO;
     ShiEngine::MeshRenderer* meshRenderer1;
     ShiEngine::MeshRenderer* meshRenderer2;
+    ShiEngine::MeshRenderer* meshRenderer3;
 
     ShiEngine::MeshRenderer* meshRendererPlane;
 
     auto* obj1 = new ShiEngine::GameObject();
+    auto* obj2 = new ShiEngine::GameObject();
     auto* cubeGameObj = new ShiEngine::GameObject();
     auto* directionalLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* objCamera = new ShiEngine::GameObject(ShiEngine::Tags::CAMERA);
@@ -45,6 +48,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transform2;
     ShiEngine::Transform* transformCamera;
     ShiEngine::Transform* transformCube;
+
+    ShiEngine::BoxCollider* boxCollider;
+    ShiEngine::BoxCollider* boxCollider2;
 
     ShiEngine::Transform* transformDirectionalLight;
     ShiEngine::Transform* transformPointLight;
@@ -94,8 +100,16 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transform1->scale = glm::vec3({1,1,1});
     transform1->rotation = glm::vec3({0,0,0});
 
+    transform2 = new ShiEngine::Transform();
+    transform2->position = glm::vec3({2, 0, 0});
+    transform2->scale = glm::vec3({2,2,2});
+    transform2->rotation = glm::vec3({0,0,0});
+
+    boxCollider = new ShiEngine::BoxCollider();
+    boxCollider2 = new ShiEngine::BoxCollider();
+
     transformCubeObj = new ShiEngine::Transform();
-    transformCubeObj->position = glm::vec3({-4, 0, 3});
+    transformCubeObj->position = glm::vec3({-4, 0, 0});
     transformCubeObj->scale = glm::vec3({2,2,2});
     transformCubeObj->rotation = glm::vec3({0,0,0});
 
@@ -172,6 +186,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRenderer2 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRenderer2->SetRenderState(renderState1);
 
+    meshRenderer3 = new ShiEngine::MeshRenderer(program, meshCube);
+    meshRenderer3->SetRenderState(renderState1);
+
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
     meshRendererPlane->SetRenderState(renderState1);
 
@@ -211,6 +228,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     meshRendererPlane->SetMaterial(materialPlane);
     meshRenderer2->SetMaterial(materialCube); //cube will have same material as sphere
+    meshRenderer3->SetMaterial(materialCube);
 
 
     objCamera->AddComponent(transformCamera);
@@ -220,11 +238,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     obj1->AddComponent(transform1);
     obj1->AddComponent(meshRenderer1);
 
+    obj2->AddComponent(transform2);
+    obj2->AddComponent(meshRenderer3);
+    obj2->AddComponent(boxCollider2);
+
     cubeGameObj->AddComponent(transformCubeObj);
     cubeGameObj->AddComponent(meshRenderer2);
+    cubeGameObj->AddComponent(boxCollider);
 
     //obj1->AddComponent(material1);
-    obj1->Name = "cube 1";
+    obj1->Name = "sphere 1";
+    cubeGameObj->Name = "cube 1";
+    obj2->Name = "cube 2";
 
     // Plane
     planeGameObject->AddComponent(transformPlane);
@@ -256,6 +281,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(objCamera);
     //state->addChildGameObject(objCamera, obj1);
     state->addGameObject(obj1);
+    state->addGameObject(obj2);
     //state->addChildGameObject(obj1, cubeGameObj);
     state->addGameObject(cubeGameObj);
     state->addGameObject(planeGameObject);
@@ -284,6 +310,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererPlane;
 
     auto* obj1 = new ShiEngine::GameObject();
+    auto* obj2 = new ShiEngine::GameObject();
     auto* directionalLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* objCamera = new ShiEngine::GameObject(ShiEngine::Tags::CAMERA);
     auto* pointLightGameObject = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);

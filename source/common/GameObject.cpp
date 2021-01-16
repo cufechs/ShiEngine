@@ -42,6 +42,13 @@ namespace ShiEngine {
                 Component->Update(deltatime);
     }
 
+    void ShiEngine::GameObject::LateUpdate(double deltatime)
+    {
+        if(Active)
+            for(auto & Component : Components)
+                Component->LateUpdate(deltatime);
+    }
+
     void ShiEngine::GameObject::Draw()
     {
         if(Active)

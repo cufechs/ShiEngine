@@ -93,6 +93,10 @@ namespace ShiEngine {
         activeState->Update(deltaTime);
     }
 
+    void GameStateManger::LateUpdate(double deltaTime) {
+        activeState->LateUpdate(deltaTime);
+    }
+
     void GameStateManger::Draw() {
         activeState->Draw();
     }

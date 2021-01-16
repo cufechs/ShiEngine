@@ -63,7 +63,7 @@ set(COMMON_SOURCES
         source/common/Texture2D.h
         source/common/Globals/Global_vars.h
         source/common/Sampler.cpp source/common/Sampler.h
-        source/common/RenderState.h)
+        source/common/RenderState.h source/common/BoxCollider.cpp source/common/BoxCollider.h)
 
 # Define the directories in which to search for the included headers
 include_directories(

@@ -48,6 +48,7 @@ namespace ShiEngine {
         void ScaleGameTime(double timeScale);
 
         void Update(double deltaTime);
+        void LateUpdate(double deltaTime);
         void Draw();
     };
 }
