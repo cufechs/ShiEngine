@@ -17,6 +17,7 @@ namespace ShiEngine {
         float y_increment, y_oscill_dist; // oscillation on y-axes
         float z_increment, z_oscill_dist; // oscillation on z-axes
         glm::vec3 origin_pos;
+        Transform* transformPlayer;
     public:
         EnemyMovement() {
             Type = ComponentType::EnemyMove;
@@ -26,6 +27,15 @@ namespace ShiEngine {
             x_oscill_dist = 0.0;
             y_oscill_dist = 0.0;
             z_oscill_dist = 0.0;
+            transformPlayer = nullptr;
+        }
+
+        EnemyMovement(Transform* transformPlayer) {
+            setFollow(transformPlayer);
+        }
+
+        void setFollow(Transform* transformPlayer) {
+            this->transformPlayer = transformPlayer;
         }
 
 
@@ -60,7 +70,10 @@ namespace ShiEngine {
             oscillateX();
             oscillateY();
             oscillateZ();
-            //transform->position = transform->position + increment;
+
+            if (transformPlayer != nullptr) {
+                transform->position += (transformPlayer->position - transform->position) * glm::vec3(deltaTime);
+            }
 
         }
         void Draw() override { }
@@ -86,12 +99,6 @@ namespace ShiEngine {
             } else if (transform->position.y <= origin_pos.y - y_oscill_dist) {
                 y_increment = abs(y_increment);
             }
-//            if (transform->position.y >= 1.5 && transform->position.y <= 1.6 ) {
-//                increment.y = -speed.y;
-//            }
-//            else if (transform->position.y <= 0 && transform->position.y >= -0.1) {
-//                increment.y = speed.y;
-//            }
         }
 
         void oscillateZ() {

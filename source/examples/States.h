@@ -41,6 +41,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererSuzanne4;
     ShiEngine::MeshRenderer* meshRendererSuzanne5;
     ShiEngine::MeshRenderer* meshRendererSuzanne6;
+    ShiEngine::MeshRenderer* meshRendererWallMiddle1;
 
     auto* obj1 = new ShiEngine::GameObject();
     auto* obj2 = new ShiEngine::GameObject();
@@ -67,6 +68,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* objSuzane5 = new ShiEngine::GameObject();
     auto* objSuzane6 = new ShiEngine::GameObject();
     auto* camController = new ShiEngine::GameObject();
+    auto* wallMiddle1 = new ShiEngine::GameObject;
 
     RenderState* renderState1;
 
@@ -88,6 +90,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformSpotLight;
     ShiEngine::Transform* transformPointLight2;
     ShiEngine::Transform* transformCubeObj;
+
+    ShiEngine::Transform* transformWallMiddle1;
 
     ShiEngine::Transform* transformPlane2;
     ShiEngine::Transform* transformPlane3;
@@ -142,8 +146,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Texture2D* texture2;
     ShiEngine::Texture2D* textureEarth;
 
-    ShiEngine::EnemyMovement* moveEnemy1;
-
+    ShiEngine::EnemyMovement* moveEnemy1; // In front of the Door/Gate
+    ShiEngine::EnemyMovement* moveEnemy2; // Follows the player
 
     auto *controller = new ShiEngine::FlyCameraController;
 
@@ -167,6 +171,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     meshSuzane = new ShiEngine::Mesh();
     meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
+    //meshSuzane->Model("../assets/models/zombie/mediaeval_house.obj");
+
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
@@ -214,6 +220,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPlane->position = glm::vec3({0, -1, 0});
     transformPlane->scale = glm::vec3({-700,1,700});
     transformPlane->rotation = glm::vec3({0,0,0});
+
+    // Wall middle
+    transformWallMiddle1 = new ShiEngine::Transform();
+    transformWallMiddle1->position = glm::vec3({-130, 1, -30});
+    transformWallMiddle1->scale = glm::vec3({2,10,7});
+    transformWallMiddle1->rotation = glm::vec3({0,0,0});
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
@@ -328,15 +340,18 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Spot Light Transform
     transformSpotLight = new ShiEngine::Transform();
-    transformSpotLight->position = glm::vec3({-200, 1, 0});
+    transformSpotLight->position = glm::vec3({-120, 6, -10});
     transformSpotLight->scale = glm::vec3({1,1,1});
     transformSpotLight->rotation = glm::vec3({0,0,0});
-    transformSpotLight->direction = glm::vec3({0,-1,0});
+    transformSpotLight->direction = glm::vec3({0,0,-1});
 
 
     moveEnemy1 = new ShiEngine::EnemyMovement();
     moveEnemy1->setOscillateY(2.0, 0.01);
     moveEnemy1->setOscillateZ(20.0, 0.05);
+
+    moveEnemy2 = new ShiEngine::EnemyMovement();
+    moveEnemy2->setFollow(transformCamera); // This enemy follows the player
 
     camera = new ShiEngine::Camera();
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 1000.0f);
@@ -372,9 +387,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
 
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
-    spotLight->setAttenuation(0,1,0);
-    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({1,1,1}));
-    spotLight->setSpotAngle(0.785, 1.571);
+    spotLight->setAttenuation(3,0,0);
+    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,0.1,0.1}), glm::vec3({1,1,1}));
+    spotLight->setSpotAngle(0.785, 0.786);
 
     renderState1 = new RenderState(true,true,false);
 
@@ -423,6 +438,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererSuzanne6 = new ShiEngine::MeshRenderer(program, meshSuzane);
     meshRendererSuzanne6->SetRenderState(renderState1);
 
+    meshRendererWallMiddle1 = new ShiEngine::MeshRenderer(program, meshCube);
+    meshRendererWallMiddle1->SetRenderState(renderState1);
+
     texture1 = new ShiEngine::Texture2D("../assets/Textures/woodtexture.jpg", true);
     sampler1 = new ShiEngine::Sampler();
 
@@ -452,7 +470,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     materialPlane->albedo_tint = {0.93, 0.1019, 0.301}; // The reflectance color
     materialPlane->specular_tint = {1, 1, 1};
     materialPlane->roughness_range = {0,1};
-    materialPlane->emissive_tint = {0.3,0.3,0.3};
+    materialPlane->emissive_tint = {0.2,0.2,0.2};
     materialPlane->setTexture(texture1);
     materialPlane->setSampler(sampler1);
     materialPlane->shaderProgram = program;
@@ -478,6 +496,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererSuzanne4->SetMaterial(material1);
     meshRendererSuzanne5->SetMaterial(material1);
     meshRendererSuzanne6->SetMaterial(material1);
+    meshRendererWallMiddle1->SetMaterial(materialPlane);
+
 
     objCamera->AddComponent(transformCamera);
     objCamera->AddComponent(camera);
@@ -554,8 +574,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     planeGameObject5->AddComponent(transformPlane5);
     planeGameObject5->AddComponent(meshRendererPlane5);
     //planeGameObject5->AddComponent(boxColliderWallFront);
-
     planeGameObject5->Name = "plane5 gameObject";
+
+    wallMiddle1->AddComponent(transformWallMiddle1);
+    wallMiddle1->AddComponent(meshRendererWallMiddle1);
 
     // Point Light 1
     pointLightGameObject3->AddComponent(transformPointLight3);
@@ -577,6 +599,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     objSuzane3->AddComponent(transformSuzane3);
     objSuzane3->AddComponent(meshRendererSuzanne3);
+    //objSuzane3->AddComponent(moveEnemy2);
     objSuzane3->Name = "Suzane3";
 
     objSuzane4->AddComponent(transformSuzane4);
@@ -606,17 +629,16 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //state->addGameObject(directionalLightGameObject);
 
-    //state->addGameObject(spotLightGameObject);
+
     state->addGameObject(planeGameObject);
     state->addGameObject(planeGameObject2);
     state->addGameObject(planeGameObject3);
     state->addGameObject(planeGameObject4);
     state->addGameObject(planeGameObject5);
     state->addGameObject(planeGameObject6);
-    //state->addGameObject(spotLightGameObject);
+    state->addGameObject(wallMiddle1);
 
-
-
+    state->addGameObject(spotLightGameObject);
     //state->addGameObject(pointLightGameObject);
     state->addGameObject(pointLightGameObject2);
     state->addChildGameObject(pointLightGameObject2, objSuzane);
@@ -779,10 +801,10 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     // Spot Light Transform
     transformSpotLight = new ShiEngine::Transform();
-    transformSpotLight->position = glm::vec3({-200, 5, 0});
+    transformSpotLight->position = glm::vec3({-170, 1, 0});
     transformSpotLight->scale = glm::vec3({1,1,1});
     transformSpotLight->rotation = glm::vec3({0,0,0});
-    transformSpotLight->direction = glm::vec3({0,-1,0});
+    transformSpotLight->direction = glm::vec3({0,0,-10});
 
     camera = new ShiEngine::Camera();
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
@@ -802,8 +824,8 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
     spotLight->setAttenuation(0,1,0);
-    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({0.101,0.101,0.101}));
-    spotLight->setSpotAngle(0.785, 1.571);
+    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({1,1,1}));
+    spotLight->setSpotAngle(0.785, 2.571);
 
     renderState1 = new RenderState(true,true,true);
     meshRenderer1 = new ShiEngine::MeshRenderer(program, meshSphere);
