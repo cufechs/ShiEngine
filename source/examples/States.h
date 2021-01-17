@@ -132,6 +132,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Material* materialPlane4;
     ShiEngine::Material* materialPlane5;
     ShiEngine::Material* materialPlane6;
+    ShiEngine::Material* materialHouse;
+    ShiEngine::Material* materialWalls;
 
     ShiEngine::Mesh* meshCube;
     ShiEngine::Mesh* meshPlane;
@@ -149,6 +151,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     ShiEngine::Texture2D* texture2;
     ShiEngine::Texture2D* textureEarth;
+    ShiEngine::Texture2D* textureHouse;
+    ShiEngine::Texture2D* textureWalls;
 
     ShiEngine::EnemyMovement* moveEnemy1; // In front of the Door/Gate
     ShiEngine::EnemyMovement* moveEnemy2; // Follows the player
@@ -183,7 +187,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     //Transforms
     transformCamera = new ShiEngine::Transform();
     //transformCamera->position = glm::vec3({-210, 10, 0});
-    transformCamera->position = glm::vec3({-240, 10, 0});
+    transformCamera->position = glm::vec3({-240, 16, 0});
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
@@ -194,13 +198,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Wall left
     transformPlane2 = new ShiEngine::Transform();
-    transformPlane2->position = glm::vec3({0, 1, -65});
+    transformPlane2->position = glm::vec3({0, 1, -85});
     transformPlane2->scale = glm::vec3({-500,100,4});
     transformPlane2->rotation = glm::vec3({0,0,0});
 
     // Wall right
     transformPlane3 = new ShiEngine::Transform();
-    transformPlane3->position = glm::vec3({0, 1, 65});
+    transformPlane3->position = glm::vec3({0, 1, 85});
     transformPlane3->scale = glm::vec3({-500,100,4});
     transformPlane3->rotation = glm::vec3({0,0,0});
 
@@ -212,7 +216,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Wall front
     transformPlane5 = new ShiEngine::Transform();
-    transformPlane5->position = glm::vec3({-18, 1, 0});
+    transformPlane5->position = glm::vec3({50, 1, 0});
     transformPlane5->scale = glm::vec3({2,100,400});
     transformPlane5->rotation = glm::vec3({0,0,0});
 
@@ -235,8 +239,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformWallMiddle1->rotation = glm::vec3({0,0,0});
 
     transformHouse = new ShiEngine::Transform();
-    transformHouse->position = glm::vec3({-155, 5, 0});
-    transformHouse->scale = glm::vec3({60,100,60});
+    transformHouse->position = glm::vec3({10, 0, 0});
+    transformHouse->scale = glm::vec3({50,80,35});
     transformHouse->rotation = glm::vec3({270,0,270});
 
 
@@ -288,13 +292,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     boxColliderWallLeft = new ShiEngine::BoxCollider();
     boxColliderWallRight = new ShiEngine::BoxCollider();
 
-
     // Door
     transformCubeObj = new ShiEngine::Transform();
-    transformCubeObj->position = glm::vec3({-20, 12, 0});
+    transformCubeObj->position = glm::vec3({48, 12, 0});
     transformCubeObj->scale = glm::vec3({2,30,18});
     transformCubeObj->rotation = glm::vec3({0,0,0});
-
 
     transformCube = new ShiEngine::Transform();
     transformCube->position = glm::vec3({0, 0, 0});
@@ -460,8 +462,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     texture1 = new ShiEngine::Texture2D("../assets/Textures/woodtexture.jpg", true);
     sampler1 = new ShiEngine::Sampler();
 
+
     texture2 = new ShiEngine::Texture2D("../assets/Textures/doorTexture.jpg", true);
     textureEarth = new ShiEngine::Texture2D("../assets/Textures/2k_earth_daymap.jpg", true);
+
+    textureWalls = new ShiEngine::Texture2D("../assets/Textures/oldwall.jpg", true);
+
+   // textureHouse = new ShiEngine::Texture2D("../assets/Textures/wood.jpg", true);
 
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
@@ -491,6 +498,29 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     materialPlane->setSampler(sampler1);
     materialPlane->shaderProgram = program;
 
+
+    materialHouse = new ShiEngine::Material();
+    materialHouse->shaderProgram = program;
+    materialHouse->albedo_tint = {1, 1, 1}; // The reflectance color
+    materialHouse->specular_tint = {1, 1, 1};
+    materialHouse->roughness_range = {0,1};
+    materialHouse->emissive_tint = {0.6,0.6,0.6};
+    materialHouse->setTexture(texture1);
+    materialHouse->setSampler(sampler1);
+    meshRendererHouse->SetMaterial(materialHouse);
+
+    materialWalls = new ShiEngine::Material();
+    materialWalls->shaderProgram = program;
+    materialWalls->albedo_tint = {0.2, 0.1, 0.1}; // The reflectance color
+    materialWalls->specular_tint = {1, 1, 1};
+    materialWalls->roughness_range = {0,1};
+    materialWalls->emissive_tint = {0.1,0.1,0.1};
+    materialWalls->setTexture(textureWalls);
+    materialWalls->setSampler(sampler1);
+
+    meshRendererPlane2->SetMaterial(materialWalls);
+    meshRendererPlane3->SetMaterial(materialWalls);
+
     meshRendererPlane->SetMaterial(materialPlane);
     meshRenderer2->SetMaterial(materialCube); //cube will have same material as sphere
     meshRenderer3->SetMaterial(materialCube);
@@ -501,8 +531,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
 
     ///
-    meshRendererPlane2->SetMaterial(materialPlane);
-    meshRendererPlane3->SetMaterial(materialPlane);
     meshRendererPlane4->SetMaterial(materialPlane);
     meshRendererPlane5->SetMaterial(materialPlane);
     meshRendererPlane6->SetMaterial(materialPlane);
@@ -513,7 +541,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererSuzanne5->SetMaterial(material1);
     meshRendererSuzanne6->SetMaterial(material1);
     meshRendererWallMiddle1->SetMaterial(materialPlane);
-    meshRendererHouse->SetMaterial(materialPlane);
 
 
     objCamera->AddComponent(transformCamera);
@@ -655,7 +682,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(planeGameObject3);
     //state->addGameObject(planeGameObject4);
     state->addGameObject(planeGameObject5);
-    state->addGameObject(planeGameObject6);
+  //  state->addGameObject(planeGameObject6);
     state->addGameObject(wallMiddle1);
     state->addGameObject(houseGameObj);
 
