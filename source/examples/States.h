@@ -161,20 +161,6 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshPlane = new ShiEngine::Mesh();
     meshPlane->Plane(false);
 
-    meshPlane2 = new ShiEngine::Mesh();
-    meshPlane2->Plane(false);
-
-    meshPlane3 = new ShiEngine::Mesh();
-    meshPlane3->Plane(false);
-
-    meshPlane4 = new ShiEngine::Mesh();
-    meshPlane4->Plane(false);
-
-    meshPlane5 = new ShiEngine::Mesh();
-    meshPlane5->Plane(false);
-
-    meshPlane6 = new ShiEngine::Mesh();
-    meshPlane6->Plane(false);
 
     meshSphere = new ShiEngine::Mesh();
    // meshSphere->Model("../assets/models/Ghost/ghost.obj");
@@ -184,7 +170,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
-    transformCamera->position = glm::vec3({-215, 10, 0});
+    transformCamera->position = glm::vec3({-210, 10, 0});
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
@@ -195,27 +181,27 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Wall left
     transformPlane2 = new ShiEngine::Transform();
-    transformPlane2->position = glm::vec3({20, 10, -50});
-    transformPlane2->scale = glm::vec3({-500,1,40});
-    transformPlane2->rotation = glm::vec3({90,0,0});
+    transformPlane2->position = glm::vec3({0, 1, -65});
+    transformPlane2->scale = glm::vec3({-500,100,4});
+    transformPlane2->rotation = glm::vec3({0,0,0});
 
     // Wall right
     transformPlane3 = new ShiEngine::Transform();
-    transformPlane3->position = glm::vec3({20, 10, 50});
-    transformPlane3->scale = glm::vec3({-500,1,40});
-    transformPlane3->rotation = glm::vec3({90,0,0});
+    transformPlane3->position = glm::vec3({0, 1, 65});
+    transformPlane3->scale = glm::vec3({-500,100,4});
+    transformPlane3->rotation = glm::vec3({0,0,0});
 
     // Wall behind
     transformPlane4 = new ShiEngine::Transform();
-    transformPlane4->position = glm::vec3({-220, 10, 10});
-    transformPlane4->scale = glm::vec3({40,1,200});
-    transformPlane4->rotation = glm::vec3({0,0,90});
+    transformPlane4->position = glm::vec3({-225, 1, 0});
+    transformPlane4->scale = glm::vec3({4,30,200});
+    transformPlane4->rotation = glm::vec3({0,0,0});
 
     // Wall front
     transformPlane5 = new ShiEngine::Transform();
-    transformPlane5->position = glm::vec3({-20, 10, 10});
-    transformPlane5->scale = glm::vec3({40,1,200});
-    transformPlane5->rotation = glm::vec3({0,0,90});
+    transformPlane5->position = glm::vec3({-18, 1, 0});
+    transformPlane5->scale = glm::vec3({2,100,400});
+    transformPlane5->rotation = glm::vec3({0,0,0});
 
     // Wall up
     transformPlane6 = new ShiEngine::Transform();
@@ -226,7 +212,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     // Wall down
     transformPlane = new ShiEngine::Transform();
     transformPlane->position = glm::vec3({0, -1, 0});
-    transformPlane->scale = glm::vec3({-500,1,100});
+    transformPlane->scale = glm::vec3({-700,1,700});
     transformPlane->rotation = glm::vec3({0,0,0});
 
     //Loading Objects
@@ -404,19 +390,19 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererPlane = new ShiEngine::MeshRenderer(program, meshPlane);
     meshRendererPlane->SetRenderState(renderState1);
 
-    meshRendererPlane2 = new ShiEngine::MeshRenderer(program, meshPlane2);
+    meshRendererPlane2 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRendererPlane2->SetRenderState(renderState1);
 
-    meshRendererPlane3 = new ShiEngine::MeshRenderer(program, meshPlane3);
+    meshRendererPlane3 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRendererPlane3->SetRenderState(renderState1);
 
-    meshRendererPlane4 = new ShiEngine::MeshRenderer(program, meshPlane4);
+    meshRendererPlane4 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRendererPlane4->SetRenderState(renderState1);
 
-    meshRendererPlane5 = new ShiEngine::MeshRenderer(program, meshPlane5);
+    meshRendererPlane5 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRendererPlane5->SetRenderState(renderState1);
 
-    meshRendererPlane6 = new ShiEngine::MeshRenderer(program, meshPlane6);
+    meshRendererPlane6 = new ShiEngine::MeshRenderer(program, meshPlane);
     meshRendererPlane6->SetRenderState(renderState1);
 
     meshRendererSuzane = new ShiEngine::MeshRenderer(program, meshSuzane);
@@ -562,7 +548,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     planeGameObject4->AddComponent(transformPlane4);
     planeGameObject4->AddComponent(meshRendererPlane4);
-    //planeGameObject4->AddComponent(boxColliderWallBehind); // TODO: at start, the player is very close to the wall, therefore crashes
+    planeGameObject4->AddComponent(boxColliderWallBehind); // TODO: at start, the player is very close to the wall, therefore crashes
     planeGameObject4->Name = "plane4 gameObject";
 
     planeGameObject5->AddComponent(transformPlane5);
