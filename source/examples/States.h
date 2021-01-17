@@ -231,7 +231,8 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
-    transformSuzane->position = glm::vec3({-30, 5, 0});//kairi
+    //transformSuzane->position = glm::vec3({-30, 5, 0});//kairi
+    transformSuzane->position = glm::vec3({3, 1, 2}); // note: position relative to parent (PointLight2)
     transformSuzane->scale = glm::vec3({4,4,4});
     transformSuzane->rotation = glm::vec3({0,-90,0});
 
@@ -310,7 +311,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPointLight->direction = glm::vec3({0, -2, 0});
 
     transformPointLight2 = new ShiEngine::Transform();
-    transformPointLight2->position = glm::vec3({-50, 0, 10});
+    transformPointLight2->position = glm::vec3({-35, 10, 0});
     transformPointLight2->scale = glm::vec3({1,1,1});
     transformPointLight2->rotation = glm::vec3({0,0,0});
     transformPointLight2->direction = glm::vec3({0, -2, 0});
@@ -365,7 +366,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     pointLight2 = new ShiEngine::Light(ShiEngine::LightType::POINT);
     pointLight2->setAttenuation(0,0,1);
-    pointLight2->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({0.1,0.1,0.1}));
+    pointLight2->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({1,1,1}));
 
     pointLight3 = new ShiEngine::Light(ShiEngine::LightType::POINT);
     pointLight3->setAttenuation(0,0,1);
@@ -528,6 +529,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     // Point light 2
     pointLightGameObject2->AddComponent(transformPointLight2);
     pointLightGameObject2->AddComponent(pointLight2);
+    pointLightGameObject2->AddComponent(moveEnemy1);
 
     spotLightGameObject->AddComponent(transformSpotLight);
     spotLightGameObject->AddComponent(spotLight);
@@ -540,7 +542,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 //////-------//////
     objSuzane->AddComponent(transformSuzane);
     objSuzane->AddComponent(meshRendererSuzane);
-    objSuzane->AddComponent(moveEnemy1);
+    //objSuzane->AddComponent(moveEnemy1);
     objSuzane->Name = "Suzane";
 
     // Plane
@@ -630,12 +632,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
 
     //state->addGameObject(pointLightGameObject);
-    //state->addGameObject(pointLightGameObject2);
+    state->addGameObject(pointLightGameObject2);
+    state->addChildGameObject(pointLightGameObject2, objSuzane);
     //state->addGameObject(pointLightGameObject3);
     //state->addGameObject(pointLightGameObject4);
     state->addGameObject(pointLightGameObject5);
     state->addGameObject(pointLightGameObject6);
-    state->addGameObject(objSuzane);
+    //state->addGameObject(objSuzane);
     state->addGameObject(objSuzane2);
     state->addGameObject(objSuzane3);
     state->addGameObject(objSuzane4);
