@@ -12,6 +12,7 @@ class Main : public ShiEngine::Application {
     enum States {State1,State2};
     ShiEngine::Texture2D* texture;
     ShiEngine::Sampler* sampler;
+    std::vector<ShiEngine::BoxCollider*> boxColliders; //stores all box colliders in the scene except that of the Player/Camera
 
     // This overridden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
@@ -32,6 +33,16 @@ class Main : public ShiEngine::Application {
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState2);
 
         ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+
+
+        for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+            if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+                ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                if (box != nullptr)
+                    boxColliders.push_back( box );
+            }
+        }
+
     }
 
     //void onImmediateGui(ImGuiIO &io) override {
@@ -74,19 +85,28 @@ class Main : public ShiEngine::Application {
         if(this->getKeyboard().isPressed(GLFW_KEY_M))
             ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y - 0.1f;
 
+        ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
+
         ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
                 "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
         ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "Door")->GetComponent(ShiEngine::ComponentType::BoxCollider));
-        if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
-        {
-            //ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
-            std::cout <<"I am triggered\n";
-            //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
+                "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+
+        for (auto x: boxColliders) {
+            if (B1->CollidesWith(x->GetStartVector(), x->GetEndVector()) ) {
+                std::cout << "I am TRIGGERED!!!!\n";
+            }
         }
+
+//        if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
+//        {
+//            //ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
+//            std::cout <<"I am triggered\n";
+//            //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
+//        }
         ///
 
-        ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
+        //ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
         ShiEngine::Global::Global_GameStateManger->LateUpdate(deltaTime);
     }
 

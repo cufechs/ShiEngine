@@ -28,8 +28,6 @@ glm::vec3 ShiEngine::BoxCollider::GetStartVector()
 
 glm::vec3 ShiEngine::BoxCollider::GetEndVector()
 {
-    //glm::vec3 m = EndVector * gameObject->transform->scale;
-    //std::cout <<  m.x << ", " << m.y << ", " << m.z << "\n";
     return gameObject->transform->position + EndVector * (gameObject->transform->scale*0.5f);
 }
 

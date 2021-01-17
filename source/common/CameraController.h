@@ -85,8 +85,8 @@ namespace ShiEngine {
             //std::cout << "Front: " << front << ", UP: " << up << ", Right: " << right << "\n";
             if(app->getKeyboard().isPressed(GLFW_KEY_W)) camera->transform->position += front * ((float)delta_time * current_sensitivity.z);
             if(app->getKeyboard().isPressed(GLFW_KEY_S)) camera->transform->position -= front * ((float)delta_time * current_sensitivity.z);
-            //if(app->getKeyboard().isPressed(GLFW_KEY_Q)) position += up * ((float)delta_time * current_sensitivity.y);
-            //if(app->getKeyboard().isPressed(GLFW_KEY_E)) position -= up * ((float)delta_time * current_sensitivity.y);
+            //if(app->getKeyboard().isPressed(GLFW_KEY_Q)) camera->transform->position += up * ((float)delta_time * current_sensitivity.y);
+            //if(app->getKeyboard().isPressed(GLFW_KEY_E)) camera->transform->position -= up * ((float)delta_time * current_sensitivity.y);
             if(app->getKeyboard().isPressed(GLFW_KEY_D)) camera->transform->position += right * ((float)delta_time * current_sensitivity.x);
             if(app->getKeyboard().isPressed(GLFW_KEY_A)) camera->transform->position -= right * ((float)delta_time * current_sensitivity.x);
 

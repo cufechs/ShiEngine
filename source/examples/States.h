@@ -66,6 +66,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* objSuzane4 = new ShiEngine::GameObject();
     auto* objSuzane5 = new ShiEngine::GameObject();
     auto* objSuzane6 = new ShiEngine::GameObject();
+    auto* camController = new ShiEngine::GameObject();
 
     RenderState* renderState1;
 
@@ -303,7 +304,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformSpotLight->direction = glm::vec3({0,0,1});
 
     transformPointLight = new ShiEngine::Transform();
-    transformPointLight->position = glm::vec3({-250, 0, 10});
+    transformPointLight->position = glm::vec3({-168, 0, 1});
     transformPointLight->scale = glm::vec3({1,1,1});
     transformPointLight->rotation = glm::vec3({0,0,0});
     transformPointLight->direction = glm::vec3({0, -2, 0});
@@ -327,13 +328,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPointLight4->direction = glm::vec3({0, -2, 0});
 
     transformPointLight5 = new ShiEngine::Transform();
-    transformPointLight5->position = glm::vec3({-215, 3, 48});
+    transformPointLight5->position = glm::vec3({-154, 6, -1});
     transformPointLight5->scale = glm::vec3({1,1,1});
     transformPointLight5->rotation = glm::vec3({0,0,0});
     transformPointLight5->direction = glm::vec3({-1, -1, -1});
 
     transformPointLight6 = new ShiEngine::Transform();
-    transformPointLight6->position = glm::vec3({-200, 0, 10});
+    transformPointLight6->position = glm::vec3({-154, 6, 2});
     transformPointLight6->scale = glm::vec3({1,1,1});
     transformPointLight6->rotation = glm::vec3({0,0,0});
     transformPointLight6->direction = glm::vec3({0, -2, 0});// Point Light Transform
@@ -380,7 +381,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     pointLight6 = new ShiEngine::Light(ShiEngine::LightType::POINT);
     pointLight6->setAttenuation(0,0,1);
-    pointLight6->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({0.1,0.1,0.1}), glm::vec3({0.1,0.1,0.1}));
+    pointLight6->setPhong(glm::vec3({0.5,0.5,0.5}), glm::vec3({1,1,1}), glm::vec3({1,1,1}));
 
 
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
@@ -502,7 +503,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     obj2->AddComponent(transform2);
     obj2->AddComponent(meshRenderer3);
-    obj2->AddComponent(boxColliderWallLeft);
+    //obj2->AddComponent(boxColliderWallLeft);
 
     // Door
     cubeGameObj->AddComponent(transformCubeObj);
@@ -549,23 +550,24 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     planeGameObject2->AddComponent(transformPlane2);
     planeGameObject2->AddComponent(meshRendererPlane2);
-    //planeGameObject2->AddComponent(boxColliderWallRight);
+    planeGameObject2->AddComponent(boxColliderWallLeft);
     planeGameObject2->Name = "plane2 gameObject";
 
     planeGameObject3->AddComponent(transformPlane3);
     planeGameObject3->AddComponent(meshRendererPlane3);
-    //planeGameObject3->AddComponent(boxColliderWallLeft);
+    planeGameObject3->AddComponent(boxColliderWallRight);
     planeGameObject3->Name = "plane3 gameObject";
 
     planeGameObject4->AddComponent(transformPlane4);
     planeGameObject4->AddComponent(meshRendererPlane4);
-    //planeGameObject4->AddComponent(boxColliderWallFront);
+    //planeGameObject4->AddComponent(boxColliderWallBehind); // TODO: at start, the player is very close to the wall, therefore crashes
     planeGameObject4->Name = "plane4 gameObject";
 
     planeGameObject5->AddComponent(transformPlane5);
     planeGameObject5->AddComponent(meshRendererPlane5);
-    //planeGameObject5->AddComponent(boxColliderWallBehind);
-    planeGameObject5->Name = "plane4 gameObject";
+    //planeGameObject5->AddComponent(boxColliderWallFront);
+
+    planeGameObject5->Name = "plane5 gameObject";
 
     // Point Light 1
     pointLightGameObject3->AddComponent(transformPointLight3);
@@ -601,6 +603,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     objSuzane6->AddComponent(meshRendererSuzanne6);
     objSuzane6->Name = "Suzane6";
 
+    camController->AddComponent(controller);
 
 
     objCamera->Start();
@@ -612,31 +615,36 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(obj2);
     //state->addChildGameObject(obj1, cubeGameObj);
     state->addGameObject(cubeGameObj);
-    //state->addGameObject(planeGameObject);
-    //state->addGameObject(directionalLightGameObject);
-    state->addGameObject(pointLightGameObject);
-    state->addGameObject(pointLightGameObject2);
-    //state->addGameObject(spotLightGameObject);
-    //state->addGameObject(planeGameObject2);
-    //state->addGameObject(planeGameObject3);
-    //state->addGameObject(planeGameObject4);
-    //state->addGameObject(planeGameObject5);
-    //state->addGameObject(planeGameObject6);
-    state->addGameObject(spotLightGameObject);
 
-    state->addGameObject(objSuzane);
-    state->addGameObject(pointLightGameObject3);
-    state->addGameObject(pointLightGameObject4);
+    //state->addGameObject(directionalLightGameObject);
+
+    //state->addGameObject(spotLightGameObject);
+    state->addGameObject(planeGameObject);
+    state->addGameObject(planeGameObject2);
+    state->addGameObject(planeGameObject3);
+    state->addGameObject(planeGameObject4);
+    state->addGameObject(planeGameObject5);
+    state->addGameObject(planeGameObject6);
+    //state->addGameObject(spotLightGameObject);
+
+
+
+    //state->addGameObject(pointLightGameObject);
+    //state->addGameObject(pointLightGameObject2);
+    //state->addGameObject(pointLightGameObject3);
+    //state->addGameObject(pointLightGameObject4);
     state->addGameObject(pointLightGameObject5);
     state->addGameObject(pointLightGameObject6);
-
+    state->addGameObject(objSuzane);
     state->addGameObject(objSuzane2);
     state->addGameObject(objSuzane3);
     state->addGameObject(objSuzane4);
     state->addGameObject(objSuzane5);
     state->addGameObject(objSuzane6);
 
+    //state->addGameObject(camController);
     state->addGameObject(objCamera);
+
 
     state->attachCameraController(controller);
 

@@ -123,8 +123,9 @@ namespace ShiEngine {
 
         deleteGameObject();
 
-        if(cameraController)
+        if(cameraController) {
             cameraController->Update(deltaTime * timeScale);
+        }
 
         for(auto & gameObj : GameObj_vector)
             gameObj->Update(deltaTime * timeScale);
