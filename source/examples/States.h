@@ -42,6 +42,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererSuzanne5;
     ShiEngine::MeshRenderer* meshRendererSuzanne6;
     ShiEngine::MeshRenderer* meshRendererWallMiddle1;
+    ShiEngine::MeshRenderer* meshRendererHouse;
 
     auto* obj1 = new ShiEngine::GameObject();
     auto* obj2 = new ShiEngine::GameObject();
@@ -69,6 +70,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* objSuzane6 = new ShiEngine::GameObject();
     auto* camController = new ShiEngine::GameObject();
     auto* wallMiddle1 = new ShiEngine::GameObject;
+    auto* houseGameObj = new ShiEngine::GameObject;
 
     RenderState* renderState1;
 
@@ -104,6 +106,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformSuzane4;
     ShiEngine::Transform* transformSuzane5;
     ShiEngine::Transform* transformSuzane6;
+    ShiEngine::Transform* transformHouse;
 
     ShiEngine::Transform* transformPointLight3;
     ShiEngine::Transform* transformPointLight4;
@@ -139,6 +142,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Mesh* meshPlane5;
     ShiEngine::Mesh* meshPlane6;
     ShiEngine::Mesh* meshSuzane;
+    ShiEngine::Mesh* meshHouse;
 
     ShiEngine::Texture2D* texture1; //texture Earth
     ShiEngine::Sampler* sampler1;
@@ -173,10 +177,13 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
     //meshSuzane->Model("../assets/models/zombie/mediaeval_house.obj");
 
+    meshHouse = new ShiEngine::Mesh();
+    meshHouse->Model("../assets/models/zombie/mediaeval_house.obj");
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
-    transformCamera->position = glm::vec3({-210, 10, 0});
+    //transformCamera->position = glm::vec3({-210, 10, 0});
+    transformCamera->position = glm::vec3({-240, 10, 0});
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
@@ -223,9 +230,15 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Wall middle
     transformWallMiddle1 = new ShiEngine::Transform();
-    transformWallMiddle1->position = glm::vec3({-130, 1, -30});
-    transformWallMiddle1->scale = glm::vec3({2,10,7});
+    transformWallMiddle1->position = glm::vec3({-140, 1, -45});
+    transformWallMiddle1->scale = glm::vec3({2,90,100});
     transformWallMiddle1->rotation = glm::vec3({0,0,0});
+
+    transformHouse = new ShiEngine::Transform();
+    transformHouse->position = glm::vec3({-155, 5, 0});
+    transformHouse->scale = glm::vec3({60,100,60});
+    transformHouse->rotation = glm::vec3({270,0,270});
+
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
@@ -441,6 +454,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererWallMiddle1 = new ShiEngine::MeshRenderer(program, meshCube);
     meshRendererWallMiddle1->SetRenderState(renderState1);
 
+    meshRendererHouse = new ShiEngine::MeshRenderer(program, meshHouse);
+    meshRendererHouse->SetRenderState(renderState1);
+
     texture1 = new ShiEngine::Texture2D("../assets/Textures/woodtexture.jpg", true);
     sampler1 = new ShiEngine::Sampler();
 
@@ -497,6 +513,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererSuzanne5->SetMaterial(material1);
     meshRendererSuzanne6->SetMaterial(material1);
     meshRendererWallMiddle1->SetMaterial(materialPlane);
+    meshRendererHouse->SetMaterial(materialPlane);
 
 
     objCamera->AddComponent(transformCamera);
@@ -579,6 +596,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     wallMiddle1->AddComponent(transformWallMiddle1);
     wallMiddle1->AddComponent(meshRendererWallMiddle1);
 
+    houseGameObj->AddComponent(transformHouse);
+    houseGameObj->AddComponent(meshRendererHouse);
+
     // Point Light 1
     pointLightGameObject3->AddComponent(transformPointLight3);
     pointLightGameObject3->AddComponent(pointLight3);
@@ -627,16 +647,17 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     //state->addChildGameObject(obj1, cubeGameObj);
     state->addGameObject(cubeGameObj);
 
-    //state->addGameObject(directionalLightGameObject);
+    state->addGameObject(directionalLightGameObject);
 
 
     state->addGameObject(planeGameObject);
     state->addGameObject(planeGameObject2);
     state->addGameObject(planeGameObject3);
-    state->addGameObject(planeGameObject4);
+    //state->addGameObject(planeGameObject4);
     state->addGameObject(planeGameObject5);
     state->addGameObject(planeGameObject6);
     state->addGameObject(wallMiddle1);
+    state->addGameObject(houseGameObj);
 
     state->addGameObject(spotLightGameObject);
     //state->addGameObject(pointLightGameObject);
