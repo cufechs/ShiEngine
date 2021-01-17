@@ -36,6 +36,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererPlane5;//last end walls
     ShiEngine::MeshRenderer* meshRendererPlane6;//elsa2f end walls
     ShiEngine::MeshRenderer* meshRendererPlane;
+    ShiEngine::MeshRenderer* meshRendererSuzanne2;
+    ShiEngine::MeshRenderer* meshRendererSuzanne3;
+    ShiEngine::MeshRenderer* meshRendererSuzanne4;
+    ShiEngine::MeshRenderer* meshRendererSuzanne5;
+    ShiEngine::MeshRenderer* meshRendererSuzanne6;
 
     auto* obj1 = new ShiEngine::GameObject();
     auto* obj2 = new ShiEngine::GameObject();
@@ -56,6 +61,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     auto* pointLightGameObject5 = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* pointLightGameObject6 = new ShiEngine::GameObject(ShiEngine::Tags::LIGHT);
     auto* objSuzane = new ShiEngine::GameObject();
+    auto* objSuzane2 = new ShiEngine::GameObject();
+    auto* objSuzane3 = new ShiEngine::GameObject();
+    auto* objSuzane4 = new ShiEngine::GameObject();
+    auto* objSuzane5 = new ShiEngine::GameObject();
+    auto* objSuzane6 = new ShiEngine::GameObject();
 
     RenderState* renderState1;
 
@@ -64,8 +74,12 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformCamera;
     ShiEngine::Transform* transformCube;
 
-    ShiEngine::BoxCollider* boxCollider;
-    ShiEngine::BoxCollider* boxCollider2;
+    ShiEngine::BoxCollider* boxColliderPlayer;
+    ShiEngine::BoxCollider* boxColliderWallBehind;
+    ShiEngine::BoxCollider* boxColliderWallFront;
+    ShiEngine::BoxCollider* boxColliderWallRight;
+    ShiEngine::BoxCollider* boxColliderWallLeft;
+
 
     ShiEngine::Transform* transformDirectionalLight;
     ShiEngine::Transform* transformPointLight;
@@ -80,6 +94,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Transform* transformPlane5;
     ShiEngine::Transform* transformPlane6;
     ShiEngine::Transform* transformSuzane;
+    ShiEngine::Transform* transformSuzane2;
+    ShiEngine::Transform* transformSuzane3;
+    ShiEngine::Transform* transformSuzane4;
+    ShiEngine::Transform* transformSuzane5;
+    ShiEngine::Transform* transformSuzane6;
 
     ShiEngine::Transform* transformPointLight3;
     ShiEngine::Transform* transformPointLight4;
@@ -164,7 +183,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
-    transformCamera->position = glm::vec3({-215, 5, 10});
+    transformCamera->position = glm::vec3({-215, 5, 0});
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
@@ -173,41 +192,72 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformCube->scale = glm::vec3({0.1,0.1,0.1});
     transformCube->rotation = glm::vec3({5,0,0});
 
+    // Wall left
     transformPlane2 = new ShiEngine::Transform();
-    transformPlane2->position = glm::vec3({20, 0, 0});
+    transformPlane2->position = glm::vec3({20, 10, -50});
     transformPlane2->scale = glm::vec3({-500,1,40});
     transformPlane2->rotation = glm::vec3({90,0,0});
 
+    // Wall right
     transformPlane3 = new ShiEngine::Transform();
-    transformPlane3->position = glm::vec3({20, 0, 20});
+    transformPlane3->position = glm::vec3({20, 10, 50});
     transformPlane3->scale = glm::vec3({-500,1,40});
     transformPlane3->rotation = glm::vec3({90,0,0});
 
+    // Wall behind
     transformPlane4 = new ShiEngine::Transform();
-    transformPlane4->position = glm::vec3({-220, 0, 10});
-    transformPlane4->scale = glm::vec3({40,1,40});
+    transformPlane4->position = glm::vec3({-220, 10, 10});
+    transformPlane4->scale = glm::vec3({40,1,200});
     transformPlane4->rotation = glm::vec3({0,0,90});
 
+    // Wall front
     transformPlane5 = new ShiEngine::Transform();
-    transformPlane5->position = glm::vec3({-119, 0, 10});
-    transformPlane5->scale = glm::vec3({40,1,40});
+    transformPlane5->position = glm::vec3({-20, 10, 10});
+    transformPlane5->scale = glm::vec3({40,1,200});
     transformPlane5->rotation = glm::vec3({0,0,90});
 
+    // Wall up
     transformPlane6 = new ShiEngine::Transform();
-    transformPlane6->position = glm::vec3({0, 20, 0});
-    transformPlane6->scale = glm::vec3({-500,1,40});
+    transformPlane6->position = glm::vec3({0, 30, 0});
+    transformPlane6->scale = glm::vec3({-500,1,100});
     transformPlane6->rotation = glm::vec3({0,0,0});
 
+    // Wall down
     transformPlane = new ShiEngine::Transform();
     transformPlane->position = glm::vec3({0, -1, 0});
-    transformPlane->scale = glm::vec3({-500,1,40});
+    transformPlane->scale = glm::vec3({-500,1,100});
     transformPlane->rotation = glm::vec3({0,0,0});
 
     //Loading Objects
     transformSuzane = new ShiEngine::Transform();
-    transformSuzane->position = glm::vec3({-208, 5, 1});//kairi
+    transformSuzane->position = glm::vec3({-30, 5, 0});//kairi
     transformSuzane->scale = glm::vec3({4,4,4});
     transformSuzane->rotation = glm::vec3({0,-90,0});
+
+    transformSuzane2 = new ShiEngine::Transform();
+    transformSuzane2->position = glm::vec3({-50, 5, -20});//kairi
+    transformSuzane2->scale = glm::vec3({4,4,4});
+    transformSuzane2->rotation = glm::vec3({0,-90,0});
+
+    transformSuzane3 = new ShiEngine::Transform();
+    transformSuzane3->position = glm::vec3({-70, 5, 30});//kairi
+    transformSuzane3->scale = glm::vec3({4,4,4});
+    transformSuzane3->rotation = glm::vec3({0,-90,0});
+
+    transformSuzane4 = new ShiEngine::Transform();
+    transformSuzane4->position = glm::vec3({-90, 5, 10});//kairi
+    transformSuzane4->scale = glm::vec3({4,4,4});
+    transformSuzane4->rotation = glm::vec3({0,-90,0});
+
+    transformSuzane5 = new ShiEngine::Transform();
+    transformSuzane5->position = glm::vec3({-120, 5, -20});//kairi
+    transformSuzane5->scale = glm::vec3({4,4,4});
+    transformSuzane5->rotation = glm::vec3({0,-90,0});
+
+    transformSuzane6 = new ShiEngine::Transform();
+    transformSuzane6->position = glm::vec3({-150, 5, 1});//kairi
+    transformSuzane6->scale = glm::vec3({4,4,4});
+    transformSuzane6->rotation = glm::vec3({0,-90,0});
 
     transform1 = new ShiEngine::Transform();
     transform1->position = glm::vec3({0, 0, 0});
@@ -219,15 +269,19 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transform2->scale = glm::vec3({2,2,2});
     transform2->rotation = glm::vec3({0,0,0});
 
-    boxCollider = new ShiEngine::BoxCollider();
-    boxCollider2 = new ShiEngine::BoxCollider();
+    boxColliderPlayer = new ShiEngine::BoxCollider();
+    boxColliderWallBehind = new ShiEngine::BoxCollider();
+    boxColliderWallFront = new ShiEngine::BoxCollider();
+    boxColliderWallLeft = new ShiEngine::BoxCollider();
+    boxColliderWallRight = new ShiEngine::BoxCollider();
 
+
+    // Door
     transformCubeObj = new ShiEngine::Transform();
-    transformCubeObj->position = glm::vec3({-4, 0, 0});
-    transformCubeObj->scale = glm::vec3({2,2,2});
+    transformCubeObj->position = glm::vec3({-20, 12, 0});
+    transformCubeObj->scale = glm::vec3({2,30,18});
     transformCubeObj->rotation = glm::vec3({0,0,0});
 
-    // Camera Transform
 
     transformCube = new ShiEngine::Transform();
     transformCube->position = glm::vec3({0, 0, 0});
@@ -249,7 +303,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformSpotLight->direction = glm::vec3({0,0,1});
 
     transformPointLight = new ShiEngine::Transform();
-    transformPointLight->position = glm::vec3({-210, 6, 10});
+    transformPointLight->position = glm::vec3({-250, 0, 10});
     transformPointLight->scale = glm::vec3({1,1,1});
     transformPointLight->rotation = glm::vec3({0,0,0});
     transformPointLight->direction = glm::vec3({0, -2, 0});
@@ -267,26 +321,26 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transformPointLight3->direction = glm::vec3({0, -2, 0});
 
     transformPointLight4 = new ShiEngine::Transform();
-    transformPointLight4->position = glm::vec3({-150, 0, 10});
+    transformPointLight4->position = glm::vec3({-215, 3, -48});
     transformPointLight4->scale = glm::vec3({1,1,1});
     transformPointLight4->rotation = glm::vec3({0,0,0});
     transformPointLight4->direction = glm::vec3({0, -2, 0});
 
     transformPointLight5 = new ShiEngine::Transform();
-    transformPointLight5->position = glm::vec3({-200, 0, 10});
+    transformPointLight5->position = glm::vec3({-215, 3, 48});
     transformPointLight5->scale = glm::vec3({1,1,1});
     transformPointLight5->rotation = glm::vec3({0,0,0});
     transformPointLight5->direction = glm::vec3({-1, -1, -1});
 
     transformPointLight6 = new ShiEngine::Transform();
-    transformPointLight6->position = glm::vec3({-250, 0, 10});
+    transformPointLight6->position = glm::vec3({-200, 0, 10});
     transformPointLight6->scale = glm::vec3({1,1,1});
     transformPointLight6->rotation = glm::vec3({0,0,0});
     transformPointLight6->direction = glm::vec3({0, -2, 0});// Point Light Transform
 
     // Spot Light Transform
     transformSpotLight = new ShiEngine::Transform();
-    transformSpotLight->position = glm::vec3({3, 5, 4});
+    transformSpotLight->position = glm::vec3({-200, 1, 0});
     transformSpotLight->scale = glm::vec3({1,1,1});
     transformSpotLight->rotation = glm::vec3({0,0,0});
     transformSpotLight->direction = glm::vec3({0,-1,0});
@@ -294,9 +348,10 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     moveEnemy1 = new ShiEngine::EnemyMovement();
     moveEnemy1->setOscillateY(2.0, 0.01);
+    moveEnemy1->setOscillateZ(20.0, 0.05);
 
     camera = new ShiEngine::Camera();
-    camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);
+    camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 1000.0f);
     //camera->setupOrthographic(2.f, 1.7, 0.1f, 100.0f);
 
     // Directional Light, Set attenuation and other stuff if needed
@@ -330,7 +385,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     spotLight = new ShiEngine::Light(ShiEngine::LightType::SPOT);
     spotLight->setAttenuation(0,1,0);
-    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({0.101,0.101,0.101}));
+    spotLight->setPhong(glm::vec3({1,1,1}), glm::vec3({1,1,1}), glm::vec3({1,1,1}));
     spotLight->setSpotAngle(0.785, 1.571);
 
     renderState1 = new RenderState(true,true,false);
@@ -365,10 +420,25 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererSuzane = new ShiEngine::MeshRenderer(program, meshSuzane);
     meshRendererSuzane->SetRenderState(renderState1);
 
-    texture1 = new ShiEngine::Texture2D("../assets/Textures/moon.jpg", true);
+    meshRendererSuzanne2 = new ShiEngine::MeshRenderer(program, meshSuzane);
+    meshRendererSuzanne2->SetRenderState(renderState1);
+
+    meshRendererSuzanne3 = new ShiEngine::MeshRenderer(program, meshSuzane);
+    meshRendererSuzanne3->SetRenderState(renderState1);
+
+    meshRendererSuzanne4 = new ShiEngine::MeshRenderer(program, meshSuzane);
+    meshRendererSuzanne4->SetRenderState(renderState1);
+
+    meshRendererSuzanne5 = new ShiEngine::MeshRenderer(program, meshSuzane);
+    meshRendererSuzanne5->SetRenderState(renderState1);
+
+    meshRendererSuzanne6 = new ShiEngine::MeshRenderer(program, meshSuzane);
+    meshRendererSuzanne6->SetRenderState(renderState1);
+
+    texture1 = new ShiEngine::Texture2D("../assets/Textures/woodtexture.jpg", true);
     sampler1 = new ShiEngine::Sampler();
 
-    texture2 = new ShiEngine::Texture2D("../assets/Textures/monarch.png", true);
+    texture2 = new ShiEngine::Texture2D("../assets/Textures/doorTexture.jpg", true);
     textureEarth = new ShiEngine::Texture2D("../assets/Textures/2k_earth_daymap.jpg", true);
 
     material1 = new ShiEngine::Material();
@@ -376,7 +446,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     material1->albedo_tint = {1, 1, 1}; // The reflectance color
     material1->specular_tint = {1, 1, 1};
     material1->roughness_range = {0,1};
-    material1->emissive_tint = {0.01,0.01,0.01};
+    material1->emissive_tint = {0.1,0.1,0.1};
     material1->setTexture(textureEarth);
     material1->setSampler(sampler1);
     meshRenderer1->SetMaterial(material1);
@@ -394,7 +464,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     materialPlane->albedo_tint = {0.93, 0.1019, 0.301}; // The reflectance color
     materialPlane->specular_tint = {1, 1, 1};
     materialPlane->roughness_range = {0,1};
-    materialPlane->emissive_tint = {0.1,0.1,0.1};
+    materialPlane->emissive_tint = {0.3,0.3,0.3};
     materialPlane->setTexture(texture1);
     materialPlane->setSampler(sampler1);
     materialPlane->shaderProgram = program;
@@ -403,6 +473,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRenderer2->SetMaterial(materialCube); //cube will have same material as sphere
     meshRenderer3->SetMaterial(materialCube);
 
+
+
+
+
+
     ///
     meshRendererPlane2->SetMaterial(materialPlane);
     meshRendererPlane3->SetMaterial(materialPlane);
@@ -410,31 +485,39 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     meshRendererPlane5->SetMaterial(materialPlane);
     meshRendererPlane6->SetMaterial(materialPlane);
     meshRendererSuzane->SetMaterial(material1);
+    meshRendererSuzanne2->SetMaterial(material1);
+    meshRendererSuzanne3->SetMaterial(material1);
+    meshRendererSuzanne4->SetMaterial(material1);
+    meshRendererSuzanne5->SetMaterial(material1);
+    meshRendererSuzanne6->SetMaterial(material1);
 
     objCamera->AddComponent(transformCamera);
     objCamera->AddComponent(camera);
-    //objCamera.Name = "objCamera";
+    objCamera->AddComponent(boxColliderPlayer);
+    objCamera->Name = "objCamera";
 
-    obj1->AddComponent(transform1);
-    obj1->AddComponent(meshRenderer1);
+//    obj1->AddComponent(transform1);
+//    obj1->AddComponent(meshRenderer1);
+//    obj1->AddComponent(boxColliderWallRight);
 
     obj2->AddComponent(transform2);
     obj2->AddComponent(meshRenderer3);
-    obj2->AddComponent(boxCollider2);
+    obj2->AddComponent(boxColliderWallLeft);
 
+    // Door
     cubeGameObj->AddComponent(transformCubeObj);
     cubeGameObj->AddComponent(meshRenderer2);
-    cubeGameObj->AddComponent(boxCollider);
+    cubeGameObj->AddComponent(boxColliderWallFront);
+
 
     //obj1->AddComponent(material1);
-    obj1->Name = "sphere 1";
-    cubeGameObj->Name = "cube 1";
+    //obj1->Name = "sphere 1";
+    cubeGameObj->Name = "Door";
     obj2->Name = "cube 2";
 
     // Plane
     planeGameObject->AddComponent(transformPlane);
     planeGameObject->AddComponent(meshRendererPlane);
-    //planeGameObject->AddComponent(materialPlane);
     planeGameObject->Name = "plane gameObject";
 
     // Point Light 1
@@ -462,27 +545,26 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     // Plane
     planeGameObject6->AddComponent(transformPlane6);
     planeGameObject6->AddComponent(meshRendererPlane6);
-    //planeGameObject6->AddComponent(materialPlane6);
     planeGameObject6->Name = "plane6 gameObject";
 
     planeGameObject2->AddComponent(transformPlane2);
     planeGameObject2->AddComponent(meshRendererPlane2);
-    //planeGameObject2->AddComponent(materialPlane2);
+    //planeGameObject2->AddComponent(boxColliderWallRight);
     planeGameObject2->Name = "plane2 gameObject";
 
     planeGameObject3->AddComponent(transformPlane3);
     planeGameObject3->AddComponent(meshRendererPlane3);
-    //planeGameObject3->AddComponent(materialPlane3);
+    //planeGameObject3->AddComponent(boxColliderWallLeft);
     planeGameObject3->Name = "plane3 gameObject";
 
     planeGameObject4->AddComponent(transformPlane4);
     planeGameObject4->AddComponent(meshRendererPlane4);
-    //planeGameObject4->AddComponent(materialPlane4);
+    //planeGameObject4->AddComponent(boxColliderWallFront);
     planeGameObject4->Name = "plane4 gameObject";
 
     planeGameObject5->AddComponent(transformPlane5);
     planeGameObject5->AddComponent(meshRendererPlane5);
-    //planeGameObject5->AddComponent(materialPlane5);
+    //planeGameObject5->AddComponent(boxColliderWallBehind);
     planeGameObject5->Name = "plane4 gameObject";
 
     // Point Light 1
@@ -498,6 +580,29 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     pointLightGameObject6->AddComponent(transformPointLight6);
     pointLightGameObject6->AddComponent(pointLight6);
 
+
+    objSuzane2->AddComponent(transformSuzane2);
+    objSuzane2->AddComponent(meshRendererSuzanne2);
+    objSuzane2->Name = "Suzane2";
+
+    objSuzane3->AddComponent(transformSuzane3);
+    objSuzane3->AddComponent(meshRendererSuzanne3);
+    objSuzane3->Name = "Suzane3";
+
+    objSuzane4->AddComponent(transformSuzane4);
+    objSuzane4->AddComponent(meshRendererSuzanne4);
+    objSuzane4->Name = "Suzane4";
+
+    objSuzane5->AddComponent(transformSuzane5);
+    objSuzane5->AddComponent(meshRendererSuzanne5);
+    objSuzane5->Name = "Suzane5";
+
+    objSuzane6->AddComponent(transformSuzane6);
+    objSuzane6->AddComponent(meshRendererSuzanne6);
+    objSuzane6->Name = "Suzane6";
+
+
+
     objCamera->Start();
     controller->initialize(application, camera);
 
@@ -507,30 +612,67 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(obj2);
     //state->addChildGameObject(obj1, cubeGameObj);
     state->addGameObject(cubeGameObj);
-    state->addGameObject(planeGameObject);
-    state->addGameObject(directionalLightGameObject);
+    //state->addGameObject(planeGameObject);
+    //state->addGameObject(directionalLightGameObject);
     state->addGameObject(pointLightGameObject);
     state->addGameObject(pointLightGameObject2);
     //state->addGameObject(spotLightGameObject);
-    state->addGameObject(planeGameObject2);
-    state->addGameObject(planeGameObject3);
-    state->addGameObject(planeGameObject4);
-    state->addGameObject(planeGameObject5);
-    state->addGameObject(planeGameObject6);
+    //state->addGameObject(planeGameObject2);
+    //state->addGameObject(planeGameObject3);
+    //state->addGameObject(planeGameObject4);
+    //state->addGameObject(planeGameObject5);
+    //state->addGameObject(planeGameObject6);
     state->addGameObject(spotLightGameObject);
 
     state->addGameObject(objSuzane);
-    //state->addGameObject(pointLightGameObject3);
-    //state->addGameObject(pointLightGameObject4);
-    //state->addGameObject(pointLightGameObject5);
-    //  state->addGameObject(pointLightGameObject6);
+    state->addGameObject(pointLightGameObject3);
+    state->addGameObject(pointLightGameObject4);
+    state->addGameObject(pointLightGameObject5);
+    state->addGameObject(pointLightGameObject6);
 
+    state->addGameObject(objSuzane2);
+    state->addGameObject(objSuzane3);
+    state->addGameObject(objSuzane4);
+    state->addGameObject(objSuzane5);
+    state->addGameObject(objSuzane6);
 
 
     state->attachCameraController(controller);
 
     return state;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
@@ -559,7 +701,6 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     ShiEngine::Transform* transform1;
     ShiEngine::Transform* transform2;
     ShiEngine::Transform* transformCamera;
-    ShiEngine::Transform* transformCube;
 
     ShiEngine::Transform* transformDirectionalLight;
     ShiEngine::Transform* transformPointLight;
@@ -611,14 +752,10 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
-    transformCube = new ShiEngine::Transform();
-    transformCube->position = glm::vec3({0, 0, 0});
-    transformCube->scale = glm::vec3({2,2,2});
-    transformCube->rotation = glm::vec3({0,0,0});
 
     transformPlane = new ShiEngine::Transform();
     transformPlane->position = glm::vec3({0, -1, 0});
-    transformPlane->scale = glm::vec3({50,1,50});
+    transformPlane->scale = glm::vec3({100,1,100});
     transformPlane->rotation = glm::vec3({0,0,0});
 
     // Directional Light Transform
@@ -637,17 +774,17 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     // Point Light Transform
     transformPointLight2 = new ShiEngine::Transform();
-    transformPointLight2->position = glm::vec3({2, 0, 0});
+    transformPointLight2->position = glm::vec3({-2, 0, 0});
     transformPointLight2->scale = glm::vec3({1,1,1});
     transformPointLight2->rotation = glm::vec3({0,0,0});
     transformPointLight2->direction = glm::vec3({-1, -1, -1});
 
     // Spot Light Transform
     transformSpotLight = new ShiEngine::Transform();
-    transformSpotLight->position = glm::vec3({2, 0, 0});
+    transformSpotLight->position = glm::vec3({-200, 5, 0});
     transformSpotLight->scale = glm::vec3({1,1,1});
     transformSpotLight->rotation = glm::vec3({0,0,0});
-    transformSpotLight->direction = glm::vec3({-2,0,0});
+    transformSpotLight->direction = glm::vec3({0,-1,0});
 
     camera = new ShiEngine::Camera();
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 100.0f);

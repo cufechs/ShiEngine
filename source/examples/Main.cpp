@@ -15,7 +15,7 @@ class Main : public ShiEngine::Application {
 
     // This overridden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
-        return { "Engine", {1280, 720}, false };
+        return { "Engine", {1700, 980}, false };
     }
 
     // onInitialize() function is called once before the application loop
@@ -75,13 +75,13 @@ class Main : public ShiEngine::Application {
             ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y - 0.1f;
 
         ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "cube 1")->GetComponent(ShiEngine::ComponentType::BoxCollider));
-        ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
                 "cube 2")->GetComponent(ShiEngine::ComponentType::BoxCollider));
-        if(B2->CollidesWith(B1->GetStartVector(), B1->GetEndVector()))
+        ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                "Door")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+        if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
         {
-            ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
-
+            //ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
+            std::cout <<"I am triggered\n";
             //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
         }
         ///

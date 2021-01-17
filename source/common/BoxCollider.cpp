@@ -7,7 +7,7 @@
 ShiEngine::BoxCollider::BoxCollider()
 {
     StartVector = glm::vec3(0, 0, 0);
-    EndVector = glm::vec3(2, 2, 2);
+    EndVector = glm::vec3(1, 7, 7);
     Type = ComponentType::BoxCollider;
     IsTrigger = false;
 }
@@ -27,7 +27,7 @@ glm::vec3 ShiEngine::BoxCollider::GetStartVector()
 
 glm::vec3 ShiEngine::BoxCollider::GetEndVector()
 {
-    return gameObject->transform->position + EndVector;
+    return gameObject->transform->position + EndVector * gameObject->transform->scale;
 }
 
 bool ShiEngine::BoxCollider::CollidesWith(glm::vec3 Start, glm::vec3 End) //Pass start and end vectors
@@ -47,6 +47,7 @@ bool ShiEngine::BoxCollider::CollidesWith(glm::vec3 Start, glm::vec3 End) //Pass
     if(!IsTrigger)
         gameObject->transform->position = gameObject->transform->PreviousPosition;
 
+    std::cout << "Triggered\n";
     return true;
 }
 
