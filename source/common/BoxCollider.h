@@ -24,7 +24,7 @@ namespace ShiEngine {
         BoxCollider(glm::vec3 Start, glm::vec3 End);
         glm::vec3 GetStartVector();
         glm::vec3 GetEndVector();
-        bool CollidesWith(glm::vec3 Start, glm::vec3 End);
+        bool CollidesWith(BoxCollider* BC);
     };
 }
 

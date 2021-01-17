@@ -9,6 +9,7 @@
 // This exercise Window Application that derives from "Application" parent
 class Main : public ShiEngine::Application {
 
+    glm::vec3 PlayerDefaultPos;
     enum States {State1,State2};
     ShiEngine::Texture2D* texture;
     ShiEngine::Sampler* sampler;
@@ -41,6 +42,8 @@ class Main : public ShiEngine::Application {
                 if (box != nullptr)
                     boxColliders.push_back( box );
             }
+            else
+                PlayerDefaultPos = x->transform->position;
         }
 
     }
@@ -93,7 +96,14 @@ class Main : public ShiEngine::Application {
                 "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
 
         for (auto x: boxColliders) {
-            if (B1->CollidesWith(x->GetStartVector(), x->GetEndVector()) ) {
+            if (B1->CollidesWith(x)) {
+                if(x->IsTrigger)
+                {
+                    if(x->gameObject->Name == "Door") //Door
+                        std::cout << "Door" << std::endl;
+                    else //Ghost
+                        B1->gameObject->transform->position = PlayerDefaultPos;
+                }
                 std::cout << "I am TRIGGERED!!!!\n";
             }
         }

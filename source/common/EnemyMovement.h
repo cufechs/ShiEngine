@@ -17,7 +17,10 @@ namespace ShiEngine {
         float y_increment, y_oscill_dist; // oscillation on y-axes
         float z_increment, z_oscill_dist; // oscillation on z-axes
         glm::vec3 origin_pos;
+        float Counter;
     public:
+        float StartAfter;
+
         EnemyMovement() {
             Type = ComponentType::EnemyMove;
             x_increment = 0.0;
@@ -26,6 +29,20 @@ namespace ShiEngine {
             x_oscill_dist = 0.0;
             y_oscill_dist = 0.0;
             z_oscill_dist = 0.0;
+            StartAfter = 0;
+            Counter = 0;
+        }
+
+        EnemyMovement(float startAfter) {
+            Type = ComponentType::EnemyMove;
+            x_increment = 0.0;
+            y_increment = 0.0;
+            z_increment = 0.0;
+            x_oscill_dist = 0.0;
+            y_oscill_dist = 0.0;
+            z_oscill_dist = 0.0;
+            StartAfter = startAfter;
+            Counter = 0;
         }
 
 
@@ -54,12 +71,16 @@ namespace ShiEngine {
         }
 
         void Update(double deltaTime) override {
-
             if (!transform) return; //this gameObject does not have a transform!
 
-            oscillateX();
-            oscillateY();
-            oscillateZ();
+            if(Counter > StartAfter)
+            {
+                oscillateX();
+                oscillateY();
+                oscillateZ();
+            }
+            else
+                Counter += (float)deltaTime;
             //transform->position = transform->position + increment;
 
         }
