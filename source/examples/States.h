@@ -183,7 +183,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Transforms
     transformCamera = new ShiEngine::Transform();
-    transformCamera->position = glm::vec3({-215, 5, 0});
+    transformCamera->position = glm::vec3({-215, 10, 0});
     transformCamera->scale = glm::vec3({1,1,1});
     transformCamera->rotation = glm::vec3({0,0,0});
 
@@ -265,7 +265,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     transform1->rotation = glm::vec3({0,0,0});
 
     transform2 = new ShiEngine::Transform();
-    transform2->position = glm::vec3({2, 0, 0});
+    transform2->position = glm::vec3({2, 5, 0});
     transform2->scale = glm::vec3({2,2,2});
     transform2->rotation = glm::vec3({0,0,0});
 
@@ -606,7 +606,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     objCamera->Start();
     controller->initialize(application, camera);
 
-    state->addGameObject(objCamera);
+
     //state->addChildGameObject(objCamera, obj1);
     state->addGameObject(obj1);
     state->addGameObject(obj2);
@@ -636,6 +636,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(objSuzane5);
     state->addGameObject(objSuzane6);
 
+    state->addGameObject(objCamera);
 
     state->attachCameraController(controller);
 

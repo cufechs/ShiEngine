@@ -75,7 +75,7 @@ class Main : public ShiEngine::Application {
             ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y = ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("cube 2")->transform->position.y - 0.1f;
 
         ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "cube 2")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
         ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
                 "Door")->GetComponent(ShiEngine::ComponentType::BoxCollider));
         if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
