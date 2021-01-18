@@ -130,6 +130,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::BoxCollider* boxColliderWallFront;
     ShiEngine::BoxCollider* boxColliderWallRight;
     ShiEngine::BoxCollider* boxColliderWallLeft;
+    ShiEngine::BoxCollider* BCWF;
 
     ShiEngine::BoxCollider* pointLightBoxCollider1;
     ShiEngine::BoxCollider* pointLightBoxCollider2;
@@ -397,6 +398,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     boxColliderPlayer = new ShiEngine::BoxCollider();
     boxColliderWallBehind = new ShiEngine::BoxCollider();
     boxColliderWallFront = new ShiEngine::BoxCollider();
+    BCWF = new ShiEngine::BoxCollider();
     boxColliderWallFront->IsTrigger = true;
     boxColliderWallLeft = new ShiEngine::BoxCollider();
     boxColliderWallRight = new ShiEngine::BoxCollider();
@@ -832,7 +834,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     planeGameObject5->AddComponent(transformPlane5);
     planeGameObject5->AddComponent(meshRendererPlane5);
-    //planeGameObject5->AddComponent(boxColliderWallFront);
+    planeGameObject5->AddComponent(BCWF);
 
     planeGameObject5->Name = "plane5 gameObject";
 
