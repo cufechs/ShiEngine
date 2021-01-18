@@ -140,7 +140,7 @@ void ShiEngine::MeshRenderer::Draw() {
 //    glCullFace(GL_BACK);
 //    glFrontFace(GL_CCW);
 
-    glClearColor(0.098, 0.098, 0.439, 1);
+    glClearColor(0.18, 0.18, 0.31, 1);
 
     shaderProgram->unuse(); //not sure if we should un use the program
 }

@@ -192,6 +192,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     ShiEngine::Material* materialPlane6;
     ShiEngine::Material* MATBox;
     ShiEngine::Material* MATAutposy;
+    ShiEngine::Material* MATKey;
 
     ShiEngine::Mesh* meshCube;
     ShiEngine::Mesh* meshPlane;
@@ -203,10 +204,12 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     ShiEngine::Mesh* meshPlane6;
     ShiEngine::Mesh* meshSuzane;
     ShiEngine::Mesh* meshAutopsy;
+    ShiEngine::Mesh* meshKey;
 
     ShiEngine::Texture2D* texture1; //texture Earth
     ShiEngine::Texture2D* TextureM;
     ShiEngine::Texture2D* textureAutpsy;
+    ShiEngine::Texture2D* textureKey;
     ShiEngine::Sampler* sampler1;
 
     ShiEngine::Texture2D* texture2;
@@ -250,6 +253,9 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     meshAutopsy = new ShiEngine::Mesh();
     meshAutopsy->Model( "../assets/models/Ghost2/exting.obj");
+
+    meshKey = new ShiEngine::Mesh();
+    meshKey->Model( "../assets/models/keys/Worn_Key.obj");
 
     //Transforms
     TBox1 = new ShiEngine::Transform();
@@ -298,8 +304,8 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     TBox9->rotation = glm::vec3({0,0,0});
 
     TBox10 = new ShiEngine::Transform();
-    TBox10->position = glm::vec3({-200, 10, 0});
-    TBox10->scale = glm::vec3({1,1,1});
+    TBox10->position = glm::vec3({-100, 10, 0});
+    TBox10->scale = glm::vec3({35,35,35});
     TBox10->rotation = glm::vec3({0,0,0});
 
     TAutopsy = new ShiEngine::Transform();
@@ -406,6 +412,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     BCBox8 = new ShiEngine::BoxCollider();
     BCBox9 = new ShiEngine::BoxCollider();
     BCBox10 = new ShiEngine::BoxCollider();
+    BCBox10->IsTrigger = true;
     BCWF = new ShiEngine::BoxCollider();
 
     boxColliderPlayer = new ShiEngine::BoxCollider();
@@ -656,7 +663,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     MRBox9 = new ShiEngine::MeshRenderer(program, meshCube);
     MRBox9->SetRenderState(renderState1);
 
-    MRBox10 = new ShiEngine::MeshRenderer(program, meshCube);
+    MRBox10 = new ShiEngine::MeshRenderer(program, meshKey);
     MRBox10->SetRenderState(renderState1);
 
     MAutopsy = new ShiEngine::MeshRenderer(program, meshAutopsy);
@@ -715,6 +722,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     texture2 = new ShiEngine::Texture2D("../assets/Textures/doorTexture.jpg", true);
     textureEarth = new ShiEngine::Texture2D("../assets/Textures/2k_earth_daymap.jpg", true);
     textureAutpsy = new ShiEngine::Texture2D("../assets/models/Ghost2/1_BC.png", true);
+    textureKey = new ShiEngine::Texture2D("../assets/models/keys/Key_Material.png", true);
 
     material1 = new ShiEngine::Material();
     material1->shaderProgram = program;
@@ -743,6 +751,15 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     MATBox->emissive_tint = {1,1,1};
     MATBox->setTexture(texture1);
     MATBox->setSampler(sampler1);
+
+    MATKey = new ShiEngine::Material();
+    MATKey->shaderProgram = program;
+    MATKey->albedo_tint = {1, 1, 1}; // The reflectance color
+    MATKey->specular_tint = {1, 1, 1};
+    MATKey->roughness_range = {0,1};
+    MATKey->emissive_tint = {1,1,1};
+    MATKey->setTexture(textureKey);
+    MATKey->setSampler(sampler1);
 
     MATAutposy = new ShiEngine::Material();
     MATAutposy->shaderProgram = program;
@@ -801,6 +818,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     Box8->AddComponent(TBox8);
     Box9->AddComponent(TBox9);
     Box10->AddComponent(TBox10);
+    Box10->Name = "key";
 
     Box1->AddComponent(MRBox1);
     Box2->AddComponent(MRBox2);
@@ -1002,7 +1020,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 //    state->addGameObject(Box7);
 //    state->addGameObject(Box8);
 //    state->addGameObject(Box9);
-//    state->addGameObject(Box10);
+    state->addGameObject(Box10);
     //state->addGameObject(spotLightGameObject);
 
 
@@ -1018,8 +1036,12 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     state->addGameObject(pointLightGameObjectS10);
     state->addGameObject(pointLightGameObject5);
     state->addGameObject(pointLightGameObject6);
+
+    state->addGameObject(objSuzane2);
     state->addChildGameObject(pointLightGameObjectS1, objSuzane);
-    state->addChildGameObject(pointLightGameObjectS3, objSuzane2);
+    //state->addChildGameObject(pointLightGameObjectS3, objSuzane2);
+    state->attachChildGameObject(pointLightGameObjectS3, objSuzane2);
+    //state->addChildGameObject(objSuzane2, Box10);
     state->addChildGameObject(pointLightGameObjectS5, objSuzane3);
     state->addChildGameObject(pointLightGameObjectS7, objSuzane4);
     state->addChildGameObject(pointLightGameObjectS9, objSuzane5);

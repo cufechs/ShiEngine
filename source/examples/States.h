@@ -204,6 +204,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     ShiEngine::Mesh* meshPlane5;
     ShiEngine::Mesh* meshPlane6;
     ShiEngine::Mesh* meshSuzane;
+    ShiEngine::Mesh* meshKey;
 
     ShiEngine::Texture2D* texture1; //texture Earth
     ShiEngine::Texture2D* TextureM;
@@ -247,6 +248,9 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     meshSuzane = new ShiEngine::Mesh();
     meshSuzane->Model( "../assets/models/Suzanne/Suzanne.obj");
+
+    meshKey = new ShiEngine::Mesh();
+    meshKey->Model( "../assets/models/Suzanne/Suzanne.obj");
 
     //Transforms
     TBox1 = new ShiEngine::Transform();
@@ -295,7 +299,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     TBox9->rotation = glm::vec3({0,0,0});
 
     TBox10 = new ShiEngine::Transform();
-    TBox10->position = glm::vec3({-200, 10, 0});
+    TBox10->position = glm::vec3({190, 2, -45});
     TBox10->scale = glm::vec3({1,1,1});
     TBox10->rotation = glm::vec3({0,0,0});
 
@@ -2015,6 +2019,7 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     ShiEngine::MeshRenderer* meshRendererHouse;
     ShiEngine::MeshRenderer* meshRendererTree1;
     ShiEngine::MeshRenderer* meshRendererTree2;
+    ShiEngine::MeshRenderer* meshRendererKey;
 
     auto* obj1 = new ShiEngine::GameObject();
     auto* obj2 = new ShiEngine::GameObject();
@@ -2045,6 +2050,7 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     auto* houseGameObj = new ShiEngine::GameObject;
     auto* treeGameObj1 = new ShiEngine::GameObject;
     auto* treeGameObj2 = new ShiEngine::GameObject;
+    auto* keyGameObj = new ShiEngine::GameObject;
 
     RenderState* renderState1;
 
@@ -2052,6 +2058,7 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     ShiEngine::Transform* transform2;
     ShiEngine::Transform* transformCamera;
     ShiEngine::Transform* transformCube;
+    ShiEngine::Transform* transformKey;
 
     ShiEngine::BoxCollider* boxColliderPlayer;
     ShiEngine::BoxCollider* boxColliderWallBehind;
@@ -2114,6 +2121,7 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     ShiEngine::Material* materialWalls;
     ShiEngine::Material* materialwelcome;
     ShiEngine::Material* materialTree;
+    ShiEngine::Material* materialKey;
 
 
     ShiEngine::Mesh* meshCube;
@@ -2137,6 +2145,7 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     ShiEngine::Texture2D* textureHouse;
     ShiEngine::Texture2D* textureWalls;
     ShiEngine::Texture2D* texturewelcome;
+    ShiEngine::Texture2D* textureKey;
 
 
     ShiEngine::EnemyMovement* moveEnemy1; // In front of the Door/Gate
@@ -2273,6 +2282,11 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     transformTree1->position = glm::vec3({-200, 5, -150});
     transformTree1->scale = glm::vec3({30,30,30});
     transformTree1->rotation = glm::vec3({0,0,0});
+
+    transformKey = new ShiEngine::Transform();
+    transformKey->position = glm::vec3({-200, 5, -150});
+    transformKey->scale = glm::vec3({30,30,30});
+    transformKey->rotation = glm::vec3({0,0,0});
 
     transformTree2 = new ShiEngine::Transform();
     transformTree2->position = glm::vec3({-200, 5, 150});

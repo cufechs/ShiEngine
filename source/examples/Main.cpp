@@ -14,6 +14,7 @@ class Main : public ShiEngine::Application {
     ShiEngine::Texture2D* texture;
     ShiEngine::Sampler* sampler;
     std::vector<ShiEngine::BoxCollider*> boxColliders; //stores all box colliders in the scene except that of the Player/Camera
+    bool keyFound = false;
 
     // This overridden function sets the window configuration params struct (title, size, isFullscreen).
     ShiEngine::WindowConfiguration getWindowConfiguration() override {
@@ -27,7 +28,6 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->attachApplicationPtr(this);
 
-        std::cout << "init\n";
         //program
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State1,&CreateState1);
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState2);
@@ -112,7 +112,13 @@ class Main : public ShiEngine::Application {
             for (auto x: boxColliders) {
                 if (B1->CollidesWith(x)) {
                     if (x->IsTrigger) {
-                        if (x->gameObject->Name == "Door") //Door
+                        if (x->gameObject->Name == "key") {
+                            std::cout << "got the keyyyyyyyyyyyyy\n";
+                            keyFound = true;
+                        }
+                        else if (x->gameObject->Name == "Door" && (
+                                ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu" ||
+                                ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1") ) //Door
                         {
                             boxColliders.clear();
                             if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
@@ -123,7 +129,6 @@ class Main : public ShiEngine::Application {
                                 ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
 
                             for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
-                                std::cout << "hiiii\n";
                                 if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
 
                                     ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
@@ -136,10 +141,57 @@ class Main : public ShiEngine::Application {
                             //std::cout << "I am TRIGGERED!!!!\n";
                             return;
                         }
-                        else //Ghost
-                            B1->gameObject->transform->position = PlayerDefaultPos;
+                        else if (keyFound && x->gameObject->Name == "Door") { 
+                            boxColliders.clear();
+                            if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level2")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
+
+                            for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+                                if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+
+                                    ShiEngine::BoxCollider *box = dynamic_cast<ShiEngine::BoxCollider *>(x->GetComponent(
+                                            ShiEngine::ComponentType::BoxCollider));
+                                    if (box != nullptr)
+                                        boxColliders.push_back(box);
+                                } else
+                                    PlayerDefaultPos = x->transform->position;
+                            }
+                            keyFound = false;
+                            return;
+                        }
+                        else {//Ghost
+                            //B1->gameObject->transform->position = PlayerDefaultPos;
+                            // Reload the same state if hit the ghosts
+                            boxColliders.clear();
+                            if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level2")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+                            for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+                                if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+
+                                    ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                                    if (box != nullptr)
+                                        boxColliders.push_back( box );
+                                }
+                                else
+                                    PlayerDefaultPos = x->transform->position;
+                            }
+                            return;
+                        }
+
+
+
+
 
                     }
+
                     //std::cout << "I am TRIGGERED!!!!\n";
                 }
             }
