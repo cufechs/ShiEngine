@@ -28,12 +28,11 @@ class Main : public ShiEngine::Application {
         ShiEngine::Global::Global_GameStateManger->attachApplicationPtr(this);
 
 
-
         //program
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State1,&CreateState1);
-        ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState2);
+        ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState3);
 
-        ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+        ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
 
 
         for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
@@ -90,23 +89,24 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
 
-        ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
-        ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+        if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1") {
+            ShiEngine::BoxCollider *B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                    "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+            ShiEngine::BoxCollider *B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                    "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
 
-        for (auto x: boxColliders) {
-            if (B1->CollidesWith(x)) {
-                if(x->IsTrigger)
-                {
-                    if(x->gameObject->Name == "Door") //Door
-                        std::cout << "Door" << std::endl;
-                    else //Ghost
-                        B1->gameObject->transform->position = PlayerDefaultPos;
+
+            for (auto x: boxColliders) {
+                if (B1->CollidesWith(x)) {
+                    if (x->IsTrigger) {
+                        if (x->gameObject->Name == "Door") //Door
+                            std::cout << "Door" << std::endl;
+                        else //Ghost
+                            B1->gameObject->transform->position = PlayerDefaultPos;
+                    }
+                    std::cout << "I am TRIGGERED!!!!\n";
                 }
-                std::cout << "I am TRIGGERED!!!!\n";
             }
-        }
 
 //        if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
 //        {
@@ -114,8 +114,8 @@ class Main : public ShiEngine::Application {
 //            std::cout <<"I am triggered\n";
 //            //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
 //        }
-        ///
-
+            ///
+        }
         //ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
         ShiEngine::Global::Global_GameStateManger->LateUpdate(deltaTime);
     }
