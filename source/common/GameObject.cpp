@@ -86,6 +86,7 @@ namespace ShiEngine {
 
     ShiEngine::GameObject::~GameObject() {
         for(auto & Component : Components)
-            delete(Component);
+            if (Component)
+                delete(Component);
     }
 }

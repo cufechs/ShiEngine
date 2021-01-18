@@ -10,7 +10,7 @@
 class Main : public ShiEngine::Application {
 
     glm::vec3 PlayerDefaultPos;
-    enum States {State1,State2};
+    enum States {State1,State2,State3};
     ShiEngine::Texture2D* texture;
     ShiEngine::Sampler* sampler;
     std::vector<ShiEngine::BoxCollider*> boxColliders; //stores all box colliders in the scene except that of the Player/Camera
@@ -27,12 +27,13 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->attachApplicationPtr(this);
 
-
+        std::cout << "init\n";
         //program
         ShiEngine::Global::Global_GameStateManger->AttachGameState(State1,&CreateState1);
-        ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState3);
+        ShiEngine::Global::Global_GameStateManger->AttachGameState(State2,&CreateState2);
+        ShiEngine::Global::Global_GameStateManger->AttachGameState(State3,&CreateState3);// MainMenu
 
-        ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+        ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
 
 
         for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
@@ -58,8 +59,20 @@ class Main : public ShiEngine::Application {
         if(this->getKeyboard().justReleased(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(window, 1);
 
-        if(this->getKeyboard().justPressed(GLFW_KEY_1))
-            ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+        if(this->getKeyboard().justPressed(GLFW_KEY_1)) {
+            ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+
+            boxColliders.clear();
+            for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+                if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+                    ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                    if (box != nullptr)
+                        boxColliders.push_back( box );
+                }
+                else
+                    PlayerDefaultPos = x->transform->position;
+            }
+        }
         if(this->getKeyboard().justPressed(GLFW_KEY_2))
             ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
         if(this->getKeyboard().justPressed(GLFW_KEY_0))
@@ -89,33 +102,50 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
 
-        if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1") {
+//        if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1" ||
+//                ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level2") {
             ShiEngine::BoxCollider *B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
                     "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
             ShiEngine::BoxCollider *B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
                     "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
 
-
             for (auto x: boxColliders) {
                 if (B1->CollidesWith(x)) {
                     if (x->IsTrigger) {
                         if (x->gameObject->Name == "Door") //Door
-                            std::cout << "Door" << std::endl;
+                        {
+                            boxColliders.clear();
+                            if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+                            else if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level2")
+                                ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
+
+                            for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+                                std::cout << "hiiii\n";
+                                if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+
+                                    ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                                    if (box != nullptr)
+                                        boxColliders.push_back( box );
+                                }
+                                else
+                                    PlayerDefaultPos = x->transform->position;
+                            }
+                            //std::cout << "I am TRIGGERED!!!!\n";
+                            return;
+                        }
                         else //Ghost
                             B1->gameObject->transform->position = PlayerDefaultPos;
+
                     }
-                    std::cout << "I am TRIGGERED!!!!\n";
+                    //std::cout << "I am TRIGGERED!!!!\n";
                 }
             }
 
-//        if(B1->CollidesWith(B2->GetStartVector(), B2->GetEndVector()))
-//        {
-//            //ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject("sphere 1")->transform->rotation.x++;
-//            std::cout <<"I am triggered\n";
-//            //B2->gameObject->transform->position = B2->gameObject->transform->PreviousPosition;
-//        }
-            ///
-        }
+
+        //}
         //ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
         ShiEngine::Global::Global_GameStateManger->LateUpdate(deltaTime);
     }
