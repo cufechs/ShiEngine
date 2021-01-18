@@ -304,8 +304,8 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     TBox9->rotation = glm::vec3({0,0,0});
 
     TBox10 = new ShiEngine::Transform();
-    TBox10->position = glm::vec3({-100, 10, 0});
-    TBox10->scale = glm::vec3({35,35,35});
+    TBox10->position = glm::vec3({-90, 10, 0});
+    TBox10->scale = glm::vec3({10,35,15});
     TBox10->rotation = glm::vec3({0,0,0});
 
     TAutopsy = new ShiEngine::Transform();
@@ -817,7 +817,7 @@ ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
     Box7->AddComponent(TBox7);
     Box8->AddComponent(TBox8);
     Box9->AddComponent(TBox9);
-    Box10->AddComponent(TBox10);
+    Box10->AddComponent(TBox10); //key
     Box10->Name = "key";
 
     Box1->AddComponent(MRBox1);

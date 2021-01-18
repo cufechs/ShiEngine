@@ -141,7 +141,7 @@ class Main : public ShiEngine::Application {
                             //std::cout << "I am TRIGGERED!!!!\n";
                             return;
                         }
-                        else if (keyFound && x->gameObject->Name == "Door") { 
+                        else if (keyFound && x->gameObject->Name == "Door") {
                             boxColliders.clear();
                             if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
                                 ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
