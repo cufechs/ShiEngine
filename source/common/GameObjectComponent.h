@@ -22,6 +22,7 @@ namespace ShiEngine {
 
         //Called once per component
         virtual void Update(double deltaTime) {};  //Called every frame
+        virtual void LateUpdate(double deltaTime) {};  //Called every frame
 
         virtual void Draw() {};  //Called every frame after "Update()" execution
 

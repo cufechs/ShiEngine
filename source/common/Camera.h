@@ -33,11 +33,10 @@ namespace ShiEngine {
 
         CameraType type = CameraType::Perspective;
 
-        ShiEngine::Transform* transform;
+
 
     public:
-
-
+        ShiEngine::Transform* transform;
 
         Camera(){
             up = {0, 1, 0};
@@ -86,7 +85,7 @@ namespace ShiEngine {
         void setEyePosition(glm::vec3 eye){
             if(this->eye != eye){
                 this->eye = eye;
-                this->transform->position = eye;
+                //this->transform->position = eye;
             }
         }
         void setDirection(glm::vec3 direction){
@@ -96,7 +95,9 @@ namespace ShiEngine {
             }
         }
         void setTarget(glm::vec3 target){
-            glm::vec3 direction = target - eye;
+            //glm::vec3 direction = target - eye;
+
+            glm::vec3 direction = target - transform->position;
             if(this->direction != direction){
 
                 this->direction = direction;
@@ -116,8 +117,8 @@ namespace ShiEngine {
 
         void setTransform() {
             transform = (Transform*)gameObject->GetComponent(ComponentType::Transform);
-
-            this->setEyePosition(transform->to_mat4()*glm::vec4(0,0,0,1));
+            this->eye = transform->position;
+            //this->setEyePosition(transform->to_mat4()*glm::vec4(0,0,0,1));
             this->setTarget(glm::vec3(0,0,0));
             this->setUp(transform->to_mat4()*glm::vec4(0,1,0,0));
         }
@@ -136,18 +137,21 @@ namespace ShiEngine {
             return P;
         }
 
-        glm::mat4 getViewMatrix(){
 
-                V = glm::lookAt(eye, eye + direction, up);
+
+
+        glm::mat4 getViewMatrix() {
+            //V = glm::lookAt(eye, eye + direction, up);
+            V = glm::lookAt(transform->position, transform->position + direction, up);
 
             return V;
         }
 
         glm::mat4 getVPMatrix(){
 
-                VP = getProjectionMatrix() * getViewMatrix();
-                // Note that we called the functions getProjectionMatrix & getViewMatrix instead of directly using V & P
-                // to make sure that they are not outdated
+            VP = getProjectionMatrix() * getViewMatrix();
+            // Note that we called the functions getProjectionMatrix & getViewMatrix instead of directly using V & P
+            // to make sure that they are not outdated
 
 
             return VP;
@@ -215,6 +219,15 @@ namespace ShiEngine {
 
         void Start() override {
             setTransform();
+        }
+
+        void Update(double deltaTime) override {
+            //transform->position.x -= 0.01;
+            //glm::mat4 transformatioMatrix = transform->to_mat4();
+            //transform->position.x = transformatioMatrix[3][0];
+            //std::cout << transformatioMatrix[3][0] << "\n";
+
+            //std::cout << "Camera: " << transform->position << "\n";
         }
 
     };

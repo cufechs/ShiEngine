@@ -58,12 +58,12 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->use();
 
     //material = static_cast<ShiEngine::Material*>(gameObject->GetComponent(ComponentType::Material));
-    if (material->sampler != NULL) {
+    if (material->texture != NULL) {
         shaderProgram = material->shaderProgram;
         //material->sampler->use(ShiEngine::Global::Global_ShaderProgram); //ShaderProgram's"sampler" uniform is set inside this function
-        material->texture->Draw();
+        material->texture->Draw(); //bind the texture
+        shaderProgram->set("sampler", 0);
     }
-
 
     shaderProgram->set("tint", color_intensity);
     shaderProgram->set("material.albedo_tint", material->albedo_tint);
@@ -71,6 +71,7 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->set("material.roughness_range", material->roughness_range);
     shaderProgram->set("material.emissive_tint", material->emissive_tint);
 
+    // TODO: add a skybox, set initially with zeros
     shaderProgram->set("sky_light.top_color", glm::vec3(0.0f));
     shaderProgram->set("sky_light.middle_color", glm::vec3(0.0f));
     shaderProgram->set("sky_light.bottom_color", glm::vec3(0.0f));
@@ -82,10 +83,10 @@ void ShiEngine::MeshRenderer::Draw() {
     shaderProgram->set("object_to_world", transformationMatrix);
     shaderProgram->set("object_to_world_inv_transpose", glm::inverse(transformationMatrix), true);
 
-    shaderProgram->set("material.diffuse", material->diffuse);
-    shaderProgram->set("material.specular", material->specular);
-    shaderProgram->set("material.ambient", material->ambient);
-    shaderProgram->set("material.shininess", material->shininess);
+//    shaderProgram->set("material.diffuse", material->diffuse);
+//    shaderProgram->set("material.specular", material->specular);
+//    shaderProgram->set("material.ambient", material->ambient);
+//    shaderProgram->set("material.shininess", material->shininess);
 
 
    // We will go through all the lights and send the enabled ones to the shader.
@@ -99,12 +100,6 @@ void ShiEngine::MeshRenderer::Draw() {
 
         shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
         shaderProgram->set(prefix + "color", light->color);
-
-//        shaderProgram->set(prefix + "diffuse", light->getDiffuse());
-//        shaderProgram->set(prefix + "specular", light->getSpecular());
-//        shaderProgram->set(prefix + "ambient", light->getAmbient());
-//        shaderProgram->set(prefix + "type", static_cast<int>(light->getType()));
-
 
         switch (light->getType()) {
             case LightType::DIRECTIONAL:
@@ -136,16 +131,16 @@ void ShiEngine::MeshRenderer::Draw() {
     mesh->draw();
 
 
-
+    renderState->SetCulling();
 
 //    glEnable(GL_DEPTH_TEST);
 //    glDepthFunc(GL_LEQUAL);
 //
-//    glEnable(GL_CULL_FACE);
+  //  glEnable(GL_CULL_FACE);
 //    glCullFace(GL_BACK);
 //    glFrontFace(GL_CCW);
 
-    glClearColor(0, 0, 0, 1);
+    glClearColor(0.18, 0.18, 0.31, 1);
 
     shaderProgram->unuse(); //not sure if we should un use the program
 }

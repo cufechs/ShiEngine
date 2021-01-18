@@ -3,9 +3,12 @@
 //
 
 #include "Texture2D.h"
+#include <iostream>
 
 namespace ShiEngine {
     Texture2D::Texture2D() {
+        _textureUnit = textureUnit;
+        textureUnit++;
         glGenTextures(1, &texture);
         uint8_t pixel_data[] = {
                 255,   0,   0, 255,
@@ -42,17 +45,28 @@ namespace ShiEngine {
     }
 
     Texture2D::Texture2D(const char* FilePath) {
+        _textureUnit = textureUnit;
+        textureUnit++;
         glGenTextures(1, &texture);
         ShiEngine::texture_utils::loadImage(texture, FilePath);
     }
 
     Texture2D::Texture2D(const char* FilePath, bool GenerateMipMap) {
+        _textureUnit = textureUnit;
+        textureUnit++;
+        //std::cout << "Texture: " << texture << "\n";
         glGenTextures(1, &texture);
         ShiEngine::texture_utils::loadImage(texture, FilePath, GenerateMipMap);
+
+        //No active texture now
+//        glActiveTexture(0);
+//        glBindTexture(GL_TEXTURE_2D, texture);
     }
 
     void Texture2D::Draw() {
-        glActiveTexture(GL_TEXTURE0);
+        //std::cout << "textureId: " << texture << "\n";
+        //std::cout << "_textureUnit: " << _textureUnit << ", " << "static: " << textureUnit<<"\n";
+        glActiveTexture(GL_TEXTURE0+ 0);
         // When we bind the texture, we also bind it to the active unit. So this texture is now bound to unit 0.
         glBindTexture(GL_TEXTURE_2D, texture);
     }
@@ -60,4 +74,14 @@ namespace ShiEngine {
     void Texture2D::GenerateTexture(ShiEngine::Color color, glm::ivec2 size) {
         ShiEngine::texture_utils::singleColor(texture, color, size);
     }
+
+    Texture2D::Texture2D(const char *FilePath, GLuint texUnit, bool GenerateMipMaps) {
+        _textureUnit = texUnit;
+        textureUnit++;
+        //std::cout << "Texture: " << texture << "\n";
+        glGenTextures(1, &texture);
+        ShiEngine::texture_utils::loadImage(texture, FilePath, GenerateMipMaps);
+    }
+
+
 }

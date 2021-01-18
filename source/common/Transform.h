@@ -12,7 +12,7 @@ namespace ShiEngine {
     class Transform : public ShiEngine::GameObjectComponent {
     public:
         glm::vec4 tint;
-        glm::vec3 position, rotation, scale;
+        glm::vec3 position, rotation, scale, PreviousPosition;
         glm::vec3 direction; // Used for Directional and Spot Lights only
         Transform* parent;
 
@@ -40,9 +40,20 @@ namespace ShiEngine {
                 return m;
         }
 
-        void Start() override {}
+        void Start() override
+        {
 
-        void Update(double deltaTime) override {}
+        }
+
+        void Update(double deltaTime) override
+        {
+
+        }
+
+        void LateUpdate(double deltaTime) override
+        {
+            PreviousPosition = position;
+        }
 
         void Draw() override {}
     };

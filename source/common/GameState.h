@@ -18,7 +18,7 @@ namespace ShiEngine {
 
         FlyCameraController *cameraController;
     public:
-
+        std::string Name;
         GameState();
 
         void Enter();
@@ -48,6 +48,7 @@ namespace ShiEngine {
         void ScaleGameTime(double timeScale);
 
         void Update(double deltaTime);
+        void LateUpdate(double deltaTime);
         void Draw();
     };
 }

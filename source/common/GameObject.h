@@ -39,6 +39,7 @@ namespace ShiEngine {
 
         void Start();
         void Update(double deltatime);
+        void LateUpdate(double deltatime);
         void Draw();
     };
 }

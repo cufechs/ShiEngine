@@ -42,6 +42,13 @@ namespace ShiEngine {
                 Component->Update(deltatime);
     }
 
+    void ShiEngine::GameObject::LateUpdate(double deltatime)
+    {
+        if(Active)
+            for(auto & Component : Components)
+                Component->LateUpdate(deltatime);
+    }
+
     void ShiEngine::GameObject::Draw()
     {
         if(Active)
@@ -79,6 +86,7 @@ namespace ShiEngine {
 
     ShiEngine::GameObject::~GameObject() {
         for(auto & Component : Components)
-            delete(Component);
+            if (Component)
+                delete(Component);
     }
 }

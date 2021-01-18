@@ -8,6 +8,9 @@
 #include <iostream>
 #include <cassert>
 
+
+#include <filesystem>
+#include <unordered_map>
 #include <glad/gl.h>
 
 #include "vertex-attributes.hpp"
@@ -20,7 +23,8 @@ namespace ShiEngine {
     enum Shapes3D {
         Cube3D,
         Sphere3D,
-        Plane3D
+        Plane3D,
+		Model3D
     };
 
     // A mesh class to hold the vertex array and its associated buffers (VBOs and EBO)
@@ -47,10 +51,16 @@ namespace ShiEngine {
                 this->Sphere(colored);
         }
 
+		  explicit Mesh(const std::string& mesh, const char* FilePath){
+
+            if(mesh == "Model")
+                this->Model(FilePath);
+        }
         // The underlying OpenGL objects creator
         // This receives a list of functions with the signature void(void).
         // Each function setups up how to access each buffer to send data to the attributes
         // So the number of allocated vertex buffer will be equal the number of passed accessor functions
+		void Model(const char* FilePath);
         void create(const std::vector<std::function<void()>>& accessors, bool has_elements = true){
             vertex_buffers.resize(accessors.size()); // reserve space for the vertex buffers
 
@@ -365,6 +375,7 @@ namespace ShiEngine {
                             glm::mix(ShiEngine::Color(255, 0, 0, 255), ShiEngine::Color(0, 255, 0, 255), uv.s),
                             glm::mix(ShiEngine::Color(255, 255, 0, 255), ShiEngine::Color(0, 0, 255, 255), uv.s),
                             uv.t) : WHITE;
+                    //color.w = 0.5;
                     vertices.push_back({position, color, tex_coord, {0, 1, 0}});
                 }
             }
@@ -413,6 +424,8 @@ namespace ShiEngine {
                     glm::vec3 position = radius * normal + center;
                     glm::vec2 tex_coords = texture_tiling * glm::vec2(u, v) + texture_offset;
                     ShiEngine::Color color = colored ? ShiEngine::Color(127.5f * (normal + 1.0f), 255) : WHITE;
+                    //color.w = 100;
+                    //std::cout << "Color: " << (float)color.w << "\n";
                     vertices.push_back({position, color, tex_coords, normal});
                 }
             }

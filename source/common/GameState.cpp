@@ -123,11 +123,20 @@ namespace ShiEngine {
 
         deleteGameObject();
 
+        if(cameraController) {
+            cameraController->Update(deltaTime * timeScale);
+        }
+
         for(auto & gameObj : GameObj_vector)
             gameObj->Update(deltaTime * timeScale);
 
-        if(cameraController)
-            cameraController->Update(deltaTime * timeScale);
+
+    }
+
+    void GameState::LateUpdate(double deltaTime) {
+
+        for(auto & gameObj : GameObj_vector)
+            gameObj->LateUpdate(deltaTime * timeScale);
     }
 
     void GameState::Draw() {

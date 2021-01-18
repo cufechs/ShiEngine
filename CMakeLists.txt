@@ -60,10 +60,13 @@ set(COMMON_SOURCES
         source/common/Light.h
         source/common/Material.h
         source/common/Texture2D.cpp
+        source/common/Mesh.cpp
         source/common/Texture2D.h
         source/common/Globals/Global_vars.h
+        source/common/EnemyMovement.h
+        source/common/Level2.h
         source/common/Sampler.cpp source/common/Sampler.h
-        source/common/RenderState.h)
+        source/common/RenderState.h source/common/BoxCollider.cpp source/common/BoxCollider.h)
 
 # Define the directories in which to search for the included headers
 include_directories(
