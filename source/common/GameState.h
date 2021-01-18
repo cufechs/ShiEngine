@@ -18,7 +18,7 @@ namespace ShiEngine {
 
         FlyCameraController *cameraController;
     public:
-
+        std::string Name;
         GameState();
 
         void Enter();

@@ -59,8 +59,20 @@ class Main : public ShiEngine::Application {
         if(this->getKeyboard().justReleased(GLFW_KEY_ESCAPE))
             glfwSetWindowShouldClose(window, 1);
 
-        if(this->getKeyboard().justPressed(GLFW_KEY_1))
+        if(this->getKeyboard().justPressed(GLFW_KEY_1)) {
             ShiEngine::Global::Global_GameStateManger->ChangeGameState(State1);
+
+            boxColliders.clear();
+            for (auto x: ShiEngine::Global::Global_GameStateManger->GetActiveState()->getAllGameObjects()) {
+                if (x->Tag != ShiEngine::Tags::CAMERA) { //if not Player
+                    ShiEngine::BoxCollider* box = dynamic_cast<ShiEngine::BoxCollider*>(x->GetComponent(ShiEngine::ComponentType::BoxCollider));
+                    if (box != nullptr)
+                        boxColliders.push_back( box );
+                }
+                else
+                    PlayerDefaultPos = x->transform->position;
+            }
+        }
         if(this->getKeyboard().justPressed(GLFW_KEY_2))
             ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
         if(this->getKeyboard().justPressed(GLFW_KEY_0))
@@ -90,21 +102,25 @@ class Main : public ShiEngine::Application {
 
         ShiEngine::Global::Global_GameStateManger->Update(deltaTime);
 
-        ShiEngine::BoxCollider* B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
-        ShiEngine::BoxCollider* B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
-                "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+        if(ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "Level1") {
+            ShiEngine::BoxCollider *B1 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                    "objCamera")->GetComponent(ShiEngine::ComponentType::BoxCollider));
+            ShiEngine::BoxCollider *B2 = dynamic_cast<ShiEngine::BoxCollider *>(ShiEngine::Global::Global_GameStateManger->GetActiveState()->getGameObject(
+                    "plane5 gameObject")->GetComponent(ShiEngine::ComponentType::BoxCollider));
 
-        for (auto x: boxColliders) {
-            if (B1->CollidesWith(x)) {
-                if(x->IsTrigger)
-                {
-                    if(x->gameObject->Name == "Door") //Door
-                        std::cout << "Door" << std::endl;
-                    else //Ghost
-                        B1->gameObject->transform->position = PlayerDefaultPos;
+            for (auto x: boxColliders) {
+                if (B1->CollidesWith(x)) {
+                    if (x->IsTrigger) {
+                        if (x->gameObject->Name == "Door") //Door
+                        {
+                            ShiEngine::Global::Global_GameStateManger->ChangeGameState(State2);
+                            return;
+                        }
+                        else //Ghost
+                            B1->gameObject->transform->position = PlayerDefaultPos;
+                    }
+                    std::cout << "I am TRIGGERED!!!!\n";
                 }
-                std::cout << "I am TRIGGERED!!!!\n";
             }
         }
 

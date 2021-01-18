@@ -21,6 +21,7 @@
 ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
+    state->Name = "Level1";
     auto *program = new ShiEngine::ShaderProgram;
     ShiEngine::Global::Global_ShaderProgram = program;
 
@@ -1018,6 +1019,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 ShiEngine::GameState* CreateState2(ShiEngine::Application* application){
 
     auto* state = new ShiEngine::GameState;
+    state->Name = "MainMenu";
     auto *program = new ShiEngine::ShaderProgram;
     ShiEngine::Global::Global_ShaderProgram = program;
 
