@@ -340,7 +340,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     // Wall up
     transformPlane6 = new ShiEngine::Transform();
     transformPlane6->position = glm::vec3({0, 40, 0});
-    transformPlane6->scale = glm::vec3({-500,1,100});
+    transformPlane6->scale = glm::vec3({-500,1,200});
     transformPlane6->rotation = glm::vec3({0,0,0});
 
     // Wall down
@@ -505,50 +505,62 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     moveEnemy1 = new ShiEngine::EnemyMovement(0.0f);
     moveEnemy1->setOscillateY(2.0, 0.1);
     moveEnemy1->setOscillateZ(20.0, 0.4);
+    moveEnemy1->setFollow(transformCamera, false, true);
 
     moveEnemy2 = new ShiEngine::EnemyMovement(0.0f);
     moveEnemy2->setOscillateY(2.0, 0.1);
     moveEnemy2->setOscillateZ(20.0, 0.4);
+    moveEnemy2->setFollow(transformCamera, false, true);
 
     moveEnemy3 = new ShiEngine::EnemyMovement(1);
     moveEnemy3->setOscillateY(2.0, 0.1);
     moveEnemy3->setOscillateZ(20.0, 0.4);
+    moveEnemy3->setFollow(transformCamera, false, true);
 
     moveEnemy4 = new ShiEngine::EnemyMovement(1);
     moveEnemy4->setOscillateY(2.0, 0.1);
     moveEnemy4->setOscillateZ(20.0, 0.4);
+    moveEnemy4->setFollow(transformCamera, false, true);
 
     moveEnemy5 = new ShiEngine::EnemyMovement(2);
     moveEnemy5->setOscillateY(2.0, 0.1);
     moveEnemy5->setOscillateZ(20.0, 0.4);
+    moveEnemy5->setFollow(transformCamera, false, true);
 
     moveEnemy6 = new ShiEngine::EnemyMovement(2);
     moveEnemy6->setOscillateY(2.0, 0.1);
     moveEnemy6->setOscillateZ(20.0, 0.4);
+    moveEnemy6->setFollow(transformCamera, false, true);
 
     moveEnemy7 = new ShiEngine::EnemyMovement(3);
     moveEnemy7->setOscillateY(2.0, 0.1);
     moveEnemy7->setOscillateZ(20.0, 0.4);
+    moveEnemy7->setFollow(transformCamera, false, true);
 
     moveEnemy8 = new ShiEngine::EnemyMovement(3);
     moveEnemy8->setOscillateY(2.0, 0.1);
     moveEnemy8->setOscillateZ(20.0, 0.4);
+    moveEnemy8->setFollow(transformCamera, false, true);
 
     moveEnemy9 = new ShiEngine::EnemyMovement(4);
     moveEnemy9->setOscillateY(2.0, 0.1);
     moveEnemy9->setOscillateZ(20.0, 0.4);
+    moveEnemy9->setFollow(transformCamera, false, true);
 
     moveEnemy10 = new ShiEngine::EnemyMovement(4);
     moveEnemy10->setOscillateY(2.0, 0.1);
     moveEnemy10->setOscillateZ(20.0, 0.4);
+    moveEnemy10->setFollow(transformCamera, false, true);
 
     moveEnemy11 = new ShiEngine::EnemyMovement(5);
     moveEnemy11->setOscillateY(2.0, 0.1);
     moveEnemy11->setOscillateZ(20.0, 0.4);
+    moveEnemy11->setFollow(transformCamera, false, true);
 
     moveEnemy12 = new ShiEngine::EnemyMovement(5);
     moveEnemy12->setOscillateY(2.0, 0.1);
     moveEnemy12->setOscillateZ(20.0, 0.4);
+    moveEnemy12->setFollow(transformCamera, false, true);
 
     camera = new ShiEngine::Camera();
     camera->setupPerspective(glm::pi<float>()/2, 1.7f, 0.1f, 1000.0f);
@@ -2066,7 +2078,6 @@ ShiEngine::GameState* CreateState3(ShiEngine::Application* application){
     ShiEngine::BoxCollider* boxColliderWallRight;
     ShiEngine::BoxCollider* boxColliderWallLeft;
     ShiEngine::BoxCollider* boxColliderWallDoor;
-
 
 
     ShiEngine::Transform* transformDirectionalLight;

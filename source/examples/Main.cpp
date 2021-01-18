@@ -115,6 +115,7 @@ class Main : public ShiEngine::Application {
                         if (x->gameObject->Name == "key") {
                             std::cout << "got the keyyyyyyyyyyyyy\n";
                             keyFound = true;
+                            x->gameObject->transform ->position.x = 1000000;
                         }
                         else if (x->gameObject->Name == "Door" && (
                                 ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu" ||
@@ -166,6 +167,7 @@ class Main : public ShiEngine::Application {
                         else {//Ghost
                             //B1->gameObject->transform->position = PlayerDefaultPos;
                             // Reload the same state if hit the ghosts
+                            keyFound = false;
                             boxColliders.clear();
                             if (ShiEngine::Global::Global_GameStateManger->GetActiveState()->Name == "MainMenu")
                                 ShiEngine::Global::Global_GameStateManger->ChangeGameState(State3);
