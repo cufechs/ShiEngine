@@ -64,7 +64,8 @@ namespace ShiEngine {
                 mouse_locked = false;
             }
 
-            if(app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1)){
+            if(app->getMouse().isPressed(GLFW_MOUSE_BUTTON_1))
+            {
             glm::vec2 delta = app->getMouse().getMouseDelta();
             pitch -= 0.;//delta.y * pitch_sensitivity;
             yaw -= delta.x * yaw_sensitivity;

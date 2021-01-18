@@ -75,9 +75,9 @@ namespace ShiEngine {
 
             if(Counter > StartAfter)
             {
-                oscillateX();
-                oscillateY();
-                oscillateZ();
+                oscillateX(deltaTime*50);
+                oscillateY(deltaTime*50);
+                oscillateZ(deltaTime*50);
             }
             else
                 Counter += (float)deltaTime;
@@ -88,8 +88,8 @@ namespace ShiEngine {
 
 
     private:
-        void oscillateX() {
-            transform->position.x += x_increment;
+        void oscillateX(double deltatime) {
+            transform->position.x += x_increment*deltatime;
 
             if (transform->position.x >= origin_pos.x + x_oscill_dist) {
                 x_increment = -abs(x_increment);
@@ -99,8 +99,8 @@ namespace ShiEngine {
 
         }
 
-        void oscillateY() {
-            transform->position.y += y_increment;
+        void oscillateY(double deltatime) {
+            transform->position.y += y_increment*deltatime;
 
             if (transform->position.y >= origin_pos.y + y_oscill_dist) {
                 y_increment = -abs(y_increment);
@@ -115,9 +115,9 @@ namespace ShiEngine {
 //            }
         }
 
-        void oscillateZ() {
+        void oscillateZ(double deltatime) {
 
-            transform->position.z += z_increment;
+            transform->position.z += z_increment*deltatime;
 
             if (transform->position.z >= origin_pos.z + z_oscill_dist) {
                 z_increment = -abs(z_increment);

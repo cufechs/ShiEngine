@@ -246,28 +246,28 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     //Transforms
     TBox1 = new ShiEngine::Transform();
-    TBox1->position = glm::vec3({-180, 0, -40});
-    TBox1->scale = glm::vec3({1,15,8});
-    TBox1->rotation = glm::vec3({0,0,0});
+    TBox1->position = glm::vec3({-150, 20, -54});
+    TBox1->scale = glm::vec3({1,40,14});
+    TBox1->rotation = glm::vec3({0,180,0});
 
     TBox2 = new ShiEngine::Transform();
-    TBox2->position = glm::vec3({-200, 10, 0});
-    TBox2->scale = glm::vec3({1,1,1});
+    TBox2->position = glm::vec3({-150, 20, 54});
+    TBox2->scale = glm::vec3({1,40,14});
     TBox2->rotation = glm::vec3({0,0,0});
 
     TBox3 = new ShiEngine::Transform();
-    TBox3->position = glm::vec3({-200, 10, 0});
-    TBox3->scale = glm::vec3({1,1,1});
+    TBox3->position = glm::vec3({-103, 20, 0});
+    TBox3->scale = glm::vec3({1,40,14});
     TBox3->rotation = glm::vec3({0,0,0});
 
     TBox4 = new ShiEngine::Transform();
-    TBox4->position = glm::vec3({-200, 10, 0});
-    TBox4->scale = glm::vec3({1,1,1});
+    TBox4->position = glm::vec3({-72, 20, -54});
+    TBox4->scale = glm::vec3({1,40,14});
     TBox4->rotation = glm::vec3({0,0,0});
 
     TBox5 = new ShiEngine::Transform();
-    TBox5->position = glm::vec3({-200, 10, 0});
-    TBox5->scale = glm::vec3({1,1,1});
+    TBox5->position = glm::vec3({-72, 20, 54});
+    TBox5->scale = glm::vec3({1,40,14});
     TBox5->rotation = glm::vec3({0,0,0});
 
     TBox6 = new ShiEngine::Transform();
@@ -297,7 +297,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     transformCamera = new ShiEngine::Transform();
     transformCamera->position = glm::vec3({-210, 10, 0});
-    transformCamera->scale = glm::vec3({5,20,5});
+    transformCamera->scale = glm::vec3({10,25,4});
     transformCamera->rotation = glm::vec3({0,0,0});
 
     transformCube = new ShiEngine::Transform();
@@ -331,7 +331,7 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
 
     // Wall up
     transformPlane6 = new ShiEngine::Transform();
-    transformPlane6->position = glm::vec3({0, 30, 0});
+    transformPlane6->position = glm::vec3({0, 40, 0});
     transformPlane6->scale = glm::vec3({-500,1,100});
     transformPlane6->rotation = glm::vec3({0,0,0});
 
@@ -945,11 +945,11 @@ ShiEngine::GameState* CreateState1(ShiEngine::Application* application){
     state->addGameObject(Box3);
     state->addGameObject(Box4);
     state->addGameObject(Box5);
-    state->addGameObject(Box6);
-    state->addGameObject(Box7);
-    state->addGameObject(Box8);
-    state->addGameObject(Box9);
-    state->addGameObject(Box10);
+    //state->addGameObject(Box6);
+    //state->addGameObject(Box7);
+    //state->addGameObject(Box8);
+    //state->addGameObject(Box9);
+    //state->addGameObject(Box10);
     //state->addGameObject(spotLightGameObject);
 
 
